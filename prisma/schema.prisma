@@ -1,0 +1,176 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  DOCTOR
+  PATIENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model Users {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  role         Role          @default(PATIENT)
+  profile      Profile?
+  doctor       Doctor?
+  questions    Question[]
+  appointments Appointment[]
+  orders       Order[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  fullname    String
+  addressId   String?
+  gender      Gender?
+  height      String?
+  phoneNumber String?
+  weight      String?
+  userId      String   @unique
+  user        Users    @relation(fields: [userId], references: [id])
+  address     Address? @relation("ProfileAddress", fields: [addressId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Doctor {
+  id           String        @id @default(uuid())
+  userId       String        @unique
+  hospitalId   String
+  specialize   String
+  category     Category      @relation(fields: [specialize], references: [id])
+  user         Users         @relation(fields: [userId], references: [id])
+  hospital     Hospital      @relation(fields: [hospitalId], references: [id])
+  questions    Answer[]
+  articles     Article[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Question {
+  id          String   @id @default(uuid())
+  title       String
+  categoryId  String
+  userId      String
+  textContent String   @db.Text
+  category    Category @relation(fields: [categoryId], references: [id])
+  user        Users    @relation(fields: [userId], references: [id])
+  answers     Answer[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  textContent String   @db.Text
+  questionId  String
+  doctorId    String
+  question    Question @relation(fields: [questionId], references: [id])
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  slug        String?   @unique
+  title       String
+  textContent String   @db.Text
+  categoryId  String
+  isPublished Boolean  @default(false)
+  doctorId    String
+  category    Category @relation(fields: [categoryId], references: [id])
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  slug      String?     @unique
+  name      String
+  questions Question[]
+  articles  Article[]
+  doctors   Doctor[]
+  medicine  Medicine[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Address {
+  id        String     @id @default(uuid())
+  slug      String?     @unique
+  name      String     @db.VarChar(255)
+  profiles  Profile[]  @relation("ProfileAddress")
+  hospitals Hospital[] @relation("HospitalAddress")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Hospital {
+  id        String   @id @default(uuid())
+  slug      String?   @unique
+  name      String
+  addressId String
+  doctors   Doctor[]
+  address   Address  @relation("HospitalAddress", fields: [addressId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Appointment {
+  id        String            @id @default(uuid())
+  userId    String
+  doctorId  String
+  dateTime  DateTime
+  status    AppointmentStatus @default(PENDING)
+  user      Users             @relation(fields: [userId], references: [id])
+  doctor    Doctor            @relation(fields: [doctorId], references: [id])
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model Order {
+  id         String   @id @default(uuid())
+  userId     String
+  medicineId String
+  quantity   Int
+  totalPrice Float
+  user       Users    @relation(fields: [userId], references: [id])
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Medicine {
+  id          String   @id @default(uuid())
+  name        String
+  price       Float
+  description String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  orders      Order[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
