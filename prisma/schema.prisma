@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -94,7 +93,7 @@ model Answer {
 
 model Article {
   id          String   @id @default(uuid())
-  slug        String?   @unique
+  slug        String   @unique
   title       String
   textContent String   @db.Text
   categoryId  String
@@ -108,7 +107,7 @@ model Article {
 
 model Category {
   id        String     @id @default(uuid())
-  slug      String?     @unique
+  slug      String?    @unique
   name      String
   questions Question[]
   articles  Article[]
@@ -120,7 +119,7 @@ model Category {
 
 model Address {
   id        String     @id @default(uuid())
-  slug      String?     @unique
+  slug      String     @unique
   name      String     @db.VarChar(255)
   profiles  Profile[]  @relation("ProfileAddress")
   hospitals Hospital[] @relation("HospitalAddress")
@@ -129,26 +128,29 @@ model Address {
 }
 
 model Hospital {
-  id        String   @id @default(uuid())
-  slug      String?   @unique
-  name      String
-  addressId String
-  doctors   Doctor[]
-  address   Address  @relation("HospitalAddress", fields: [addressId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String        @id @default(uuid())
+  slug        String        @unique
+  name        String
+  addressId   String
+  doctors     Doctor[]
+  address     Address       @relation("HospitalAddress", fields: [addressId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Appointment Appointment[]
 }
 
 model Appointment {
-  id        String            @id @default(uuid())
-  userId    String
-  doctorId  String
-  dateTime  DateTime
-  status    AppointmentStatus @default(PENDING)
-  user      Users             @relation(fields: [userId], references: [id])
-  doctor    Doctor            @relation(fields: [doctorId], references: [id])
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  id         String            @id @default(uuid())
+  userId     String
+  doctorId   String
+  hospitalId String
+  dateTime   DateTime
+  status     AppointmentStatus @default(PENDING)
+  user       Users             @relation(fields: [userId], references: [id])
+  doctor     Doctor            @relation(fields: [doctorId], references: [id])
+  hospital   Hospital          @relation(fields: [hospitalId], references: [id])
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
 }
 
 model Order {

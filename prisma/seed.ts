@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
+const random = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind carries the sweet scent of wildflowers from a distant valley, evoking a deep sense of nostalgia for an infinite journey across rugged mountain ranges, where each step feels like it brings one closer to a profound understanding of the meaning of life, while the fading shadows of dusk slowly transition into the calm embrace of twilight.`;
 async function main() {
   // Create sample addresses with unique slugs
   const address1 = await db.address.create({
@@ -77,29 +78,53 @@ async function main() {
       },
     },
   });
+  const questions = await db.question.create({
+    data: {
+      title: "How important health is for brain?",
+      textContent: random,
+
+      categoryId: category.id,
+      userId: user2.id,
+    },
+  });
 
   // Create a sample appointment
   const doctor = await db.doctor.findFirst({ where: { userId: user1.id } });
   if (doctor) {
-    await db.appointment.create({
+    const appointment = await db.appointment.create({
       data: {
         userId: user2.id,
+        hospitalId: hospital.id,
         doctorId: doctor.id,
         dateTime: new Date(),
         status: "PENDING",
       },
     });
+    const article = await db.article.create({
+      data: {
+        title: "How important health is",
+        textContent: random,
+        doctorId: doctor.id,
+        slug: "how-important-health-is",
+        categoryId: category.id,
+      },
+    });
+    console.log({ appointment, article });
   }
 
-  console.log({
-    address1,
-    address2,
-    hospital,
-    category,
-    user1,
-    user2,
-    doctor,
-  }, "Sample data created successfully.");
+  console.log(
+    {
+      questions,
+      address1,
+      address2,
+      hospital,
+      category,
+      user1,
+      user2,
+      doctor,
+    },
+    "Sample data created successfully."
+  );
 }
 
 main()

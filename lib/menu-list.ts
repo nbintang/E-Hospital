@@ -50,17 +50,17 @@ export function getMenuList(pathname: string): Group[] {
           icon: Newspaper,
           submenus: [
             {
-              href: "/posts/new",
+              href: "/dashboard/articles",
               label: "Published Articles",
             },
             {
-              href: "/posts/drafts",
+              href: "/dashboard/articles/drafts",
               label: "Draft Articles",
             },
           ],
         },
         {
-          href: "/questions",
+          href: "/dashboard/questions",
           label: "Questions",
           icon: MessageCircle,
         },
@@ -75,11 +75,11 @@ export function getMenuList(pathname: string): Group[] {
           icon: UsersIcon,
           submenus: [
             {
-              href: "/users",
+              href: "/dashboard/users",
               label: "Users",
             },
             {
-              href: "/users/appointment",
+              href: "/dashboard/users/appointment",
               label: "Appointments",
             },
           ],
@@ -90,7 +90,7 @@ export function getMenuList(pathname: string): Group[] {
           icon: Package,
           submenus: [
             {
-              href: "/products",
+              href: "/dashboard/products",
               label: "Products",
             },
             {

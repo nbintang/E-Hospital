@@ -1,0 +1,90 @@
+@import "./placeholder.css";
+@import "./lists.css";
+@import "./typography.css";
+.minimal-tiptap-editor .ProseMirror {
+  @apply flex max-w-full cursor-text flex-col;
+  @apply z-0 outline-0;
+}
+
+.minimal-tiptap-editor .ProseMirror > div.editor {
+  @apply block flex-1 whitespace-pre-wrap;
+}
+
+.minimal-tiptap-editor .ProseMirror .block-node:not(:last-child),
+.minimal-tiptap-editor .ProseMirror .list-node:not(:last-child),
+.minimal-tiptap-editor .ProseMirror .text-node:not(:last-child) {
+  @apply mb-2.5;
+}
+
+.minimal-tiptap-editor .ProseMirror ol,
+.minimal-tiptap-editor .ProseMirror ul {
+  @apply pl-6;
+}
+
+.minimal-tiptap-editor .ProseMirror blockquote,
+.minimal-tiptap-editor .ProseMirror dl,
+.minimal-tiptap-editor .ProseMirror ol,
+.minimal-tiptap-editor .ProseMirror p,
+.minimal-tiptap-editor .ProseMirror pre,
+.minimal-tiptap-editor .ProseMirror ul {
+  @apply m-0;
+}
+
+.minimal-tiptap-editor .ProseMirror li {
+  @apply leading-7;
+}
+
+.minimal-tiptap-editor .ProseMirror p {
+  @apply break-words;
+}
+
+.minimal-tiptap-editor .ProseMirror li .text-node:has(+ .list-node),
+.minimal-tiptap-editor .ProseMirror li > .list-node,
+.minimal-tiptap-editor .ProseMirror li > .text-node,
+.minimal-tiptap-editor .ProseMirror li p {
+  @apply mb-0;
+}
+
+.minimal-tiptap-editor .ProseMirror blockquote {
+  @apply relative pl-3.5;
+}
+
+.minimal-tiptap-editor .ProseMirror blockquote::before,
+.minimal-tiptap-editor .ProseMirror blockquote.is-empty::before {
+  @apply absolute bottom-0 left-0 top-0 h-full w-1 rounded-sm bg-accent-foreground/15 content-[''];
+}
+
+.minimal-tiptap-editor .ProseMirror hr {
+  @apply my-3 h-0.5 w-full border-none bg-[var(--mt-hr)];
+}
+
+.minimal-tiptap-editor .ProseMirror-focused hr.ProseMirror-selectednode {
+  @apply rounded-full outline outline-2 outline-offset-1 outline-muted-foreground;
+}
+
+.minimal-tiptap-editor .ProseMirror .ProseMirror-gapcursor {
+  @apply pointer-events-none absolute hidden;
+}
+
+.minimal-tiptap-editor .ProseMirror .ProseMirror-hideselection {
+  @apply caret-transparent;
+}
+
+.minimal-tiptap-editor .ProseMirror.resize-cursor {
+  @apply cursor-col-resize;
+}
+
+.minimal-tiptap-editor .ProseMirror .selection {
+  @apply inline-block;
+}
+
+.minimal-tiptap-editor .ProseMirror .selection,
+.minimal-tiptap-editor .ProseMirror *::selection,
+::selection {
+  @apply bg-primary/25;
+}
+
+/* Override native selection when custom selection is present */
+.minimal-tiptap-editor .ProseMirror .selection::selection {
+  background: transparent;
+}
