@@ -50,11 +50,11 @@ export function getMenuList(pathname: string): Group[] {
           icon: Newspaper,
           submenus: [
             {
-              href: "/dashboard/articles",
+              href: "/dashboard/articles/published-articles",
               label: "Published Articles",
             },
             {
-              href: "/dashboard/articles/drafts",
+              href: "/dashboard/articles/articles-drafts",
               label: "Draft Articles",
             },
           ],
@@ -79,7 +79,7 @@ export function getMenuList(pathname: string): Group[] {
               label: "Users",
             },
             {
-              href: "/dashboard/users/appointment",
+              href: "/dashboard/appointment",
               label: "Appointments",
             },
           ],

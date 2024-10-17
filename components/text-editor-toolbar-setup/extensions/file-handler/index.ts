@@ -21,40 +21,30 @@ const FileHandlePlugin = (option: FileHandlePluginOptions) => {
 
   return new Plugin({
     key: key || new PluginKey('fileHandler'),
-
     props: {
       handleDrop(view, event) {
         event.preventDefault()
         event.stopPropagation()
-
         const { dataTransfer } = event
-
         if (!onDrop || !dataTransfer?.files.length) {
           return
         }
-
         const pos = view.posAtCoords({
           left: event.clientX,
           top: event.clientY
         })
-
         const files = filterAllowedFiles(Array.from(dataTransfer.files), allowedMimeTypes)
-
         if (files.length !== 0) {
           onDrop(editor, files, pos?.pos ?? 0)
         }
       },
-
       handlePaste(_, event) {
         event.preventDefault()
         event.stopPropagation()
-
         const { clipboardData } = event
-
         if (!onPaste || !clipboardData?.files.length) {
           return
         }
-
         const files = filterAllowedFiles(Array.from(clipboardData.files), allowedMimeTypes)
         const html = clipboardData.getData('text/html')
 
