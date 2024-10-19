@@ -39,11 +39,11 @@ export const useSidebar = create(
             state.settings = { ...state.settings, ...settings };
           })
         );
-      }
+      },
     }),
     {
       name: "sidebar",
-      storage: createJSONStorage(() => localStorage)
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

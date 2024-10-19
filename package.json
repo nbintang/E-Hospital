@@ -64,7 +64,6 @@
     "react-medium-image-zoom": "^5.2.10",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
-    "tiptap-extension-resize-image": "^1.1.9",
     "ts-node": "^10.9.2",
     "zod": "^3.23.8",
     "zustand": "^5.0.0-rc.2"

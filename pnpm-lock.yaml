@@ -152,9 +152,6 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.13(ts-node@10.9.2(@types/node@20.16.11)(typescript@5.6.3)))
-      tiptap-extension-resize-image:
-        specifier: ^1.1.9
-        version: 1.1.9(@tiptap/core@2.8.0(@tiptap/pm@2.8.0))(@tiptap/extension-image@2.8.0(@tiptap/core@2.8.0(@tiptap/pm@2.8.0)))(@tiptap/pm@2.8.0)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.16.11)(typescript@5.6.3)
@@ -2587,13 +2584,6 @@ packages:
 
   tippy.js@6.3.7:
     resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
-
-  tiptap-extension-resize-image@1.1.9:
-    resolution: {integrity: sha512-CyApEvMgxCmHx8DxormIbGD6lZ+7fFeq49OOPPquNIWCRigkqgyFQ3KFJeSN446JlwjyuCMVIYdkKY/m5IBu6A==}
-    peerDependencies:
-      '@tiptap/core': ^2.0.0
-      '@tiptap/extension-image': ^2.0.0
-      '@tiptap/pm': ^2.0.0
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -5427,12 +5417,6 @@ snapshots:
   tippy.js@6.3.7:
     dependencies:
       '@popperjs/core': 2.11.8
-
-  tiptap-extension-resize-image@1.1.9(@tiptap/core@2.8.0(@tiptap/pm@2.8.0))(@tiptap/extension-image@2.8.0(@tiptap/core@2.8.0(@tiptap/pm@2.8.0)))(@tiptap/pm@2.8.0):
-    dependencies:
-      '@tiptap/core': 2.8.0(@tiptap/pm@2.8.0)
-      '@tiptap/extension-image': 2.8.0(@tiptap/core@2.8.0(@tiptap/pm@2.8.0))
-      '@tiptap/pm': 2.8.0
 
   to-regex-range@5.0.1:
     dependencies:

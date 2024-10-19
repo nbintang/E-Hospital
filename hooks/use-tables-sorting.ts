@@ -44,5 +44,5 @@ export default function useTablesSorting({
       rowSelection,
     },
   });
-  return {table};
+  return { table };
 }

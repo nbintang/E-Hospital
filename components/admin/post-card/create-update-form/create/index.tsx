@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import RichTextEditor, {
+import  {
   MinimalTiptapEditor,
 } from "@/components/admin/admin-panel/text-editor";
 import { Input } from "@/components/ui/input";
