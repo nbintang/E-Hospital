@@ -1,6 +1,6 @@
 import { createPost } from "@/actions/post/upload-post";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
-import { ExampleForm } from "@/components/admin/post/post-draft";
+import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
+import { ExampleForm } from "@/components/admin/post-card/create-update-form/create";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

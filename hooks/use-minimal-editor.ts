@@ -14,7 +14,7 @@ import {
   UnsetAllMarks,
   ResetMarksOnEnter,
   FileHandler
-}  from '@/components/text-editor-toolbar-setup/extensions'
+}  from '@/components/admin/admin-panel/text-editor/extensions'
 import { cn } from '@/lib/utils'
 import { getOutput } from '@/lib/tiptap-utils'
 import { useThrottle } from '@/hooks/use-throttle'
