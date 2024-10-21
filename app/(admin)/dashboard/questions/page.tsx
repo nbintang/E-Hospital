@@ -1,19 +1,26 @@
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import QuestionsCard from "@/components/admin/question-card";
+import QuestionsCard from "@/components/admin/question";
 import { Question } from "@/types/question";
+import Link from "next/link";
 
 export default function QuestionsPage() {
   return (
-    <ContentLayout title="Questions">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <QuestionsCard questions={questions} />
-      </div>
-    </ContentLayout>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {questions.map((question) => (
+        <Link
+          className="hover:scale-105 transition-all duration-200 hover:opacity-90"
+          href={`/dashboard/questions/${question.slug}`}
+        >
+          <QuestionsCard questions={question} />
+        </Link>
+      ))}
+    </div>
   );
 }
-const questions: Question[] = [
+export const questions: Question[] = [
   {
     id: 1,
+    slug: "how-do-i-create-a-react-component",
     text: "How do I create a React component?",
     status: "Open",
     category: "React",
@@ -24,6 +31,7 @@ const questions: Question[] = [
   },
   {
     id: 2,
+    slug: "what-is-the-difference-between-props-and-state",
     text: "What is the difference between props and state?",
     status: "Closed",
     category: "React",
@@ -31,6 +39,7 @@ const questions: Question[] = [
   },
   {
     id: 3,
+    slug: "how-can-i-optimize-my-website-performance",
     text: "How can I optimize my website's performance?",
     status: "In Progress",
     category: "Performance",
@@ -41,6 +50,7 @@ const questions: Question[] = [
   },
   {
     id: 4,
+    slug: "what-are-the-best-practices-for-responsive-design",
     text: "What are the best practices for responsive design?",
     status: "Open",
     category: "CSS",
@@ -51,6 +61,7 @@ const questions: Question[] = [
   },
   {
     id: 5,
+    slug: "how-do-i-implement-authentication-in-a-node-js-app",
     text: "How do I implement authentication in a Node.js app?",
     status: "Open",
     category: "Node.js",
@@ -58,6 +69,7 @@ const questions: Question[] = [
   },
   {
     id: 6,
+    slug: "what-are-the-new-features-in-es2022",
     text: "What are the new features in ES2022?",
     status: "Closed",
     category: "JavaScript",

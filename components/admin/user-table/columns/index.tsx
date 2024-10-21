@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatDate } from "@/helper/format-date";
 
 export type User = {
   id: number;
@@ -61,7 +62,7 @@ export const columnsUsers: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      return (row.getValue("createdAt") as Date).toLocaleDateString();
+      return formatDate(row.getValue("createdAt") as Date);
     },
   },
   {
@@ -78,7 +79,7 @@ export const columnsUsers: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      return (row.getValue("createdAt") as Date).toLocaleDateString();
+      return formatDate(row.getValue("updatedAt") as Date);
     },
   },
   {

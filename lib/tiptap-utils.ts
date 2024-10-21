@@ -1,4 +1,4 @@
-import { MinimalTiptapProps } from "../components/admin/admin-panel/text-editor";
+import { MinimalTiptapProps } from "../components/admin/post/create-update-form/editor/toolbar-editor";
 import type { Editor } from "@tiptap/core";
 type Navigator = {
   userAgentData?: {

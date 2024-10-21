@@ -10,41 +10,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import  {
-  MinimalTiptapEditor,
-} from "@/components/admin/admin-panel/text-editor";
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
-import useCreatePostForm from "@/hooks/use-create-post-form";
+import useCreatePostForm from "@/hooks/use-create-post";
+import AnswerEditor from './editor';
+import useAnswerForm from "@/hooks/use-answers-editor";
 
-
-export const ExampleForm: React.FC = () => {
-const {form, handleCreate, onSubmit, editorRef} = useCreatePostForm()
+export const AnswerForm: React.FC = () => {
+  const { form, handleCreate, onSubmit, editorRef } = useAnswerForm();
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">Title</FormLabel>
-              <FormControl>
-                <Input className="focus-visible:ring-1 bg-transparent" placeholder="Type your title here..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full mt-4 space-y-6">
         <FormField
           control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="sr-only">Description</FormLabel>
+              <FormLabel className=" font-bold text-2xl my-3 ml-1">Your Answer</FormLabel>
               <FormControl>
-                <MinimalTiptapEditor
+                <AnswerEditor
                   {...field}
                   throttleDelay={0}
                   className={cn("w-full", {
@@ -53,7 +38,7 @@ const {form, handleCreate, onSubmit, editorRef} = useCreatePostForm()
                   })}
                   editorContentClassName="some-class"
                   output="html"
-                  placeholder="Type your description here..."
+                  placeholder="Type your answer here..."
                   onCreate={handleCreate}
                   autofocus={true}
                   immediatelyRender={true}
@@ -66,7 +51,12 @@ const {form, handleCreate, onSubmit, editorRef} = useCreatePostForm()
             </FormItem>
           )}
         />
-        <Button type="submit" size="lg" variant={"blue"} className="font-semibold ">
+        <Button
+          type="submit"
+          size="lg"
+          variant={"blue"}
+          className="font-semibold "
+        >
           Submit
         </Button>
       </form>

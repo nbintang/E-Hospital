@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useCallback, useRef } from "react";
 import { Editor } from "@tiptap/core";
 const formSchema = z.object({
-    title: z.string(),
     content: z
       .string({
         required_error: "Description is required",
@@ -15,12 +14,11 @@ const formSchema = z.object({
   
   type FormValues = z.infer<typeof formSchema>;
   
-export default function useCreatePostForm() {
+export default function useAnswerForm() {
     const editorRef = useRef<Editor | null>(null);
     const form = useForm<FormValues>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        title: "",
         content: "",
       },
     });

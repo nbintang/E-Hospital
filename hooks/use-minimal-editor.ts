@@ -69,7 +69,7 @@ const createExtensions = (placeholder: string) => [
   Placeholder.configure({ placeholder: () => placeholder }),
 ];
 
-export const useMinimalTiptapEditor = ({
+export const useMinimalEditor = ({
   value,
   output = "html",
   placeholder = "",
@@ -122,4 +122,4 @@ export const useMinimalTiptapEditor = ({
   return editor;
 };
 
-export default useMinimalTiptapEditor;
+export default useMinimalEditor;

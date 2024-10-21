@@ -1,16 +1,12 @@
-import { createPost } from "@/actions/post/upload-post";
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import { ExampleForm } from "@/components/admin/post-card/create-update-form/create";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { CreateForm } from "@/components/admin/post/create-update-form/create";
 
 export default function CreatePostPage() {
   return (
     <ContentLayout title="Create Post">
       <div className="mx-auto space-y-10">
         <h1 className="text-3xl font-bold">Create New Post</h1>
-        <ExampleForm />
+        <CreateForm />
       </div>
     </ContentLayout>
   );

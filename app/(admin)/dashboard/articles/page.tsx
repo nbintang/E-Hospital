@@ -1,5 +1,5 @@
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import PostCard from "@/components/admin/post-card";
+import PostCard from "@/components/admin/post";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 export default function ArticlesPage() {
