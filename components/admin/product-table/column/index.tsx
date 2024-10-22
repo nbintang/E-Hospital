@@ -20,7 +20,7 @@ export type Medicine = {
   updatedAt: Date
 }
 
-export const columnsProducts: ColumnDef<Medicine>[] = [
+export const productsColumn: ColumnDef<Medicine>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {

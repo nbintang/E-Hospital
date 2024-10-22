@@ -11,20 +11,22 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Table } from "@tanstack/react-table";
-import useTablePaginationsStore from "@/hooks/use-table-paginations";
+import useTablePaginations from "@/hooks/use-table-paginations";
 
 interface PaginationProps {
   table: Table<any>;
 }
 
 export function PaginationComponent({ table }: PaginationProps) {
-  const { totalPages, getPageNumbers, shouldShowEllipsis } =
-    useTablePaginationsStore((state) => state);
+  const { totalPages, currentPage, getPageNumbers } = useTablePaginations({
+    table,
+  });
+
   return totalPages > 1 ? (
     <Pagination>
       <PaginationContent>
-        <PaginationItem>
-          {table.getCanPreviousPage() && (
+        {table.getCanPreviousPage() && (
+          <PaginationItem>
             <PaginationPrevious
               href="#"
               onClick={(e) => {
@@ -32,27 +34,28 @@ export function PaginationComponent({ table }: PaginationProps) {
                 table.previousPage();
               }}
             />
-          )}
-        </PaginationItem>
-        {getPageNumbers().map((page) => (
-          <PaginationItem key={page}>
-            <PaginationLink
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                table.setPageIndex(page - 1);
-              }}
-              isActive={table.getState().pagination.pageIndex === page - 1}
-            >
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
-        {shouldShowEllipsis() && (
-          <PaginationItem>
-            <PaginationEllipsis />
           </PaginationItem>
         )}
+
+        {getPageNumbers().map((page, index) => (
+          <PaginationItem key={index}>
+            {page === -1 ? (
+              <PaginationEllipsis />
+            ) : (
+              <PaginationLink
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  table.setPageIndex(page - 1);
+                }}
+                isActive={currentPage === page}
+              >
+                {page}
+              </PaginationLink>
+            )}
+          </PaginationItem>
+        ))}
+
         {table.getCanNextPage() && (
           <PaginationItem>
             <PaginationNext

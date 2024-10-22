@@ -1,51 +1,39 @@
-import { create } from "zustand";
 import { Table } from "@tanstack/react-table";
 
-interface TablePaginationState {
-  table: Table<any> | null;
-  setTable: (table: Table<any>) => void;
-  getPageNumbers: () => number[];
-  shouldShowEllipsis: () => boolean;
-  totalPages: number;
-}
+export default function useTablePaginations({ table }: { table: Table<any> }) {
+  const totalPages = table.getPageCount();
+  const currentPage = table.getState().pagination.pageIndex + 1;
+  const maxVisiblePages = 5; // Show up to 5 pages
 
-const useTablePaginationStore = create<TablePaginationState>((set, get) => ({
-  table: null,
-  setTable: (table) => set({ table }),
-  getPageNumbers: () => {
-    const { table } = get();
-    if (!table) return [];
-
-    const totalPages = table.getPageCount();
-    const currentPage = table.getState().pagination.pageIndex + 1;
-    const maxDisplay = 3;
-
-    if (totalPages <= maxDisplay) {
+  const getPageNumbers = () => {
+    if (totalPages <= maxVisiblePages) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    if (currentPage <= 2) {
-      return [1, 2, 3];
+    const pages: number[] = [];
+    if (currentPage <= 3) {
+      // Show first 4 pages and ellipsis at the end
+      pages.push(1, 2, 3, -1, totalPages);
+    } else if (currentPage > totalPages - 3) {
+      // Show ellipsis at the start and last 4 pages
+      pages.push(1, -1, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      // Show ellipsis on both sides of the current page
+      pages.push(
+        1,
+        -1,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        -1,
+        totalPages
+      );
     }
-
-    if (currentPage >= totalPages - 1) {
-      return [totalPages - 2, totalPages - 1, totalPages];
-    }
-
-    return [currentPage - 1, currentPage, currentPage + 1];
-  },
-  shouldShowEllipsis: () => {
-    const { table } = get();
-    if (!table) return false;
-
-    const totalPages = table.getPageCount();
-    const currentPage = table.getState().pagination.pageIndex + 1;
-    return totalPages > 3 && currentPage < totalPages - 1;
-  },
-  get totalPages() {
-    const { table } = get();
-    return table ? table.getPageCount() : 0;
-  },
-}));
-
-export default useTablePaginationStore;
+    return pages;
+  };
+  return {
+    totalPages,
+    currentPage,
+    getPageNumbers,
+  };
+}

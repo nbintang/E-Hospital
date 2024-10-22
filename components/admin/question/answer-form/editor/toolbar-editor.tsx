@@ -36,7 +36,7 @@ const ToolbarForAnswer = ({ editor }: { editor: Editor }) => (
 
       <SectionTwo
         editor={editor}
-        activeActions={["bold", "italic", "strikethrough", "clearFormatting"]}
+        activeActions={["bold", "strikethrough", ]}
         mainActionCount={2}
       />
 

@@ -84,7 +84,7 @@ export function getMenuList(pathname: string): Group[] {
               label: "Products",
             },
             {
-              href: "/products/order",
+              href: "/dashboard/ordered-products",
               label: "Ordered Products",
             },
           ],
@@ -96,7 +96,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Settings",
       menus: [
         {
-          href: "/account",
+          href: "/dashboard/account",
           label: "Account",
           icon: Settings,
         },

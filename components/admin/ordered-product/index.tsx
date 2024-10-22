@@ -1,16 +1,17 @@
 "use client";
-
-import { productsColumn, Medicine } from "./column";
+import * as React from "react";
+import useTablesSorting from "@/hooks/use-tables-sorting";
+import { orderedProductColumns, OrderProps } from "./column";
 import {
-  TableComponent,
+  ColumnVisibilityDropdown,
   PaginationComponent,
   Search,
-  ColumnVisibilityDropdown,
-} from "@/components/admin/admin-panel/tables";
-import useTablesSorting from "@/hooks/use-tables-sorting";
+  TableComponent,
+} from "../admin-panel/tables";
+import useTablePaginationStore from "@/hooks/use-table-paginations";
 
-export function DataTableMedicine({ data }: { data: Medicine[] }) {
-  const { table } = useTablesSorting({ data, columns: productsColumn });
+export default function OrderedProducts({ data }: { data: OrderProps[] }) {
+  const { table } = useTablesSorting({ data, columns: orderedProductColumns });
 
   return (
     <div className="w-full">

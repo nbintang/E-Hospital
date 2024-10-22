@@ -1,12 +1,12 @@
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import { MedicineTableComponent } from "@/components/admin/product-table";
-import { Medicine } from "@/components/admin/product-table/columns";
+import { DataTableMedicine } from "@/components/admin/product-table";
+import { Medicine } from "@/components/admin/product-table/column";
 
 
 export default function MedicinePage() {
   return (
     <ContentLayout title="Medicines">
-      <MedicineTableComponent data={data} />
+      <DataTableMedicine data={data} />
     </ContentLayout>
   );
 }
