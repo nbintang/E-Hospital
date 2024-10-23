@@ -5,9 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
 const statusColors  = {
-  Open: "bg-don-juan",
+  Open: "bg-green-500",
   Closed: "bg-fusion-red",
-  "In Progress": "bg-yellow-500",
+  "In Progress": "bg-don-juan",
 };
 
 export default function QuestionsCard({
