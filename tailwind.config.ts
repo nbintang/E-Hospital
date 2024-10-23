@@ -11,7 +11,8 @@ const config: Config = {
     extend: {
       colors: {
         "fusion-red": "#FF6161",
-        "clean-pool": "#52CDEF",
+        "clean-pool": "#287AFF",
+        "soft-clean-pool" : "#619AF6",
         "frost-soft-blue": "#B1E0DF",
         "don-juan": "#5A5151",
         background: "hsl(var(--background))",

@@ -17,7 +17,7 @@ export default function Profile() {
                   <AvatarImage src="/placeholder.svg?height=80&width=80" alt="User avatar" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <Button>Change Avatar</Button>
+                <Button variant={"blue"}>Change Avatar</Button>
               </div>
               <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                 <div>
@@ -44,7 +44,7 @@ export default function Profile() {
               <div className="pt-5">
                 <div className="flex justify-end space-x-3">
                   {/* <Button variant="outline" onClick={() => setShowProfileSettings(false)}>Cancel</Button> */}
-                  <Button>Save Changes</Button>
+                  <Button variant={"blue"}>Save Changes</Button>
                 </div>
               </div>
             </div>

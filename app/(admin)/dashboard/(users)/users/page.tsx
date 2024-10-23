@@ -1,7 +1,7 @@
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import { DataTableUsers } from "@/components/admin/user-table";
+import { DataTableUsers } from "@/components/admin/user";
 
-import { User } from "@/components/admin/user-table/columns";
+import { User } from "@/components/admin/user/columns";
 
 const data: User[] = [
   {

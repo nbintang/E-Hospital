@@ -1,6 +1,6 @@
 import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-import { DataTableMedicine } from "@/components/admin/product-table";
-import { Medicine } from "@/components/admin/product-table/column";
+import { DataTableMedicine } from "@/components/admin/product";
+import { Medicine } from "@/components/admin/product/column";
 
 
 export default function MedicinePage() {
