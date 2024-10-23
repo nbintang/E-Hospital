@@ -1,10 +1,4 @@
-import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
-export default function Dashboard() {
-  return (
-   <ContentLayout title="Dashboard">
-    <div>
-        tes
-    </div>
-   </ContentLayout>
-  );
+import Dashboard from "@/components/admin";
+export default function DashboardPage() {
+  return <Dashboard />;
 }

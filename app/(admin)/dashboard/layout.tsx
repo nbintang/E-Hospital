@@ -1,7 +1,15 @@
-import AdminPanelLayout from "@/components/admin/admin-panel/admin-panel-layout";
-
-export default function Layout({children}: {children: React.ReactNode}) {
-    return (
-        <AdminPanelLayout>{children}</AdminPanelLayout>
-    );
+import {
+  ContentRouteLayout,
+  AdminPanelLayout,
+} from "@/components/admin/admin-panel/layout";
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AdminPanelLayout>
+      <ContentRouteLayout>{children}</ContentRouteLayout>
+    </AdminPanelLayout>
+  );
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import "@/components/admin/admin-panel/text-editor/styles/index.css";
 import type { Content, Editor } from "@tiptap/react";
-import type { UseMinimalTiptapEditorProps } from "@/hooks/use-minimal-editor";
+import type { UseMinimalTiptapEditorProps } from "@/hooks/text-editor/use-minimal-editor";
 import { Separator } from "@/components/ui/separator";
 import {
   SectionFour,

@@ -1,10 +1,9 @@
 import * as React from "react";
 import ToolbarForBlog, { MinimalTiptapProps } from "./toolbar-editor";
-import useMinimalEditor from "@/hooks/use-minimal-editor";
+import {useMinimalEditor} from "@/hooks/text-editor";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
-import { ImageBubbleMenu, LinkBubbleMenu } from "../../../admin-panel/text-editor/bubble-menu";
 import ToolbarForAnswer from "./toolbar-editor";
 
 export const AnswerEditor = React.forwardRef<

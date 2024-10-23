@@ -17,8 +17,7 @@ import useCreatePostForm from "@/hooks/use-create-post";
 import BlogEditor from "../editor";
 
 export const CreateForm: React.FC = () => {
-  const { form, handleCreate, onSubmit, editorRef } = useCreatePostForm();
-  const fileRef = form.register("image");
+  const { form, handleCreate, onSubmit} = useCreatePostForm();
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">

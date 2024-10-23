@@ -6,7 +6,7 @@ import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 
-export default function AdminPanelLayout({
+export function AdminPanelLayout({
   children
 }: {
   children: React.ReactNode;

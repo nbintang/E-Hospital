@@ -1,10 +1,9 @@
-import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
 import PostCard from "@/components/admin/post";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 export default function ArticlesPage() {
   return (
-    <ContentLayout title="Articles">
+    <>
       <div className="flex justify-end mb-5 ">
         <Link href={"/dashboard/articles/create"}>
           <Button variant={"blue"}>Create +</Button>
@@ -15,7 +14,7 @@ export default function ArticlesPage() {
           <PostCard key={i} {..._} />
         ))}
       </div>
-    </ContentLayout>
+    </>
   );
 }
 const articles = [

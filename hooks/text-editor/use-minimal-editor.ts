@@ -17,7 +17,7 @@ import {
 } from "@/components/admin/admin-panel/text-editor/extensions";
 import { cn } from "@/lib/utils";
 import { getOutput } from "@/lib/tiptap-utils";
-import { useThrottle } from "@/hooks/use-throttle";
+import { useThrottle } from "@/hooks/text-editor/use-throttle";
 
 export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
   value?: Content;
@@ -121,5 +121,3 @@ export const useMinimalEditor = ({
 
   return editor;
 };
-
-export default useMinimalEditor;

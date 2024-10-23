@@ -3,16 +3,22 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useCallback, useRef } from "react";
 import { Editor } from "@tiptap/core";
-import { PostSchema, PostValues } from "@/types/schemas/post";
-import { createPost } from "@/actions/post/create-post";
+import { createAnswer } from "@/actions/question/create-answer";
+const formSchema = z.object({
+  content: z
+    .string({
+      required_error: "Description is required",
+    })
+    .min(1, "Description is required"),
+});
 
-export default function useCreatePostForm() {
+type FormValues = z.infer<typeof formSchema>;
+
+export default function useAnswerForm() {
   const editorRef = useRef<Editor | null>(null);
-  const form = useForm<PostValues>({
-    resolver: zodResolver(PostSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      image: undefined,
       content: "",
     },
   });
@@ -27,18 +33,11 @@ export default function useCreatePostForm() {
     [form]
   );
 
-  const onSubmit = async (values: PostValues) => {
-    console.log("Submitted values", values);
-    if (!values.image) {
-      return;
-    }
+  const onSubmit = async (values: FormValues) => {
     const formData = new FormData();
-    formData.append("title", values.title);
     formData.append("content", values.content);
-    formData.append("image", values.image);
-    await createPost(formData);
+    await createAnswer(formData);
   };
-
   return {
     form,
     handleCreate,

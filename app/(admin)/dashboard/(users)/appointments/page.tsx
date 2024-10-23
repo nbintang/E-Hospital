@@ -1,11 +1,10 @@
-import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
 import Appointment from "@/components/admin/appointment";
 
 export default function AppointmentPage() {
   return (
-    <ContentLayout title="Appointments">
+
       <Appointment />
-    </ContentLayout>
+
   );
 }
 

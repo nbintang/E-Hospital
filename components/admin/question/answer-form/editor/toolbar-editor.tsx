@@ -2,7 +2,7 @@ import * as React from "react";
 import "@/components/admin/admin-panel/text-editor/styles/index.css";
 
 import type { Content, Editor } from "@tiptap/react";
-import type { UseMinimalTiptapEditorProps } from "@/hooks/use-minimal-editor";
+import type { UseMinimalTiptapEditorProps } from "@/hooks/text-editor/use-minimal-editor";
 import { EditorContent } from "@tiptap/react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ import {
   ImageBubbleMenu,
   LinkBubbleMenu,
 } from "@/components/admin/admin-panel/text-editor/bubble-menu";
-import { useMinimalEditor } from "@/hooks/use-minimal-editor";
+import { useMinimalEditor } from "@/hooks/text-editor/use-minimal-editor";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export interface MinimalTiptapProps

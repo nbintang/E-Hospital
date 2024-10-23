@@ -10,12 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 import { cn } from "@/lib/utils";
-import useCreatePostForm from "@/hooks/use-create-post";
 import AnswerEditor from './editor';
-import useAnswerForm from "@/hooks/use-answers-editor";
+import useAnswerForm from "@/hooks/use-answers-form";
 
 export const AnswerForm: React.FC = () => {
   const { form, handleCreate, onSubmit, editorRef } = useAnswerForm();

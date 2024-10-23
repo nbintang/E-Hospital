@@ -1,13 +1,13 @@
-import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
+
 import { DataTableMedicine } from "@/components/admin/product";
 import { Medicine } from "@/components/admin/product/column";
 
 
 export default function MedicinePage() {
   return (
-    <ContentLayout title="Medicines">
+    
       <DataTableMedicine data={data} />
-    </ContentLayout>
+    
   );
 }
     const data: Medicine[] = [

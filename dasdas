@@ -1,0 +1,65 @@
+[33mcommit 61d1ecec25f1f578ecd23e17d872d4acb291b1c5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Wed Oct 23 18:54:58 2024 +0700
+
+    feat: added create post and rename folder admin
+
+[33mcommit 6c49fe4d4fb7400a15c091ce0e867d6158292dbb[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Wed Oct 23 13:11:39 2024 +0700
+
+    fix:create posts form
+
+[33mcommit cd25f9b20d2878b78ddb20a089a2c625ee4bb8ce[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Wed Oct 23 11:09:41 2024 +0700
+
+    fix: coloring pallete
+
+[33mcommit 079e899756b0afd78541c7f7ce386a54cc7f290e[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Tue Oct 22 23:20:45 2024 +0700
+
+    feat:add ordered products, fix:table pagination
+
+[33mcommit 4f3236656ce495547b66e31d600b2b8517bf2c81[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Mon Oct 21 17:22:37 2024 +0700
+
+    feat:some answers form and questions detail, fix:create post form
+
+[33mcommit e6d4bcfc7ac1cba51ed55fcd19fe44cf649c91e5[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Sat Oct 19 18:35:21 2024 +0700
+
+    fix: file roots of the appointment
+
+[33mcommit c15b5158b16ff08f3687a57333ae500b22a46fbe[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Sat Oct 19 18:09:01 2024 +0700
+
+    feat: add resized image content post, add appointment & fix: layout table user and products
+
+[33mcommit b1ff197204b4f4f848f1ce37b2366da796e21e6d[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Thu Oct 17 14:23:01 2024 +0700
+
+    feat: article card post
+
+[33mcommit bb294b31b65bb36dfc8e41687dbae396fc15f7eb[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Wed Oct 16 21:29:16 2024 +0700
+
+    feat:tiptap-rich-editor&create-article-page
+
+[33mcommit 45aa1ef2df89ac3699bba49dc128ba84c6b14eab[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Mon Oct 14 11:16:46 2024 +0700
+
+    first commit
+
+[33mcommit c7042ba2186a534199f3c6166ade6a76406c117a[m
+Author: nbintang <nbintangh@gmail.com>
+Date:   Sun Oct 13 19:31:36 2024 +0700
+
+    Initial commit from Create Next App

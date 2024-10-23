@@ -1,4 +1,4 @@
-import { ContentLayout } from "@/components/admin/admin-panel/content-layout";
+
 import { DataTableUsers } from "@/components/admin/user";
 
 import { User } from "@/components/admin/user/columns";
@@ -29,8 +29,8 @@ const data: User[] = [
 
 export default function UsersPage() {
   return (
-    <ContentLayout title="Users">
+    
       <DataTableUsers data={data} />
-    </ContentLayout>
+    
   );
 }
