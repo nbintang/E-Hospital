@@ -10,7 +10,8 @@
     "migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
     "reset": "npx prisma migrate reset",
     "push": "npx prisma db push",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "studio" : "npx prisma studio"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

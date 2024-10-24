@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 const random = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind carries the sweet scent of wildflowers from a distant valley, evoking a deep sense of nostalgia for an infinite journey across rugged mountain ranges, where each step feels like it brings one closer to a profound understanding of the meaning of life, while the fading shadows of dusk slowly transition into the calm embrace of twilight.`;
+
 async function main() {
   // Create sample addresses with unique slugs
   const address1 = await db.address.create({
@@ -31,7 +32,7 @@ async function main() {
   // Create a sample category
   const category = await db.category.create({
     data: {
-      slug: "cardiology", // Adjust according to your needs
+      slug: "cardiology",
       name: "Cardiology",
     },
   });
@@ -78,17 +79,18 @@ async function main() {
       },
     },
   });
-  const questions = await db.question.create({
-    data: {
-      title: "How important health is for brain?",
-      textContent: random,
 
+  // Create a sample question
+  const question = await db.question.create({
+    data: {
+      title: "How important is health for the brain?",
+      textContent: random,
       categoryId: category.id,
       userId: user2.id,
     },
   });
 
-  // Create a sample appointment
+  // Create a sample doctor and appointment
   const doctor = await db.doctor.findFirst({ where: { userId: user1.id } });
   if (doctor) {
     const appointment = await db.appointment.create({
@@ -100,31 +102,31 @@ async function main() {
         status: "PENDING",
       },
     });
+
+    // Create a sample article
     const article = await db.article.create({
       data: {
         title: "How important health is",
         textContent: random,
-        doctorId: doctor.id,
         slug: "how-important-health-is",
+        doctorId: doctor.id,
         categoryId: category.id,
       },
     });
+
     console.log({ appointment, article });
   }
 
-  console.log(
-    {
-      questions,
-      address1,
-      address2,
-      hospital,
-      category,
-      user1,
-      user2,
-      doctor,
-    },
-    "Sample data created successfully."
-  );
+  console.log({
+    question,
+    address1,
+    address2,
+    hospital,
+    category,
+    user1,
+    user2,
+    doctor,
+  }, "Sample data created successfully.");
 }
 
 main()
