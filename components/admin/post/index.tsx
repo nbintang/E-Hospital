@@ -31,7 +31,7 @@ export default function PostCard({
   };
 
   return (
-    <Card className="w-full max-w-sm rounded-md">
+    <Card className="w-full rounded-md">
       <div className="overflow-hidden relative rounded-t-md  h-48">
         <Image
           src={"/img/surgery.jpg"}

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
-const statusColors  = {
+const statusColors = {
   Open: "bg-green-500",
   Closed: "bg-fusion-red",
   "In Progress": "bg-don-juan",
@@ -12,108 +12,109 @@ const statusColors  = {
 export const questionsExample: Question[] = [
   {
     id: 1,
-    slug: "how-do-i-create-a-react-component",
-    text: "How do I create a React component?",
+    slug: "apa-gejala-umum-dari-diabetes",
+    text: "Apa gejala umum dari diabetes?",
     status: "Open",
-    category: "React",
+    category: "Penyakit Dalam",
     user: {
-      name: "Alice Johnson",
+      name: "Ahmad Setiawan",
       avatar: "/placeholder.svg?height=32&width=32",
     },
   },
   {
     id: 2,
-    slug: "what-is-the-difference-between-props-and-state",
-    text: "What is the difference between props and state?",
+    slug: "bagaimana-menangani-demam-tinggi-pada-anak",
+    text: "Bagaimana menangani demam tinggi pada anak?",
     status: "Closed",
-    category: "React",
-    user: { name: "Bob Smith", avatar: "/placeholder.svg?height=32&width=32" },
+    category: "Pediatri",
+    user: {
+      name: "Siti Aisyah",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
   },
   {
     id: 3,
-    slug: "how-can-i-optimize-my-website-performance",
-    text: "How can I optimize my website's performance?",
+    slug: "apa-saja-tanda-awal-dari-kanker-payudara",
+    text: "Apa saja tanda awal dari kanker payudara?",
     status: "In Progress",
-    category: "Performance",
+    category: "Onkologi",
     user: {
-      name: "Charlie Brown",
+      name: "Rina Kartini",
       avatar: "/placeholder.svg?height=32&width=32",
     },
   },
   {
     id: 4,
-    slug: "what-are-the-best-practices-for-responsive-design",
-    text: "What are the best practices for responsive design?",
+    slug: "bagaimana-cara-mencegah-infeksi-covid-19",
+    text: "Bagaimana cara mencegah infeksi COVID-19?",
     status: "Open",
-    category: "CSS",
+    category: "Infeksi",
     user: {
-      name: "Diana Prince",
+      name: "Joko Susanto",
       avatar: "/placeholder.svg?height=32&width=32",
     },
   },
   {
     id: 5,
-    slug: "how-do-i-implement-authentication-in-a-node-js-app",
-    text: "How do I implement authentication in a Node.js app?",
+    slug: "apa-penyebab-dan-cara-mengobati-maag",
+    text: "Apa penyebab dan cara mengobati maag?",
     status: "Open",
-    category: "Node.js",
-    user: { name: "Ethan Hunt", avatar: "/placeholder.svg?height=32&width=32" },
+    category: "Gastroenterologi",
+    user: {
+      name: "Budi Hartono",
+      avatar: "/placeholder.svg?height=32&width=32",
+    },
   },
   {
     id: 6,
-    slug: "what-are-the-new-features-in-es2022",
-    text: "What are the new features in ES2022?",
+    slug: "apakah-stroke-bisa-dicegah-dengan-diet-sehat",
+    text: "Apakah stroke bisa dicegah dengan diet sehat?",
     status: "Closed",
-    category: "JavaScript",
+    category: "Kardiologi",
     user: {
-      name: "Fiona Apple",
+      name: "Sari Dewi",
       avatar: "/placeholder.svg?height=32&width=32",
     },
   },
 ];
 
-
-export default function QuestionsCard({
-  questions,
-}: {
-  questions: Question;
-}) {
-  return <Card key={questions.id} className="flex flex-col ">
-        <CardHeader className="pb-2">
-          <div className="flex items-center space-x-2 mb-2">
-            <Avatar className="w-6 h-6">
-              <AvatarImage
-                src={questions.user.avatar}
-                alt={questions.user.name}
-              />
-              <AvatarFallback>
-                {questions.user.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium text-muted-foreground">
-              {questions.user.name}
-            </span>
-          </div>
-          <CardTitle className="text-base font-medium leading-tight">
-            {questions.text}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-2">
-          <div className="flex flex-wrap gap-2 items-center">
-            <Badge
-              className={`${statusColors[questions.status]} text-white text-xs`}
-            >
-              {questions.status}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {questions.category}
-            </Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-  
+export default function QuestionsCard({ questions }: { questions: Question }) {
+  return (
+    <Card key={questions.id} className="flex flex-col ">
+      <CardHeader className="pb-2">
+        <div className="flex items-center space-x-2 mb-2">
+          <Avatar className="w-6 h-6">
+            <AvatarImage
+              src={questions.user.avatar}
+              alt={questions.user.name}
+            />
+            <AvatarFallback>
+              {questions.user.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-sm font-medium text-muted-foreground">
+            {questions.user.name}
+          </span>
+        </div>
+        <CardTitle className="text-base font-medium leading-tight">
+          {questions.text}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-2">
+        <div className="flex flex-wrap gap-2 items-center">
+          <Badge
+            className={`${statusColors[questions.status]} text-white text-xs`}
+          >
+            {questions.status}
+          </Badge>
+          <Badge variant="outline" className="text-xs">
+            {questions.category}
+          </Badge>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }

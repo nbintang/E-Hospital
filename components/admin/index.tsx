@@ -16,6 +16,7 @@ import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { Charts } from "./admin-panel/charts";
+import { questionsExample } from "./question";
 
 export default function Dashboard() {
   // Mock data for demonstration
@@ -146,18 +147,20 @@ export default function Dashboard() {
             </ScrollArea>
           </div>
         </div>
-        <Card className="h-full row-span-3 col-span-1 w-full min-w-sm">
+        <Card className="h-full row-span-3 col-span-2 lg:col-span-1  w-full min-w-sm">
           <CardHeader>
             <CardTitle>Client Questions</CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea>
               <ul className="space-y-4">
-                {clientQuestions.map((q) => (
+                {questionsExample.map((q) => (
                   <li key={q.id} className="flex justify-between items-center">
-                    <span className="text-sm">{q.question}</span>
+                    <span className="text-sm">{q.text}</span>
                     <Badge
-                      variant={q.status === "New" ? "destructive" : "secondary"}
+                      variant={
+                        q.status === "Closed" ? "destructive" : "secondary"
+                      }
                     >
                       {q.status}
                     </Badge>
@@ -168,7 +171,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         {/* Questions from Clients */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-span-3 gap-3">
           {/* Ordered Products Table */}
@@ -211,10 +214,10 @@ export default function Dashboard() {
               </Table>
             </CardContent>
           </Card>
-          <Charts className="col-span-1 order-1" />
+          <Charts className="col-span-2 lg:col-span-1 order-1" />
         </div>
         {/* Users Table */}
-        <Card className="col-span-1 md:col-span-2 lg:col-span-3 w-full min-w-sm">
+        <Card className="col-span-2 lg:col-span-3 w-full min-w-sm">
           <CardHeader>
             <CardTitle>Users</CardTitle>
           </CardHeader>

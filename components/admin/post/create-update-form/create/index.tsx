@@ -17,7 +17,7 @@ import useCreatePostForm from "@/hooks/use-create-post";
 import BlogEditor from "../editor";
 
 export const CreateForm: React.FC = () => {
-  const { form, handleCreate, onSubmit} = useCreatePostForm();
+  const { form, handleCreate, onSubmit } = useCreatePostForm();
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -29,7 +29,10 @@ export const CreateForm: React.FC = () => {
               <FormLabel className="">Title</FormLabel>
               <FormControl>
                 <Input
-                  className="focus-visible:ring-1 bg-transparent"
+                  className={cn("w-full focus-visible:ring-1 bg-transparent", {
+                    "border-destructive  focus-within:border-destructive":
+                      form.formState.errors.content,
+                  })}
                   placeholder="Type your title here..."
                   {...field}
                 />
@@ -47,7 +50,10 @@ export const CreateForm: React.FC = () => {
               <FormControl>
                 <Input
                   type="file"
-                  className="focus-visible:ring-1 bg-transparent"
+                  className={cn("w-full focus-visible:ring-1 bg-transparent", {
+                    "border-destructive  focus-within:border-destructive":
+                      form.formState.errors.content,
+                  })}
                   placeholder="Type your title here..."
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     const file = event.target.files?.[0]; // Ensure the file is selected
