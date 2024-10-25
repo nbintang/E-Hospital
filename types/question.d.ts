@@ -1,3 +1,5 @@
+import { QuestionStatus } from "@prisma/client";
+
 export type Question = {
   id: string;
   title: string;
@@ -5,7 +7,7 @@ export type Question = {
   categoryId: string;
   userId: string;
   isAnswered: boolean;
-  status: 'PENDING' | 'IN_PROGRESS' | 'CLOSED';
+  status: QuestionStatus;
   textContent: string;
   category: {
     id: string;

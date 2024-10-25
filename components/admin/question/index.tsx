@@ -7,8 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 
 const statusColors = {
   PENDING: "bg-yellow-500",
-  IN_PROGRESS: "bg-blue-500",
-  CLOSED: "bg-gray-500",
+  ANSWERED: "bg-blue-500",
 };
 
 // Example data matching the new type
@@ -20,7 +19,7 @@ export const questionsExample: Question[] = [
     categoryId: "1",
     userId: "1",
     isAnswered: true,
-    status: "PENDING",
+    status: "ANSWERED",
     textContent: "Apa gejala umum dari diabetes?",
     category: {
       id: "1",
@@ -40,7 +39,7 @@ export const questionsExample: Question[] = [
     categoryId: "2",
     userId: "2",
     isAnswered: false,
-    status: "CLOSED",
+    status: "PENDING",
     textContent: "Bagaimana menangani demam tinggi pada anak?",
     category: {
       id: "2",
