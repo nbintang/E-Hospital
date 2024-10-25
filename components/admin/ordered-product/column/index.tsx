@@ -1,15 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowUpDown,
-  MoreHorizontal,
-  Pill,
-  ShieldAlert,
-  Syringe,
-  Tablets,
-  VariableIcon,
-} from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -20,34 +12,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+
 export type OrderProps = {
   id: string;
-  medicine: string;
-  category: "pill" | "liquid" | "injection" | "topical";
+  medicine: {
+    name: string;
+  };
   user: {
     name: string;
     email: string;
     avatar: string;
   };
-  date: string;
-  price: number;
+  createdAt: string;
+  totalPrice: number;
   status: "Shipped" | "Processing" | "Delivered";
 };
 
-const getMedicineIcon = (category: OrderProps["category"]) => {
-  switch (category) {
-    case "pill":
-      return <Pill className="mr-2 h-4 w-4" />;
-    case "liquid":
-      return <VariableIcon className="mr-2 h-4 w-4" />;
-    case "injection":
-      return <Syringe className="mr-2 h-4 w-4" />;
-    case "topical":
-      return <Tablets className="mr-2 h-4 w-4" />;
-    default:
-      return <ShieldAlert className="mr-2 h-4 w-4" />;
-  }
-};
 export const orderedProductColumns: ColumnDef<OrderProps>[] = [
   {
     id: "select",
@@ -74,24 +54,17 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
     cell: ({ row }) => <div className="font-medium">{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "medicine",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Medicine
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex items-center">
-        {getMedicineIcon(row.original.category)}
-        <span>{row.getValue("medicine")}</span>
-      </div>
+    accessorKey: "medicine.name",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Medicine
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
     ),
+    cell: ({ row }) => <span>{row.getValue("medicine.name")}</span>,
   },
   {
     accessorKey: "user",
@@ -113,14 +86,18 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAt",
     header: "Date",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt")).toLocaleDateString();
+      return <span>{date}</span>;
+    },
   },
   {
-    accessorKey: "price",
+    accessorKey: "totalPrice",
     header: () => <div className="text-right">Price</div>,
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
+      const price = parseFloat(row.getValue("totalPrice"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",

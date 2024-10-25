@@ -28,6 +28,12 @@ enum QuestionStatus {
   ANSWERED
 }
 
+enum OrderStatus {
+  SHIPPED
+  PROCESSING
+  DELIVERED
+}
+
 model Users {
   id           String        @id @default(uuid())
   email        String        @unique
@@ -170,16 +176,19 @@ model Appointment {
 }
 
 model Order {
-  id         String   @id @default(uuid())
+  id         String      @id @default(uuid())
   userId     String
   medicineId String
   quantity   Int
   totalPrice Float
-  user       Users    @relation(fields: [userId], references: [id])
-  medicine   Medicine @relation(fields: [medicineId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  status     OrderStatus @default(PROCESSING)
+  stock      Int         // Add stock field here
+  user       Users       @relation(fields: [userId], references: [id])
+  medicine   Medicine    @relation(fields: [medicineId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
+
 
 model Medicine {
   id          String   @id @default(uuid())

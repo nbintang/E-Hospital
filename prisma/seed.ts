@@ -5,18 +5,11 @@ const db = new PrismaClient();
 const randomText = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind...`;
 
 async function main() {
-  // Buat sample addresses
-  const address1 = await db.address.create({
+  // Buat sample address
+  const address = await db.address.create({
     data: {
-      slug: `address-1-${Date.now()}`,
+      slug: `address-${Date.now()}`,
       name: "123 Main St, City, Country",
-    },
-  });
-
-  const address2 = await db.address.create({
-    data: {
-      slug: `address-2-${Date.now()}`,
-      name: "456 Elm St, City, Country",
     },
   });
 
@@ -25,11 +18,11 @@ async function main() {
     data: {
       slug: `hospital-${Date.now()}`,
       name: "General Hospital",
-      addressId: address1.id,
+      addressId: address.id,
     },
   });
 
-  // Buat sample category dan specialization
+  // Buat sample category, specialization, and medicine
   const category = await db.category.create({
     data: {
       slug: "cardiology",
@@ -40,6 +33,15 @@ async function main() {
   const specialization = await db.specialization.create({
     data: {
       name: "Cardiology Specialist",
+    },
+  });
+
+  const medicine = await db.medicine.create({
+    data: {
+      name: "Aspirin",
+      price: 10.0,
+      description: "Used to treat pain, fever, or inflammation",
+      categoryId: category.id,
     },
   });
 
@@ -56,7 +58,7 @@ async function main() {
           height: "180cm",
           weight: "75kg",
           phoneNumber: "1234567890",
-          addressId: address1.id,
+          addressId: address.id,
         },
       },
       doctor: {
@@ -81,13 +83,13 @@ async function main() {
           height: "165cm",
           weight: "60kg",
           phoneNumber: "0987654321",
-          addressId: address2.id,
+          addressId: address.id,
         },
       },
     },
   });
 
-  // Buat sample question
+  // Buat sample question and answer
   const question = await db.question.create({
     data: {
       title: "How important is health for the brain?",
@@ -97,44 +99,73 @@ async function main() {
     },
   });
 
-  // Buat sample appointment
-  const doctor = await db.doctor.findFirst({ where: { userId: doctorUser.id } });
-  if (doctor) {
-    const appointment = await db.appointment.create({
-      data: {
-        userId: patientUser.id,
-        hospitalId: hospital.id,
-        doctorId: doctor.id,
-        dateTime: new Date(),
-        status: "PENDING",
-      },
-    });
+  const doctor = await db.doctor.findUnique({
+    where: { userId: doctorUser.id },
+  });
 
-    // Buat sample article
-    const article = await db.article.create({
-      data: {
-        title: "How important health is",
-        textContent: randomText,
-        slug: "how-important-health-is",
-        doctorId: doctor.id,
-        categoryId: category.id,
-      },
-    });
-
-    console.log({ appointment, article });
+  if (!doctor) {
+    throw new Error("Doctor not found");
   }
 
+  // Buat sample answer
+  const answer = await db.answer.create({
+    data: {
+      textContent:
+        "Health is vital for brain function as it impacts cognitive ability and mood.",
+      questionId: question.id,
+      doctorId: doctor.id,
+    },
+  });
+
+  // Buat sample appointment
+  const appointment = await db.appointment.create({
+    data: {
+      userId: patientUser.id,
+      hospitalId: hospital.id,
+      doctorId: doctor.id,
+      dateTime: new Date(),
+      status: "PENDING",
+    },
+  });
+
+  // Buat sample article
+  const article = await db.article.create({
+    data: {
+      title: "How important health is",
+      textContent: randomText,
+      slug: "how-important-health-is",
+      doctorId: doctor.id,
+      categoryId: category.id,
+      isPublished: true,
+    },
+  });
+
+  // Buat sample order
+  const order = await db.order.create({
+    data: {
+      userId: patientUser.id,
+      medicineId: medicine.id,
+      quantity: 2,
+      totalPrice: 20.0,
+      stock: 100,
+      status: "PROCESSING",
+    },
+  });
+
   console.log({
-    question,
-    address1,
-    address2,
+    address,
     hospital,
     category,
     specialization,
     doctorUser,
     patientUser,
-    doctor,
-  }, "Sample data created successfully.");
+    question,
+    answer,
+    appointment,
+    article,
+    order,
+    medicine,
+  });
 }
 
 main()
