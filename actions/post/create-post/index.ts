@@ -11,26 +11,27 @@ export async function createPost(formData: FormData) {
   const buffer = Buffer.from(arrayBuffer);
   console.log(title, content, buffer);
 
-  // await new Promise((resolve, reject) => {
-  //   cloudinary.uploader
-  //     .upload_stream(
-  //       {
-  //         public_id: "tes",
-  //         folder: "tes",
-  //         tags: ["posts-from-nextjs"],
-  //         upload_preset: "ml_default",
-  //       },
-  //       function (error, result) {
-  //         if (error) {
-  //           reject(error);
-  //           return;
-  //         }
-  //         console.log(result);
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          public_id: "tes",
+          folder: "tes",
+          tags: ["posts-from-nextjs"],
+          upload_preset: "ml_default",
+        },
+        function (error, result) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          console.log(result);
 
-  //         resolve(result);
-  //       }
-  //     )
-  //     .end(buffer);
-  // });
-  // revalidatePath("/dashboard/articles/drafts");
+          resolve(result);
+        }
+      )
+      .end(buffer);
+  });
+  
+  revalidatePath("/dashboard/articles/drafts");
 }

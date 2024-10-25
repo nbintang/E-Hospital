@@ -93,6 +93,7 @@ model Question {
   title       String
   categoryId  String
   userId      String
+  isAnswered  Boolean  @default(false)
   status      QuestionStatus @default(PENDING)
   textContent String         @db.Text
   category    Category       @relation(fields: [categoryId], references: [id])
@@ -105,9 +106,9 @@ model Question {
 model Answer {
   id          String   @id @default(uuid())
   textContent String   @db.Text
-  questionId  String
   doctorId    String
   question    Question @relation(fields: [questionId], references: [id])
+  questionId  String
   doctor      Doctor   @relation(fields: [doctorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -182,13 +183,12 @@ model Order {
   quantity   Int
   totalPrice Float
   status     OrderStatus @default(PROCESSING)
-  stock      Int         // Add stock field here
+  stock      Int // Add stock field here
   user       Users       @relation(fields: [userId], references: [id])
   medicine   Medicine    @relation(fields: [medicineId], references: [id])
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
-
 
 model Medicine {
   id          String   @id @default(uuid())

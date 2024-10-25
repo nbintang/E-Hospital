@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto p-4 space-y-2">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
         <div className="col-span-2 row-span-3">
           <Card className="col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden relative ">
             <CardContent>
@@ -88,7 +88,7 @@ export default function Dashboard() {
                   fill
                 />
               </div>
-              <div className="absolute inset-0 bg-don-juan/50" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-don-juan/50" />
               <div className=" relative  h-full flex flex-col justify-end p-6">
                 <h3 className="text-lg md:text-xl font-semibold text-white">
                   {recentPost.title}
@@ -126,7 +126,7 @@ export default function Dashboard() {
                           fill
                         />
                       </div>
-                      <div className="absolute inset-0 bg-don-juan/50" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-don-juan/50" />
                       <div className=" relative h-full flex flex-col justify-end ">
                         <h3 className="text-lg md:text-xl font-semibold text-white">
                           {recentPost.title}
@@ -171,7 +171,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
         {/* Questions from Clients */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-span-3 gap-3">
           {/* Ordered Products Table */}

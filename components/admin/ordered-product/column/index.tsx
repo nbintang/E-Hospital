@@ -12,22 +12,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { OrderStatus } from "@prisma/client";
 
 export type OrderProps = {
   id: string;
   medicine: {
     name: string;
+    category: { name: string };
   };
   user: {
-    name: string;
     email: string;
-    avatar: string;
   };
-  createdAt: string;
   totalPrice: number;
-  status: "Shipped" | "Processing" | "Delivered";
+  createdAt: string;
+  status: OrderStatus;
 };
-
 export const orderedProductColumns: ColumnDef<OrderProps>[] = [
   {
     id: "select",
@@ -54,7 +53,7 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
     cell: ({ row }) => <div className="font-medium">{row.getValue("id")}</div>,
   },
   {
-    accessorKey: "medicine.name",
+    accessorKey: "medicine",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -64,21 +63,32 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <span>{row.getValue("medicine.name")}</span>,
+    cell: ({ row }) => {
+      const medicine = row.original.medicine;
+      return <div className="font-medium">{medicine?.name || "Unknown"}</div>;
+    },
   },
   {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => {
+      const category = row.original.medicine?.category;
+      return <div className="font-medium">{category?.name}</div>;
+    }
+  },
+
+  {
     accessorKey: "user",
-    header: "User",
+    header: "Order By",
     cell: ({ row }) => {
       const user = row.original.user;
       return (
         <div className="flex items-center">
           <Avatar className="h-8 w-8 mr-2">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>{user.email.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-medium">{user.name}</div>
             <div className="text-sm text-muted-foreground">{user.email}</div>
           </div>
         </div>
@@ -95,7 +105,7 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
   },
   {
     accessorKey: "totalPrice",
-    header: () => <div className="text-right">Price</div>,
+    header: () => <div className="text-right">Total Price</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("totalPrice"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -113,14 +123,14 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
       return (
         <Badge
           variant={
-            status === "Delivered"
+            status === "DELIVERED"
               ? "success"
-              : status === "Shipped"
+              : status === "SHIPPED"
               ? "default"
               : "secondary"
           }
         >
-          {status}
+          {status.slice(0, 1).toUpperCase() + status.slice(1).toLowerCase()}
         </Badge>
       );
     },
