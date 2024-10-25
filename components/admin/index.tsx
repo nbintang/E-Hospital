@@ -156,10 +156,10 @@ export default function Dashboard() {
               <ul className="space-y-4">
                 {questionsExample.map((q) => (
                   <li key={q.id} className="flex justify-between items-center">
-                    <span className="text-sm">{q.text}</span>
+                    <span className="text-sm">{q.textContent}</span>
                     <Badge
                       variant={
-                        q.status === "Closed" ? "destructive" : "secondary"
+                        q.status === "ANSWERED" ? "success" : "secondary"
                       }
                     >
                       {q.status}
