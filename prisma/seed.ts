@@ -2,10 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-const random = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind carries the sweet scent of wildflowers from a distant valley, evoking a deep sense of nostalgia for an infinite journey across rugged mountain ranges, where each step feels like it brings one closer to a profound understanding of the meaning of life, while the fading shadows of dusk slowly transition into the calm embrace of twilight.`;
+const randomText = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind...`;
 
 async function main() {
-  // Create sample addresses with unique slugs
+  // Buat sample addresses
   const address1 = await db.address.create({
     data: {
       slug: `address-1-${Date.now()}`,
@@ -15,21 +15,21 @@ async function main() {
 
   const address2 = await db.address.create({
     data: {
-      slug: `address-2-${Date.now() + 1}`,
+      slug: `address-2-${Date.now()}`,
       name: "456 Elm St, City, Country",
     },
   });
 
-  // Create a sample hospital with a unique slug
+  // Buat sample hospital
   const hospital = await db.hospital.create({
     data: {
-      slug: `hospital-1-${Date.now() + 2}`,
+      slug: `hospital-${Date.now()}`,
       name: "General Hospital",
       addressId: address1.id,
     },
   });
 
-  // Create a sample category
+  // Buat sample category dan specialization
   const category = await db.category.create({
     data: {
       slug: "cardiology",
@@ -37,8 +37,14 @@ async function main() {
     },
   });
 
-  // Create sample users
-  const user1 = await db.users.create({
+  const specialization = await db.specialization.create({
+    data: {
+      name: "Cardiology Specialist",
+    },
+  });
+
+  // Buat sample users
+  const doctorUser = await db.users.create({
     data: {
       email: "doctor@example.com",
       password: "password123",
@@ -56,13 +62,14 @@ async function main() {
       doctor: {
         create: {
           hospitalId: hospital.id,
-          specialize: category.id, // Use the category ID here
+          specializationId: specialization.id,
+          categoryId: category.id,
         },
       },
     },
   });
 
-  const user2 = await db.users.create({
+  const patientUser = await db.users.create({
     data: {
       email: "patient@example.com",
       password: "password123",
@@ -80,22 +87,22 @@ async function main() {
     },
   });
 
-  // Create a sample question
+  // Buat sample question
   const question = await db.question.create({
     data: {
       title: "How important is health for the brain?",
-      textContent: random,
+      textContent: randomText,
       categoryId: category.id,
-      userId: user2.id,
+      userId: patientUser.id,
     },
   });
 
-  // Create a sample doctor and appointment
-  const doctor = await db.doctor.findFirst({ where: { userId: user1.id } });
+  // Buat sample appointment
+  const doctor = await db.doctor.findFirst({ where: { userId: doctorUser.id } });
   if (doctor) {
     const appointment = await db.appointment.create({
       data: {
-        userId: user2.id,
+        userId: patientUser.id,
         hospitalId: hospital.id,
         doctorId: doctor.id,
         dateTime: new Date(),
@@ -103,11 +110,11 @@ async function main() {
       },
     });
 
-    // Create a sample article
+    // Buat sample article
     const article = await db.article.create({
       data: {
         title: "How important health is",
-        textContent: random,
+        textContent: randomText,
         slug: "how-important-health-is",
         doctorId: doctor.id,
         categoryId: category.id,
@@ -123,8 +130,9 @@ async function main() {
     address2,
     hospital,
     category,
-    user1,
-    user2,
+    specialization,
+    doctorUser,
+    patientUser,
     doctor,
   }, "Sample data created successfully.");
 }

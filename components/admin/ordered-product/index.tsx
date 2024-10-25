@@ -8,7 +8,6 @@ import {
   Search,
   TableComponent,
 } from "../admin-panel/tables";
-import useTablePaginationStore from "@/hooks/use-table-paginations";
 
 export default function OrderedProducts({ data }: { data: OrderProps[] }) {
   const { table } = useTablesSorting({ data, columns: orderedProductColumns });

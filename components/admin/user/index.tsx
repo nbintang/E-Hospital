@@ -17,6 +17,7 @@ export function DataTableUsers({ data }: { data: User[] }) {
       <TableComponent table={table} />
       <div className="flex items-center justify-end space-x-2 py-4">
         <PaginationComponent table={table} />
+    
       </div>
     </div>
   );
