@@ -1,11 +1,20 @@
 export type Question = {
-  id: number
-  slug: string
-  text: string
-  status: "Open" | "Closed" | "In Progress"
-  category: string
+  id: string;
+  title: string;
+  slug: string;
+  categoryId: string;
+  userId: string;
+  isAnswered: boolean;
+  status: 'PENDING' | 'IN_PROGRESS' | 'CLOSED';
+  textContent: string;
+  category: {
+    id: string;
+    name: string;
+  };
   user: {
-    name: string
-    avatar: string
-  }
-}
+    id: string;
+    email: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+};

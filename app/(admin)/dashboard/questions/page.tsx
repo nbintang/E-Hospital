@@ -1,4 +1,3 @@
-
 import QuestionsCard, { questionsExample } from "@/components/admin/question";
 
 import Link from "next/link";
@@ -11,7 +10,7 @@ export default function QuestionsPage() {
           className="hover:scale-105 transition-all duration-200 hover:opacity-90"
           href={`/dashboard/questions/${question.slug}`}
         >
-          <QuestionsCard questions={question} />
+          <QuestionsCard question={question} />
         </Link>
       ))}
     </div>

@@ -10,16 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDate } from "@/helper/format-date";
+import { UserProps } from "@/types/user";
+import Link from 'next/link';
 
-export type User = {
-  id: number;
-  email: string;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export const columnsUsers: ColumnDef<User>[] = [
+export const columnsUsers: ColumnDef<UserProps>[] = [
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -47,6 +41,10 @@ export const columnsUsers: ColumnDef<User>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const profile = row.original.profile;
+      return <span>{profile?.fullname}</span>;
+    },
   },
   {
     accessorKey: "createdAt",
@@ -62,7 +60,9 @@ export const columnsUsers: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      return formatDate(row.getValue("createdAt") as Date);
+      const date = new Date(row.getValue("createdAt"));
+      const formatted = formatDate(date);
+      return <div className="text-right">{formatted}</div>;
     },
   },
   {
@@ -79,7 +79,9 @@ export const columnsUsers: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      return formatDate(row.getValue("updatedAt") as Date);
+      const date = new Date(row.getValue("updatedAt"));
+      const formatted = formatDate(date);
+      return <div className="text-right">{formatted}</div>;
     },
   },
   {
@@ -103,7 +105,8 @@ export const columnsUsers: ColumnDef<User>[] = [
             >
               Copy user ID
             </DropdownMenuItem>
-            <DropdownMenuItem>View user details</DropdownMenuItem>
+            <Link href={`/dashboard/users/${user.id}`}>
+            <DropdownMenuItem>View user details</DropdownMenuItem></Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

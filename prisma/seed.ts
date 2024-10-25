@@ -93,6 +93,7 @@ async function main() {
   const question = await db.question.create({
     data: {
       title: "How important is health for the brain?",
+      slug: "how-important-is-health-for-the-brain",
       isAnswered: true,
       textContent: randomText,
       categoryId: category.id,

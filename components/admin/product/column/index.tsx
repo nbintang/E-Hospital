@@ -17,8 +17,9 @@ export type Medicine = {
   price: number;
   description: string;
   categoryId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date; // or Date
+  updatedAt: Date; // or Date
+  category: { name: string }; // nested category type
 };
 
 export const productsColumn: ColumnDef<Medicine>[] = [
@@ -60,6 +61,14 @@ export const productsColumn: ColumnDef<Medicine>[] = [
     },
   },
   {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => {
+      const category = row.original.category;
+      return <div className="font-medium">{category?.name}</div>;
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: "Created Date",
     cell: ({ row }) => {
@@ -73,7 +82,7 @@ export const productsColumn: ColumnDef<Medicine>[] = [
     header: "Updated Date",
     cell: ({ row }) => {
       const date = new Date(row.getValue("updatedAt"));
-      const formatted =formatDate(date);
+      const formatted = formatDate(date);
       return <div className="text-right">{formatted}</div>;
     },
   },

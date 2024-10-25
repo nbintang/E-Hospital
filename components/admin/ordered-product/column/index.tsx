@@ -13,20 +13,9 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { OrderStatus } from "@prisma/client";
+import { OrderProps } from "@/types/order";
 
-export type OrderProps = {
-  id: string;
-  medicine: {
-    name: string;
-    category: { name: string };
-  };
-  user: {
-    email: string;
-  };
-  totalPrice: number;
-  createdAt: string;
-  status: OrderStatus;
-};
+
 export const orderedProductColumns: ColumnDef<OrderProps>[] = [
   {
     id: "select",

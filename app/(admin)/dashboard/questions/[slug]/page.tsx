@@ -10,7 +10,7 @@ export default function Question({ params }: { params: { slug: string } }) {
   return (
     <div>
       {" "}
-      {question && <QuestionsCard questions={question} />}
+      {question && <QuestionsCard question={question} />}
       <AnswerForm />
     </div>
   );

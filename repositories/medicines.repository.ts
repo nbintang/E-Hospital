@@ -5,3 +5,8 @@ export async function findMedicineById(id: string) {
   if (!medicine) return null;
   return medicine;
 }
+
+export async function findMedicines() {
+  const medicines = await db.medicine.findMany({ include: { category: true } });
+return medicines;
+}

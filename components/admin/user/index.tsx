@@ -1,12 +1,13 @@
 "use client";
-import { columnsUsers, User } from "./columns";
+import { columnsUsers } from "./columns";
 import { TableComponent } from "@/components/admin/admin-panel/tables/table";
 import { PaginationComponent } from "@/components/admin/admin-panel/tables/table-pagination";
 import { Search } from "@/components/admin/admin-panel/tables/table-search";
 import { ColumnVisibilityDropdown } from "@/components/admin/admin-panel/tables/column-dropdown";
 import useTablesSorting from "@/hooks/use-tables-sorting";
+import { UserProps } from "@/types/user";
 
-export function DataTableUsers({ data }: { data: User[] }) {
+export function DataTableUsers({ data }: { data: UserProps[] }) {
   const { table } = useTablesSorting({ data, columns: columnsUsers });
   return (
     <div className="w-full">

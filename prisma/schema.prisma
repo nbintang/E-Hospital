@@ -90,10 +90,11 @@ model Specialization {
 
 model Question {
   id          String         @id @default(uuid())
+  slug        String         @unique
   title       String
   categoryId  String
   userId      String
-  isAnswered  Boolean  @default(false)
+  isAnswered  Boolean        @default(false)
   status      QuestionStatus @default(PENDING)
   textContent String         @db.Text
   category    Category       @relation(fields: [categoryId], references: [id])
