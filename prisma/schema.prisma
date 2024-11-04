@@ -120,7 +120,8 @@ model Article {
   id          String   @id @default(uuid())
   slug        String   @unique
   title       String
-  textContent String   @db.Text
+  imageUrl    String
+  content     String   @db.Text
   categoryId  String
   isPublished Boolean  @default(false)
   doctorId    String
@@ -132,7 +133,7 @@ model Article {
 
 model Category {
   id        String     @id @default(uuid())
-  slug      String?    @unique
+  slug      String    @unique
   name      String
   questions Question[]
   articles  Article[]
@@ -185,7 +186,7 @@ model Order {
   quantity   Int
   totalPrice Float
   status     OrderStatus @default(PROCESSING)
-  stock      Int // Add stock field here
+  stock      Int
   user       Users       @relation(fields: [userId], references: [id])
   medicine   Medicine    @relation(fields: [medicineId], references: [id])
   createdAt  DateTime    @default(now())

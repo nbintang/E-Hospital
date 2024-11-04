@@ -104,13 +104,13 @@ export function getMenuList(pathname: string): Group[] {
       },
     ];
 
-  if (pathname.startsWith("/doctor-dashboard"))
+  if (pathname.startsWith("/doctor/dashboard"))
     return [
       {
         groupLabel: "",
         menus: [
           {
-            href: "/doctor-dashboard",
+            href: "/doctor/dashboard",
             label: "Dashboard",
             icon: LayoutGrid,
             submenus: [],
@@ -121,12 +121,12 @@ export function getMenuList(pathname: string): Group[] {
         groupLabel: "Contents",
         menus: [
           {
-            href: "/doctor-dashboard/articles",
+            href: "/doctor/dashboard/articles",
             label: "Posts",
             icon: Newspaper,
           },
           {
-            href: "/doctor-dashboard/questions",
+            href: "/doctor/dashboard/questions",
             label: "Questions",
             icon: MessageCircle,
           },
@@ -136,7 +136,7 @@ export function getMenuList(pathname: string): Group[] {
         groupLabel: "Appointments",
         menus: [
           {
-            href: "/doctor-dashboard/appointments",
+            href: "/doctor/dashboard/appointments",
             label: "Appointments",
             icon: Users,
           },

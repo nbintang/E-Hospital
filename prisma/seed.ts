@@ -134,7 +134,8 @@ async function main() {
   const article = await db.article.create({
     data: {
       title: "How important health is",
-      textContent: randomText,
+      content: randomText,
+      imageUrl: "tes",
       slug: "how-important-health-is",
       doctorId: doctor.id,
       categoryId: category.id,

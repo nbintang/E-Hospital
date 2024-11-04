@@ -14,11 +14,11 @@ import {
   UnsetAllMarks,
   ResetMarksOnEnter,
   FileHandler,
-} from "@/components/admin/admin-panel/text-editor/extensions";
+} from "@/components/text-editor/extensions";
 import { cn } from "@/lib/utils";
-import { getOutput } from "@/lib/tiptap-utils";
+import { fileToBase64, getOutput } from "@/lib/tiptap-utils";
 import { useThrottle } from "@/hooks/text-editor/use-throttle";
-
+import { toast } from "sonner";
 export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
   value?: Content;
   output?: "html" | "json" | "text";
@@ -32,35 +32,93 @@ export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
 const createExtensions = (placeholder: string) => [
   StarterKit.configure({
     horizontalRule: false,
+    codeBlock: false,
     paragraph: { HTMLAttributes: { class: "text-node" } },
     heading: { HTMLAttributes: { class: "heading-node" } },
     blockquote: { HTMLAttributes: { class: "block-node" } },
     bulletList: { HTMLAttributes: { class: "list-node" } },
     orderedList: { HTMLAttributes: { class: "list-node" } },
+    code: { HTMLAttributes: { class: "inline", spellcheck: "false" } },
     dropcursor: { width: 2, class: "ProseMirror-dropcursor border" },
   }),
   Link,
-  Image,
-  TextStyle,
-  FileHandler.configure({
+  Image.configure({
     allowedMimeTypes: ["image/*"],
-    onDrop: (editor, files, pos) => {
-      files.forEach((file) =>
-        editor.commands.insertContentAt(pos, {
-          type: "image",
-          attrs: { src: URL.createObjectURL(file) },
-        })
-      );
+    maxFileSize: 5 * 1024 * 1024,
+    allowBase64: true,
+    uploadFn: async (file) => {
+      // NOTE: This is a fake upload function. Replace this with your own upload logic.
+      // This function should return the uploaded image URL.
+
+      // wait 3s to simulate upload
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const src = await fileToBase64(file);
+      return src;
     },
-    onPaste: (editor, files) => {
-      files.forEach((file) =>
-        editor.commands.insertContent({
-          type: "image",
-          attrs: { src: URL.createObjectURL(file) },
-        })
-      );
+    onValidationError(errors) {
+      errors.forEach((error) => {
+        toast.error("Image validation error", {
+          position: "bottom-right",
+          description: error.reason,
+        });
+      });
+    },
+    onActionSuccess({ action }) {
+      const mapping = {
+        copyImage: "Copy Image",
+        copyLink: "Copy Link",
+        download: "Download",
+      };
+      toast.success(mapping[action], {
+        position: "bottom-right",
+        description: "Image action success",
+      });
+    },
+    onActionError(error, { action }) {
+      const mapping = {
+        copyImage: "Copy Image",
+        copyLink: "Copy Link",
+        download: "Download",
+      };
+      toast.error(`Failed to ${mapping[action]}`, {
+        position: "bottom-right",
+        description: error.message,
+      });
     },
   }),
+  FileHandler.configure({
+    allowBase64: true,
+    allowedMimeTypes: ["image/*"],
+    maxFileSize: 5 * 1024 * 1024,
+    onDrop: (editor, files, pos) => {
+      files.forEach(async (file) => {
+        const src = await fileToBase64(file);
+        editor.commands.insertContentAt(pos, {
+          type: "image",
+          attrs: { src },
+        });
+      });
+    },
+    onPaste: (editor, files) => {
+      files.forEach(async (file) => {
+        const src = await fileToBase64(file);
+        editor.commands.insertContent({
+          type: "image",
+          attrs: { src },
+        });
+      });
+    },
+    onValidationError: (errors) => {
+      errors.forEach((error) => {
+        toast.error("Image validation error", {
+          position: "bottom-right",
+          description: error.reason,
+        });
+      });
+    },
+  }),
+  TextStyle,
   Selection,
   Typography,
   UnsetAllMarks,
@@ -121,3 +179,5 @@ export const useMinimalEditor = ({
 
   return editor;
 };
+
+export default useMinimalEditor;

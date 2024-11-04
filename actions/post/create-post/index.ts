@@ -1,37 +1,21 @@
 "use server";
 
+import replaceBase64Images from "@/helper/replace-base64-images";
+import uploadToCloudinary from "@/helper/upload-to-cloudinary";
 import { cloudinary } from "@/lib/cld";
 import { revalidatePath } from "next/cache";
 
 export async function createPost(formData: FormData) {
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
-  const image = formData.get("image") as File;
-  const arrayBuffer = await image.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  console.log(title, content, buffer);
+  const mainImage = formData.get("image") as File;
+  // Upload main image
+  const mainImageUrl = await uploadToCloudinary(mainImage);
 
-  const result = await new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream(
-        {
-          public_id: "tes",
-          folder: "tes",
-          tags: ["posts-from-nextjs"],
-          upload_preset: "ml_default",
-        },
-        function (error, result) {
-          if (error) {
-            reject(error);
-            return;
-          }
-          console.log(result);
+  // Replace base64 images in content and update content
+  const updatedContent = await replaceBase64Images(content);
+  console.log(updatedContent);
+  console.log(mainImageUrl);
 
-          resolve(result);
-        }
-      )
-      .end(buffer);
-  });
-  
   revalidatePath("/dashboard/articles/drafts");
 }

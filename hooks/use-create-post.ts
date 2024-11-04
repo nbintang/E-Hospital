@@ -12,6 +12,7 @@ export default function useCreatePostForm() {
     resolver: zodResolver(PostSchema),
     defaultValues: {
       title: "",
+      category: [],
       image: undefined,
       content: "",
     },

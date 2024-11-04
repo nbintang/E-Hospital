@@ -19,7 +19,7 @@ export function ContentRouteLayout({
     "/account": "Account",
   };
   const subPath =
-    pathname.startsWith("/dashboard") 
+    pathname.startsWith("/dashboard") && pathname.startsWith("/doctor/dashboard")
       ? pathname.replace("/dashboard", "")
       : "";
   const name = title[subPath] || "Dashboard";

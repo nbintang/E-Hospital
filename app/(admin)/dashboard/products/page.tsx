@@ -1,4 +1,4 @@
-import { DataTableMedicine } from "@/components/admin/product";
+import { DataTableMedicine } from "@/components/sections/product";
 import { findMedicines } from "@/repositories/medicines.repository";
 
 export default async function MedicinePage() {

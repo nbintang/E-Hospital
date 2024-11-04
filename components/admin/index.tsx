@@ -16,7 +16,7 @@ import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { Charts } from "./admin-panel/charts";
-import { questionsExample } from "./question";
+import { questionsExample } from "../sections/question";
 
 export default function Dashboard() {
   // Mock data for demonstration

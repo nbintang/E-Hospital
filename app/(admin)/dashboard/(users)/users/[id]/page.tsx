@@ -1,4 +1,4 @@
-import ProfileForm from "@/components/admin/user/details";
+import ProfileForm from "@/components/sections/user/details";
 import { findProfileByUserId } from "@/repositories/profile.repository";
 import React from "react";
 
