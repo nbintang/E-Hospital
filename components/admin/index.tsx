@@ -104,9 +104,9 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           <div className="justify-items-end ">
-            <Button variant={"ghost"} size={"sm"} className="flex gap-2 my-1">
+            <Button variant={"ghost"} size={"sm"} className="flex text-muted-foreground gap-2 my-1">
               <p className="text-sm">See More</p>
-              <DoubleArrowRightIcon className="h-5 text-black/50 w-5" />
+              <DoubleArrowRightIcon className="h-5  w-5" />
             </Button>
           </div>
           <div className="col-span-1 md:col-span-2 lg:col-span-3">

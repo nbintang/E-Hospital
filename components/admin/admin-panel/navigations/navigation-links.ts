@@ -29,78 +29,120 @@ type Group = {
 };
 
 export function getMenuList(pathname: string): Group[] {
-  return [
-    {
-      groupLabel: "",
-      menus: [
-        {
-          href: "/dashboard",
-          label: "Dashboard",
-          icon: LayoutGrid,
-          submenus: [],
-        },
-      ],
-    },
-    {
-      groupLabel: "Contents",
-      menus: [
-        {
-          href: "/dashboard/articles",
-          label: "Posts",
-          icon: Newspaper,
-        },
-        {
-          href: "/dashboard/questions",
-          label: "Questions",
-          icon: MessageCircle,
-        },
-      ],
-    },
-    {
-      groupLabel: "Data",
-      menus: [
-        {
-          href: "",
-          label: "Users",
-          icon: UsersIcon,
-          submenus: [
-            {
-              href: "/dashboard/users",
-              label: "Users",
-            },
-            {
-              href: "/dashboard/appointments",
-              label: "Appointments",
-            },
-          ],
-        },
-        {
-          href: "",
-          label: "Products",
-          icon: Package,
-          submenus: [
-            {
-              href: "/dashboard/products",
-              label: "Products",
-            },
-            {
-              href: "/dashboard/ordered-products",
-              label: "Ordered Products",
-            },
-          ],
-        },
-      ],
-    },
+  if (pathname.startsWith("/dashboard"))
+    return [
+      {
+        groupLabel: "",
+        menus: [
+          {
+            href: "/dashboard",
+            label: "Dashboard",
+            icon: LayoutGrid,
+            submenus: [],
+          },
+        ],
+      },
+      {
+        groupLabel: "Contents",
+        menus: [
+          {
+            href: "/dashboard/articles",
+            label: "Posts",
+            icon: Newspaper,
+          },
+          {
+            href: "/dashboard/questions",
+            label: "Questions",
+            icon: MessageCircle,
+          },
+        ],
+      },
+      {
+        groupLabel: "Data",
+        menus: [
+          {
+            href: "",
+            label: "Users",
+            icon: UsersIcon,
+            submenus: [
+              {
+                href: "/dashboard/users",
+                label: "Users",
+              },
+              {
+                href: "/dashboard/appointments",
+                label: "Appointments",
+              },
+            ],
+          },
+          {
+            href: "",
+            label: "Products",
+            icon: Package,
+            submenus: [
+              {
+                href: "/dashboard/products",
+                label: "Products",
+              },
+              {
+                href: "/dashboard/ordered-products",
+                label: "Ordered Products",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        groupLabel: "Settings",
+        menus: [
+          {
+            href: "/dashboard/account",
+            label: "Account",
+            icon: Settings,
+          },
+        ],
+      },
+    ];
 
-    {
-      groupLabel: "Settings",
-      menus: [
-        {
-          href: "/dashboard/account",
-          label: "Account",
-          icon: Settings,
-        },
-      ],
-    },
-  ];
+  if (pathname.startsWith("/doctor-dashboard"))
+    return [
+      {
+        groupLabel: "",
+        menus: [
+          {
+            href: "/doctor-dashboard",
+            label: "Dashboard",
+            icon: LayoutGrid,
+            submenus: [],
+          },
+        ],
+      },
+      {
+        groupLabel: "Contents",
+        menus: [
+          {
+            href: "/doctor-dashboard/articles",
+            label: "Posts",
+            icon: Newspaper,
+          },
+          {
+            href: "/doctor-dashboard/questions",
+            label: "Questions",
+            icon: MessageCircle,
+          },
+        ],
+      },
+      {
+        groupLabel: "Appointments",
+        menus: [
+          {
+            href: "/doctor-dashboard/appointments",
+            label: "Appointments",
+            icon: Users,
+          },
+        ],
+      },
+    ];
+
+  return [];
 }

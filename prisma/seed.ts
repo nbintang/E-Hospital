@@ -5,7 +5,7 @@ const db = new PrismaClient();
 const randomText = `Amidst the shimmering stars in the endless night sky filled with a profound silence, the soft whisper of the wind...`;
 
 async function main() {
-  // Buat sample address
+  // Create sample address
   const address = await db.address.create({
     data: {
       slug: `address-${Date.now()}`,
@@ -13,7 +13,7 @@ async function main() {
     },
   });
 
-  // Buat sample hospital
+  // Create sample hospital
   const hospital = await db.hospital.create({
     data: {
       slug: `hospital-${Date.now()}`,
@@ -22,7 +22,7 @@ async function main() {
     },
   });
 
-  // Buat sample category, specialization, and medicine
+  // Create sample category, specialization, and medicine
   const category = await db.category.create({
     data: {
       slug: "cardiology",
@@ -45,7 +45,7 @@ async function main() {
     },
   });
 
-  // Buat sample users
+  // Create sample doctor and patient users with related profile and doctor data
   const doctorUser = await db.users.create({
     data: {
       email: "doctor@example.com",
@@ -89,7 +89,7 @@ async function main() {
     },
   });
 
-  // Buat sample question and answer
+  // Create sample question and answer
   const question = await db.question.create({
     data: {
       title: "How important is health for the brain?",
@@ -109,7 +109,7 @@ async function main() {
     throw new Error("Doctor not found");
   }
 
-  // Buat sample answer
+  // Create sample answer
   const answer = await db.answer.create({
     data: {
       textContent:
@@ -119,7 +119,7 @@ async function main() {
     },
   });
 
-  // Buat sample appointment
+  // Create sample appointment
   const appointment = await db.appointment.create({
     data: {
       userId: patientUser.id,
@@ -130,7 +130,7 @@ async function main() {
     },
   });
 
-  // Buat sample article
+  // Create sample article
   const article = await db.article.create({
     data: {
       title: "How important health is",
@@ -142,7 +142,7 @@ async function main() {
     },
   });
 
-  // Buat sample order
+  // Create sample order
   const order = await db.order.create({
     data: {
       userId: patientUser.id,
