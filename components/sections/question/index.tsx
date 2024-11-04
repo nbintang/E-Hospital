@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
+import { QuestionStatus } from "@prisma/client";
 
 const statusColors: Record<QuestionStatus, string> = {
   PENDING: "bg-yellow-500",

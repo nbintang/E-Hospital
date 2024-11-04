@@ -18,6 +18,7 @@ import { ActionButton, ActionWrapper, ImageActions } from "./image-actions";
 import { ImageOverlay } from "./image-load";
 import { Controlled as ControlledZoom } from "react-medium-image-zoom";
 import { UploadReturnType } from "./image";
+import Image from "next/image";
 
 const MAX_HEIGHT = 600;
 const MIN_HEIGHT = 120;
@@ -274,7 +275,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
                   setImageState((prev) => ({ ...prev, isZoomed: false }))
                 }
               >
-                <img
+                <Image
                   className={cn(
                     "h-auto rounded object-contain transition-shadow",
                     {

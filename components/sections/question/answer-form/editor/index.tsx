@@ -1,6 +1,6 @@
 import * as React from "react";
-import ToolbarForBlog, { MinimalTiptapProps } from "./toolbar-editor";
-import {useMinimalEditor} from "@/hooks/text-editor";
+import { MinimalTiptapProps } from "./toolbar-editor";
+import { useMinimalEditor } from "@/hooks/text-editor";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";

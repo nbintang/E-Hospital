@@ -1,23 +1,12 @@
-import * as React from "react";
-import "@/components/admin/admin-panel/text-editor/styles/index.css";
-
+import "@/components/text-editor/styles/index.css";
 import type { Content, Editor } from "@tiptap/react";
 import type { UseMinimalTiptapEditorProps } from "@/hooks/text-editor/use-minimal-editor";
-import { EditorContent } from "@tiptap/react";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import {
-  SectionFour,
   SectionOne,
   SectionThree,
-  SectionTwo,
+  SectionTwo
 } from "@/components/text-editor/text-editor-sections";
-import {
-  ImageBubbleMenu,
-  LinkBubbleMenu,
-} from "@/components/text-editor/bubble-menu";
-import { useMinimalEditor } from "@/hooks/text-editor/use-minimal-editor";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, "onUpdate"> {
