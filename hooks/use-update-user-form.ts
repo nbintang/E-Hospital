@@ -1,4 +1,4 @@
-import { extractStrToNum } from "@/helper/format-str-to-number";
+import { formatStrToNum } from "@/helper/format-str-to-number";
 import { ProfileProps } from "@/types/profile";
 import { ProfileSchema, ProfileFormValues } from "@/types/schemas/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
