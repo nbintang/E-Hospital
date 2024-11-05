@@ -22,7 +22,7 @@ async function main() {
     },
   });
 
-  // Create sample category, specialization, and medicine
+  // Create sample category and specialization
   const category = await db.category.create({
     data: {
       slug: "cardiology",
@@ -36,16 +36,16 @@ async function main() {
     },
   });
 
+  // Create sample medicine
   const medicine = await db.medicine.create({
     data: {
       name: "Aspirin",
       price: 10.0,
       description: "Used to treat pain, fever, or inflammation",
-      categoryId: category.id,
     },
   });
 
-  // Create sample doctor and patient users with related profile and doctor data
+  // Create sample doctor user with related profile and doctor data
   const doctorUser = await db.users.create({
     data: {
       email: "doctor@example.com",
@@ -65,12 +65,12 @@ async function main() {
         create: {
           hospitalId: hospital.id,
           specializationId: specialization.id,
-          categoryId: category.id,
         },
       },
     },
   });
 
+  // Create sample patient user with related profile
   const patientUser = await db.users.create({
     data: {
       email: "patient@example.com",
@@ -89,18 +89,21 @@ async function main() {
     },
   });
 
-  // Create sample question and answer
+  // Create sample question
   const question = await db.question.create({
     data: {
       title: "How important is health for the brain?",
       slug: "how-important-is-health-for-the-brain",
       isAnswered: true,
       textContent: randomText,
-      categoryId: category.id,
       userId: patientUser.id,
+      categories: {
+        connect: { id: category.id },
+      },
     },
   });
 
+  // Create doctor instance
   const doctor = await db.doctor.findUnique({
     where: { userId: doctorUser.id },
   });
@@ -138,7 +141,9 @@ async function main() {
       imageUrl: "tes",
       slug: "how-important-health-is",
       doctorId: doctor.id,
-      categoryId: category.id,
+      categories: {
+        connect: { id: category.id },
+      },
       isPublished: true,
     },
   });

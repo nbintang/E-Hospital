@@ -1,5 +1,4 @@
 import db from "@/lib/db";
-import { Article } from "@prisma/client";
 
 export async function findArticles() {
   const article = await db.article.findMany();
@@ -13,8 +12,16 @@ export async function createArticles({
   imageUrl,
   isPublished = false,
   doctorId,
-  categoryId,
-}: Article) {
+  categorySlugs,
+}: {
+  title: string;
+  content: string;
+  slug: string;
+  imageUrl: string;
+  isPublished?: boolean;
+  doctorId: string;
+  categorySlugs: string[];
+}) {
   const article = await db.article.create({
     data: {
       title,
@@ -23,8 +30,10 @@ export async function createArticles({
       imageUrl,
       isPublished,
       doctorId,
-      categoryId
+      categories: {
+        connect: categorySlugs.map((slug) => ({ slug })),
+      },
     },
   });
-  console.log(article);
+  return article;
 }

@@ -15,8 +15,23 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import useCreatePostForm from "@/hooks/use-create-post";
 import BlogEditor from "../editor";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger,
+} from "@/components/ui/multi-select";
+interface CategoryProps {
+  id: string;
+  slug: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export const CreateForm: React.FC = () => {
+const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
   const { form, handleCreate, onSubmit } = useCreatePostForm();
   return (
     <Form {...form}>
@@ -69,6 +84,37 @@ export const CreateForm: React.FC = () => {
         />
         <FormField
           control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Select Categories</FormLabel>
+              <MultiSelector
+                onValuesChange={field.onChange}
+                values={field.value}
+              >
+                <MultiSelectorTrigger>
+                  <MultiSelectorInput placeholder="Select Categories" />
+                </MultiSelectorTrigger>
+                <MultiSelectorContent>
+                  <MultiSelectorList>
+                    {categories.map((category) => (
+                      <MultiSelectorItem
+                        key={category.id}
+                        value={category.name}
+                      >
+                        <span>{category.name}</span>
+                      </MultiSelectorItem>
+                    ))}
+                  </MultiSelectorList>
+                </MultiSelectorContent>
+              </MultiSelector>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
@@ -101,10 +147,12 @@ export const CreateForm: React.FC = () => {
           size="lg"
           variant={"blue"}
           className="font-semibold "
+          disabled={form.formState.isSubmitting}
         >
-          Submit
+          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>
   );
 };
+export default CreateForm;

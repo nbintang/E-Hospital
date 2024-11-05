@@ -6,7 +6,8 @@ export const PostSchema = z.object({
   title: z.string().min(10, {
     message: "Title input is required ",
   }),
-  category: z.array(z.string()),
+  category: z.array(z.string()).nonempty("Please select at least one Category"),
+ 
   image: z
     .instanceof(File, { message: "Image input is required" })
     .superRefine((f, ctx) => {

@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -77,8 +78,6 @@ model Doctor {
   appointments     Appointment[]
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
-  Category         Category?      @relation(fields: [categoryId], references: [id])
-  categoryId       String?
 }
 
 model Specialization {
@@ -87,22 +86,6 @@ model Specialization {
   doctors   Doctor[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Question {
-  id          String         @id @default(uuid())
-  slug        String         @unique
-  title       String
-  categoryId  String
-  userId      String
-  isAnswered  Boolean        @default(false)
-  status      QuestionStatus @default(PENDING)
-  textContent String         @db.Text
-  category    Category       @relation(fields: [categoryId], references: [id])
-  user        Users          @relation(fields: [userId], references: [id])
-  answers     Answer[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
 }
 
 model Answer {
@@ -116,31 +99,55 @@ model Answer {
   updatedAt   DateTime @updatedAt
 }
 
+model Question {
+  id          String         @id @default(uuid())
+  slug        String         @unique
+  title       String
+  userId      String
+  isAnswered  Boolean        @default(false)
+  status      QuestionStatus @default(PENDING)
+  textContent String         @db.Text
+  user        Users          @relation(fields: [userId], references: [id])
+  categories  Category[]     @relation("QuestionCategories") // New relation
+  answers     Answer[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
 model Article {
-  id          String   @id @default(uuid())
-  slug        String   @unique
+  id          String     @id @default(uuid())
+  slug        String     @unique
   title       String
   imageUrl    String
-  content     String   @db.Text
-  categoryId  String
-  isPublished Boolean  @default(false)
+  content     String     @db.Text
+  isPublished Boolean    @default(false)
   doctorId    String
-  category    Category @relation(fields: [categoryId], references: [id])
-  doctor      Doctor   @relation(fields: [doctorId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  doctor      Doctor     @relation(fields: [doctorId], references: [id])
+  categories  Category[] @relation("ArticleCategories")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Category {
   id        String     @id @default(uuid())
-  slug      String    @unique
+  slug      String     @unique
   name      String
-  questions Question[]
-  articles  Article[]
-  doctors   Doctor[]
-  medicine  Medicine[]
+  questions Question[] @relation("QuestionCategories")
+  articles  Article[]  @relation("ArticleCategories")
+  medicine  Medicine[] @relation("MedicineCategories")
   createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  updatedAt DateTime   @default(now())
+}
+
+model Medicine {
+  id          String     @id @default(uuid())
+  name        String
+  price       Float
+  description String
+  categories  Category[] @relation("MedicineCategories") // New relation
+  orders      Order[] // Existing relation
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Address {
@@ -191,16 +198,4 @@ model Order {
   medicine   Medicine    @relation(fields: [medicineId], references: [id])
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-}
-
-model Medicine {
-  id          String   @id @default(uuid())
-  name        String
-  price       Float
-  description String
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  orders      Order[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }
