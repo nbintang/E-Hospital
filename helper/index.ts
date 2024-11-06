@@ -6,6 +6,7 @@ import { replaceBase64Images } from "./replace-base64-images";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 import { formatCategoriesToSlugs } from "./format-categories-to-slugs";
 import { truncateText } from './truncate-text';
+import { formatSlugToTitle } from './format-slug-to-title';
 
 export {
   formatDate,
@@ -15,5 +16,6 @@ export {
   replaceBase64Images,
   uploadToCloudinary,
   formatCategoriesToSlugs,
-  truncateText
+  truncateText,
+  formatSlugToTitle
 };

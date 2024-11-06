@@ -7,6 +7,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { filterTextContent, truncateText } from "@/helper";
+import { cn } from "@/lib/utils";
 
 interface Category {
   id: string;
@@ -36,12 +37,12 @@ function isValidUrl(url: string) {
     return false;
   }
 }
-export default function ArticleCard({ article }: { article: Article }) {
+export default function ArticleCard({ article, className }: { article: Article; className?:string }) {
   const imageUrl = isValidUrl(article.imageUrl) ? article.imageUrl : "/img/akjgmw.jpeg";
 
   const content = truncateText(filterTextContent(article.content), 100);
   return (
-    <Card className="w-full rounded-md">
+    <Card className={cn("w-full rounded-md", className)}>
       <div className="overflow-hidden relative rounded-t-md h-48">
         <Image
        src={imageUrl}
@@ -66,10 +67,10 @@ export default function ArticleCard({ article }: { article: Article }) {
         <CardContent>
           <p className="text-sm text-muted-foreground line-clamp-3">{content}</p>
         </CardContent>
-        <CardFooter className="flex justify-between items-center">
-          <div className="flex gap-2">
+        <CardFooter className="flex justify-between items-end">
+          <div className="flex gap-2 flex-wrap">
             {article.categories.map((category) => (
-              <Badge variant="outline" key={category.id}>
+              <Badge variant="outline" className=" " key={category.id}>
                 {category.name}
               </Badge>
             ))}

@@ -5,6 +5,8 @@ import { findArticles } from "@/repositories/articles.repository";
 import Link from "next/link";
 export default async function ArticlesPage() {
   const articles = await findArticles();
+  console.log(articles);
+  
   return (
     <>
       <div className="flex justify-end mb-5 ">

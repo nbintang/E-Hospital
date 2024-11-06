@@ -51,7 +51,7 @@ const createExtensions = (placeholder: string) => [
       // This function should return the uploaded image URL.
 
       // wait 3s to simulate upload
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const src = await fileToBase64(file);
       return src;

@@ -1,7 +1,7 @@
 import { cloudinary } from "@/lib/cld";
 
-export  async function uploadToCloudinary(file: File | string, isBase64 = false) {
-  return new Promise<string>((resolve, reject) => {
+export async function uploadToCloudinary(file: File | string, isBase64 = false): Promise<{ url: string; width: number; height: number }> {
+  return new Promise((resolve, reject) => {
     if (isBase64 || typeof file === "string") {
       // Upload the base64 string directly
       cloudinary.uploader.upload(file.toString(), {
@@ -9,7 +9,7 @@ export  async function uploadToCloudinary(file: File | string, isBase64 = false)
         upload_preset: "ml_default",
       }, function (error, result) {
         if (error) reject(error);
-        else resolve(result?.secure_url as string);
+        else resolve({ url: result?.secure_url as string, width: result?.width || 0, height: result?.height || 0 });
       });
     } else if (file instanceof File) {
       // Convert the File object to a buffer and upload
@@ -22,7 +22,7 @@ export  async function uploadToCloudinary(file: File | string, isBase64 = false)
           },
           function (error, result) {
             if (error) reject(error);
-            else resolve(result?.secure_url as string);
+            else resolve({ url: result?.secure_url as string, width: result?.width || 0, height: result?.height || 0 });
           }
         ).end(buffer);
       }).catch(reject);

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Form,
   FormControl,
@@ -23,6 +22,9 @@ import {
   MultiSelectorList,
   MultiSelectorTrigger,
 } from "@/components/ui/multi-select";
+import { useState } from "react";
+import { PlusIcon } from "lucide-react";
+import { TagsInput } from "@/components/ui/input-tags";
 interface CategoryProps {
   id: string;
   slug: string;
@@ -32,7 +34,8 @@ interface CategoryProps {
 }
 
 const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
-  const { form, handleCreate, onSubmit } = useCreatePostForm();
+  const [open, setOpen] = useState<boolean>(false);
+  const { form, handleCreate, onSubmit, isSubmitting } = useCreatePostForm();
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -44,7 +47,7 @@ const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
               <FormLabel className="">Title</FormLabel>
               <FormControl>
                 <Input
-                  className={cn("w-full focus-visible:ring-1 bg-transparent", {
+                  className={cn("w-full focus-visible:ring-1 bg-white", {
                     "border-destructive  focus-within:border-destructive":
                       form.formState.errors.content,
                   })}
@@ -65,7 +68,7 @@ const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
               <FormControl>
                 <Input
                   type="file"
-                  className={cn("w-full focus-visible:ring-1 bg-transparent", {
+                  className={cn("w-full focus-visible:ring-1 bg-white", {
                     "border-destructive  focus-within:border-destructive":
                       form.formState.errors.content,
                   })}
@@ -88,31 +91,62 @@ const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Select Categories</FormLabel>
-              <MultiSelector
-                onValuesChange={field.onChange}
-                values={field.value}
-              >
-                <MultiSelectorTrigger>
-                  <MultiSelectorInput placeholder="Select Categories" />
-                </MultiSelectorTrigger>
-                <MultiSelectorContent>
-                  <MultiSelectorList>
-                    {categories.map((category) => (
-                      <MultiSelectorItem
-                        key={category.id}
-                        value={category.name}
-                      >
-                        <span>{category.name}</span>
-                      </MultiSelectorItem>
-                    ))}
-                  </MultiSelectorList>
-                </MultiSelectorContent>
-              </MultiSelector>
 
+              {open ? (
+                <div>
+                  <TagsInput
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  />
+                </div>
+              ) : (
+                <>
+                  <MultiSelector
+                    onValuesChange={field.onChange}
+                    values={field.value}
+                  >
+                    <MultiSelectorTrigger>
+                      <MultiSelectorInput placeholder="Select Categories" />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      <MultiSelectorList>
+                        {categories.map((category) => (
+                          <MultiSelectorItem
+                            key={category.id}
+                            value={category.name}
+                          >
+                            <span>{category.name}</span>
+                          </MultiSelectorItem>
+                        ))}
+                      </MultiSelectorList>
+                    </MultiSelectorContent>
+                  </MultiSelector>
+                </>
+              )}
+              {open ? (
+                <Button
+                  className=""
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  variant={"secondary"}
+                >
+                  Back To Select
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => setOpen(true)}
+                  className="space-x-3"
+                  type="button"
+                  variant={"secondary"}
+                >
+                  <p>Add New Category </p> <PlusIcon className="w-5 h-5" />
+                </Button>
+              )}
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="content"
@@ -124,7 +158,7 @@ const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
                   {...field}
                   throttleDelay={0}
                   className={cn("w-full", {
-                    "border-destructive focus-within:border-destructive":
+                    "border-destructive focus-within:border-destructive bg-white":
                       form.formState.errors.content,
                   })}
                   editorContentClassName="some-class"
@@ -149,7 +183,9 @@ const CreateForm = ({ categories }: { categories: CategoryProps[] }) => {
           className="font-semibold "
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          {form.formState.isSubmitting || isSubmitting
+            ? "Submitting..."
+            : "Submit"}
         </Button>
       </form>
     </Form>

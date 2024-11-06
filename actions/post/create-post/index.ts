@@ -6,6 +6,7 @@ import {
   replaceBase64Images,
   uploadToCloudinary,
 } from "@/helper";
+import db from "@/lib/db";
 import { createArticles } from "@/repositories/articles.repository";
 import { revalidatePath } from "next/cache";
 
@@ -15,22 +16,30 @@ export async function createPost(formData: FormData) {
     const content = formData.get("content") as string;
     const mainImage = formData.get("image") as File;
     const category = formData.getAll("category") as string[];
+
+    if (!title || !content || !mainImage || category.length === 0) {
+      throw new Error("Missing required fields");
+    }
+
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
-
-    // Upload main image
-    const mainImageUrl = await uploadToCloudinary(mainImage);
+    const mainImg = await uploadToCloudinary(mainImage);
     const updatedContent = await replaceBase64Images(content);
-    const articles = await createArticles({
+    const article = await createArticles({
       title,
       content: updatedContent,
       slug,
-      imageUrl: mainImageUrl,
+      imageUrl: mainImg.url,
       categorySlugs,
       doctorId: "f0cacf7f-dc89-419c-8d3e-c55ea6f1cda9",
     });
-    revalidatePath("/dashboard/articles/drafts");
+
+    revalidatePath("/dashboard/articles");
+    return { success: true, data: article };
   } catch (error) {
-    if (error instanceof Error) console.log(error.message);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to create post",
+    };
   }
 }
