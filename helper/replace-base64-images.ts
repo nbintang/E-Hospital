@@ -1,6 +1,6 @@
-import uploadToCloudinary from "./upload-to-cloudinary";
+import {uploadToCloudinary} from "./upload-to-cloudinary";
 
-export default async function replaceBase64Images(content: string) {
+export  async function replaceBase64Images(content: string) {
   // Regex to capture src, width, and height attributes
   const imgTagRegex = /<img[^>]+src=["'](data:image\/[^"']+)["'][^>]*width=["'](\d+)["'][^>]*height=["'](\d+)["'][^>]*>/g;
   let match;

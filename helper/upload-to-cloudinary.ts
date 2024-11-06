@@ -1,6 +1,6 @@
 import { cloudinary } from "@/lib/cld";
 
-export default async function uploadToCloudinary(file: File | string, isBase64 = false) {
+export  async function uploadToCloudinary(file: File | string, isBase64 = false) {
   return new Promise<string>((resolve, reject) => {
     if (isBase64 || typeof file === "string") {
       // Upload the base64 string directly
