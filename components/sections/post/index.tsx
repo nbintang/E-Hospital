@@ -41,12 +41,17 @@ export default function ArticleCard({ article, className }: { article: Article; 
   const imageUrl = isValidUrl(article.imageUrl) ? article.imageUrl : "/img/akjgmw.jpeg";
 
   const content = truncateText(filterTextContent(article.content), 100);
+
+  // Limit to first 2 categories and calculate remaining
+  const displayedCategories = article.categories.slice(0, 3);
+  const remainingCategoriesCount = article.categories.length - displayedCategories.length;
+
   return (
     <Card className={cn("w-full rounded-md", className)}>
       <div className="overflow-hidden relative rounded-t-md h-48">
         <Image
-       src={imageUrl}
-       alt={article.title}
+          src={imageUrl}
+          alt={article.title}
           layout="fill"
           objectFit="cover"
           className="object-cover"
@@ -69,11 +74,16 @@ export default function ArticleCard({ article, className }: { article: Article; 
         </CardContent>
         <CardFooter className="flex justify-between items-end">
           <div className="flex gap-2 flex-wrap">
-            {article.categories.map((category) => (
-              <Badge variant="outline" className=" " key={category.id}>
+            {displayedCategories.map((category) => (
+              <Badge variant="outline" className="text-xs md:text-sm" key={category.id}>
                 {category.name}
               </Badge>
             ))}
+            {remainingCategoriesCount > 0 && (
+              <Badge variant="secondary" className="text-xs md:text-sm">
+                +{remainingCategoriesCount}
+              </Badge>
+            )}
           </div>
           <p className="text-xs text-muted-foreground">
             {article.createdAt.toLocaleDateString()}

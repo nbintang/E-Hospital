@@ -54,8 +54,8 @@ export default function useCreatePostForm() {
         throw new Error(result.error);
       } else {
         router.push("/dashboard/articles");
+        form.reset();
       }
-      console.log(result.data);
 
       return result.data;
     },

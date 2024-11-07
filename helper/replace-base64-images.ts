@@ -1,40 +1,39 @@
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 
+const strToRoundedNum = (num: string) => Math.round(Number(num));
+
 export async function replaceBase64Images(content: string) {
-  // Regex to match img tags with base64 src, capturing width and height if available
-  const imgTagRegex = /<img[^>]+src=["'](data:image\/[^"']+)["'][^>]*?(?:width=["'](\d+)["'])?[^>]*?(?:height=["'](\d+)["'])?[^>]*>/g;
-
-  const uploadPromises = [] as Promise<{ placeholder: string; imgTag: string; width: number; height: number }>[];
+  // Regex to match <img> tags and extract src, width, and height
+  const imgRegex =
+    /<img\s+[^>]*src="([^"]+)"[^>]*width="([^"]+)"[^>]*height="([^"]+)"[^>]*>/g;
   let match;
-  let placeholderIndex = 0;
+  let updatedContent = content;
 
-  while ((match = imgTagRegex.exec(content)) !== null) {
-    const base64Data = match[1];
-    const width = match[2] ? parseInt(match[2]) : 0;
-    const height = match[3] ? parseInt(match[3]) : 0;
+  while ((match = imgRegex.exec(content)) !== null) {
+    // Extract src, width, and height
+    const [_, base64Src, width, height] = match;
+    const roundedWidth = strToRoundedNum(width);
+    const roundedHeight = strToRoundedNum(height);
 
-    const placeholder = `__IMG_PLACEHOLDER_${placeholderIndex++}__`;
-    content = content.replace(match[0], placeholder);
+    if (base64Src.startsWith("data:image/")) {
+      try {
+        const { url } = await uploadToCloudinary(
+          base64Src,
+          true,
+          roundedWidth,
+          roundedHeight
+        );
 
-    // Upload image to Cloudinary and get the URL and actual dimensions in a promise
-    const uploadPromise = uploadToCloudinary(base64Data, true).then((result) => {
-      // Return the image tag with the actual width and height
-      return {
-        placeholder,
-        imgTag: `<img src="${result.url}" width="${result.width}" height="${result.height}" alt="Image Articles" />`,
-        width: result.width,
-        height: result.height,
-      };
-    });
+        const cloudinarySrc =
+          `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/w_${roundedWidth},h_${roundedHeight}/` +
+          url.split("/").slice(7).join("/");
 
-    uploadPromises.push(uploadPromise);
+        updatedContent = updatedContent.replace(base64Src, cloudinarySrc);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
   }
 
-  // Await all Cloudinary uploads and replace placeholders with the final img tags
-  const uploadedImages = await Promise.all(uploadPromises);
-  uploadedImages.forEach(({ placeholder, imgTag }) => {
-    content = content.replace(placeholder, imgTag);
-  });
-
-  return content;
+  return updatedContent;
 }

@@ -25,6 +25,7 @@ export async function createPost(formData: FormData) {
     const slug = formatTitleToSlug(title);
     const mainImg = await uploadToCloudinary(mainImage);
     const updatedContent = await replaceBase64Images(content);
+    
     const article = await createArticles({
       title,
       content: updatedContent,
