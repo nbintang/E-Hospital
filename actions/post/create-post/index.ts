@@ -25,14 +25,14 @@ export async function createPost(formData: FormData) {
     const slug = formatTitleToSlug(title);
     const mainImg = await uploadToCloudinary(mainImage);
     const updatedContent = await replaceBase64Images(content);
-    
+
     const article = await createArticles({
       title,
       content: updatedContent,
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: "f0cacf7f-dc89-419c-8d3e-c55ea6f1cda9",
+      doctorId: "fc769cd1-d639-4f00-9fbd-e364e1a11428",
     });
 
     revalidatePath("/dashboard/articles");

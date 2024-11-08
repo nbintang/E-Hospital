@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import { createCategoryIfNotExists } from "./categories.repository";
 import { formatSlugToTitle } from "@/helper";
+import { ArticleStatus } from "@prisma/client";
 
 export async function findArticles() {
   const article = await db.article.findMany({
@@ -16,15 +17,15 @@ export async function createArticles({
   content,
   slug,
   imageUrl,
-  isPublished = false,
   doctorId,
+  status = "DRAFT",
   categorySlugs,
 }: {
   title: string;
   content: string;
   slug: string;
   imageUrl: string;
-  isPublished?: boolean;
+  status?: ArticleStatus;
   doctorId: string;
   categorySlugs: string[];
 }) {
@@ -34,18 +35,24 @@ export async function createArticles({
       content,
       slug,
       imageUrl,
-      isPublished,
+      status,
       doctorId,
       categories: {
         connectOrCreate: categorySlugs.map((slug) => ({
-          where: { slug }, // Check if a category with this slug exists
+          where: { slug },
           create: {
-            name: formatSlugToTitle(slug), // Convert slug to title
-            slug, // Use the same slug
+            name: formatSlugToTitle(slug),
+            slug,
           },
         })),
       },
     },
   });
   return article;
+}
+
+export async function findArticlesBySlug({ slug }: { slug: string }) {
+  return await db.article.findUnique({
+    where: { slug },
+  });
 }

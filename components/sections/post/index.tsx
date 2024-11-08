@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/card";
 import { filterTextContent, truncateText } from "@/helper";
 import { cn } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { ArticleStatus } from "@prisma/client";
 
 interface Category {
   id: string;
@@ -22,8 +25,8 @@ interface Article {
   slug: string;
   title: string;
   imageUrl: string;
+  status: ArticleStatus;
   content: string;
-  isPublished: boolean;
   doctorId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -37,18 +40,28 @@ function isValidUrl(url: string) {
     return false;
   }
 }
-export default function ArticleCard({ article, className }: { article: Article; className?:string }) {
-  const imageUrl = isValidUrl(article.imageUrl) ? article.imageUrl : "/img/akjgmw.jpeg";
+export default function ArticleCard({
+  article,
+  className,
+}: {
+  article: Article;
+  className?: string;
+}) {
+  const imageUrl = isValidUrl(article.imageUrl)
+    ? article.imageUrl
+    : "/img/akjgmw.jpeg";
 
   const content = truncateText(filterTextContent(article.content), 100);
 
   // Limit to first 2 categories and calculate remaining
   const displayedCategories = article.categories.slice(0, 3);
-  const remainingCategoriesCount = article.categories.length - displayedCategories.length;
+  const remainingCategoriesCount =
+    article.categories.length - displayedCategories.length;
 
   return (
     <Card className={cn("w-full rounded-md", className)}>
       <div className="overflow-hidden relative rounded-t-md h-48">
+        <div className="absolute inset-0 circle-dark-gradient z-10" />
         <Image
           src={imageUrl}
           alt={article.title}
@@ -56,12 +69,16 @@ export default function ArticleCard({ article, className }: { article: Article; 
           objectFit="cover"
           className="object-cover"
         />
+        
         <Badge
-          className="absolute top-2 left-2"
-          variant={article.isPublished ? "default" : "secondary"}
+          className="absolute top-2 left-2 z-20"
+          variant={article.status === "PUBLISHED" ? "default" : "secondary"}
         >
-          {article.isPublished ? "Published" : "Draft"}
+          {article.status === "PUBLISHED" ? "Published" : "Draft"}
         </Badge>
+        <Link href={`/dashboard/articles/${article.slug}`}>
+          <ExternalLink className="absolute top-2 z-20 right-2 text-white" />
+        </Link>
       </div>
       <div className="flex flex-col justify-between">
         <CardHeader>
@@ -70,12 +87,18 @@ export default function ArticleCard({ article, className }: { article: Article; 
           </h3>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground line-clamp-3">{content}</p>
+          <p className="text-sm text-muted-foreground line-clamp-3">
+            {content}
+          </p>
         </CardContent>
         <CardFooter className="flex justify-between items-end">
           <div className="flex gap-2 flex-wrap">
             {displayedCategories.map((category) => (
-              <Badge variant="outline" className="text-xs md:text-sm" key={category.id}>
+              <Badge
+                variant="outline"
+                className="text-xs md:text-sm"
+                key={category.id}
+              >
                 {category.name}
               </Badge>
             ))}

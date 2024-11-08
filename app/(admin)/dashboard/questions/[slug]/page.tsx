@@ -4,7 +4,8 @@ import QuestionsCard, {
 import React from "react";
 import { AnswerForm } from "@/components/sections/question/answer-form";
 import { findQuestionBySlug } from "@/repositories/questions.repository";
-type Params = Promise<{ slug: string }>;
+import { Params } from "@/types";
+
 export default async function Question({ params }: { params: Params }) {
   const { slug } = await params;
   const question = await findQuestionBySlug(slug);

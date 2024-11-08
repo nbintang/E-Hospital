@@ -36,6 +36,11 @@ enum OrderStatus {
   DELIVERED
 }
 
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
 model Users {
   id           String        @id @default(uuid())
   email        String        @unique
@@ -104,7 +109,6 @@ model Question {
   slug        String         @unique
   title       String
   userId      String
-  isAnswered  Boolean        @default(false)
   status      QuestionStatus @default(PENDING)
   textContent String         @db.Text
   user        Users          @relation(fields: [userId], references: [id])
@@ -115,17 +119,17 @@ model Question {
 }
 
 model Article {
-  id          String     @id @default(uuid())
-  slug        String     @unique
-  title       String
-  imageUrl    String
-  content     String     @db.Text
-  isPublished Boolean    @default(false)
-  doctorId    String
-  doctor      Doctor     @relation(fields: [doctorId], references: [id])
-  categories  Category[] @relation("ArticleCategories")
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id         String        @id @default(uuid())
+  slug       String        @unique
+  title      String
+  imageUrl   String
+  content    String        @db.Text
+  status     ArticleStatus
+  doctorId   String
+  doctor     Doctor        @relation(fields: [doctorId], references: [id])
+  categories Category[]    @relation("ArticleCategories")
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 }
 
 model Category {

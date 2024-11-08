@@ -12,6 +12,12 @@ body {
   }
 }
 
+.circle-dark-gradient {
+  background-size: 100% 100%;
+  background-position: 0px 0px;
+  background-image: radial-gradient(75% 75% at 50% 50%, #00000000 0%, #00000000 0%, #262626FF 95%);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
