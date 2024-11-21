@@ -1,4 +1,4 @@
-import QuestionsCard, { questionsExample } from "@/components/sections/question";
+import QuestionsCard from "@/components/sections/question";
 import React from "react";
 import { AnswerForm } from "@/components/sections/question/answer-form";
 import { findQuestionBySlug } from "@/repositories/questions.repository";

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatDate } from "@/helper/format-date";
+import { formatDate } from "@/helper/client/format-date";
 import { UserProps } from "@/types/user";
 import Link from 'next/link';
 
@@ -61,7 +61,7 @@ export const columnsUsers: ColumnDef<UserProps>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
-      const formatted = formatDate(date);
+      const formatted = formatDate({date});
       return <div className="text-right">{formatted}</div>;
     },
   },
@@ -80,7 +80,7 @@ export const columnsUsers: ColumnDef<UserProps>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("updatedAt"));
-      const formatted = formatDate(date);
+      const formatted = formatDate({date});
       return <div className="text-right">{formatted}</div>;
     },
   },

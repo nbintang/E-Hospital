@@ -1,22 +1,21 @@
 import { QuestionStatus } from "@prisma/client";
+import { CategoryProps } from "./categories";
+import { UserProps } from "./user";
+import { AnswerProps } from "./answers";
 
-export type Question = {
+export interface QuestionProps {
   id: string;
-  title: string;
   slug: string;
-  categoryId: string;
+  title: string;
   userId: string;
-  isAnswered: boolean;
   status: QuestionStatus;
   textContent: string;
-  category: {
-    id: string;
-    name: string;
-  };
-  user: {
-    id: string;
-    email: string;
-  };
+  user: UserProps;
+  categories: CategoryProps[];
+  answers: AnswerProps[];
   createdAt: Date;
   updatedAt: Date;
-};
+}
+
+
+

@@ -1,12 +1,7 @@
 "use server";
 
-import {
-  formatCategoriesToSlugs,
-  formatTitleToSlug,
-  replaceBase64Images,
-  uploadToCloudinary,
-} from "@/helper";
-import db from "@/lib/db";
+import { formatCategoriesToSlugs, formatTitleToSlug } from "@/helper/common";
+import { replaceBase64ToImgUrl, uploadToCloudinary } from "@/helper/server";
 import { createArticles } from "@/repositories/articles.repository";
 import { revalidatePath } from "next/cache";
 
@@ -24,7 +19,7 @@ export async function createPost(formData: FormData) {
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
     const mainImg = await uploadToCloudinary(mainImage);
-    const updatedContent = await replaceBase64Images(content);
+    const updatedContent = await replaceBase64ToImgUrl(content);
 
     const article = await createArticles({
       title,
@@ -32,15 +27,18 @@ export async function createPost(formData: FormData) {
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: "fc769cd1-d639-4f00-9fbd-e364e1a11428",
+      doctorId: "dc419940-2b71-41e4-a560-2ce7d3427386",
     });
+    if (!article.doctorId) {
+      throw new Error("Doctor not authenticated");
+    }
 
     revalidatePath("/dashboard/articles");
     return { success: true, data: article };
   } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Failed to create post",
-    };
+    // Propagate the error so React Query or client-side handlers can catch it
+    throw error instanceof Error
+      ? error
+      : new Error("Failed to create post");
   }
 }

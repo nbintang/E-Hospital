@@ -1,60 +1,117 @@
 "use client";
-import React, { useState } from "react";
-import InteractPostDetail from "../interact";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Article } from "@prisma/client";
-
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { Send, Trash2 } from "lucide-react";
+import { ArticleStatus } from "@prisma/client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import useDeleteAndChangeStatusPost from "@/hooks/post/use-delete-change-status-post";
 export default function PostDetail({
-  article,
-  content,
+  id,
+  status,
 }: {
-  article: Article;
-  content: string;
+  id: string;
+  status: ArticleStatus;
 }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogAction, setDialogAction] = useState<"delete" | "publish" | null>(
-    null
-  );
-
-  const handleActionClick = (action: "delete" | "publish") => {
-    setDialogAction(action);
-    setDialogOpen(true);
-  };
-
-  const handleConfirm = () => {
-    // Implement the actual delete or publish logic here
-    console.log(`Confirmed: ${dialogAction}`);
-    setDialogOpen(false);
-  };
+  const {
+    isDeleteAlertOpen,
+    handleDelete,
+    setIsDeleteAlertOpen,
+    isPublishAlertOpen,
+    setIsPublishAlertOpen,
+    handlePublish,
+  } = useDeleteAndChangeStatusPost({ id });
 
   return (
-    <>
-      <div className="flex justify-end mb-5 items-center gap-5 ">
-        <Button
-        size={"sm"}
-        className="px-4"
-          variant={"default"}
-          onClick={() => handleActionClick("publish")}
-        >
-          Publish
-        </Button>
-        <InteractPostDetail
-          handleActionClick={handleActionClick}
-          dialogOpen={dialogOpen}
-          setDialogOpen={setDialogOpen}
-          dialogAction={dialogAction}
-          handleConfirm={handleConfirm}
-        />
-      </div>
-      <div className="w-full  lg:mx-auto  max-w-3xl lg:max-w-5xl xl:max-w-6xl px-4">
-        <h1 className="text-2xl lg:text-3xl font-bold">{article.title}</h1>
+    <div className="flex space-x-2">
+      <AlertDialog
+        open={isPublishAlertOpen}
+        onOpenChange={setIsPublishAlertOpen}
+      >
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="inline-block">
+              {" "}
+              {/* Wrapper div to receive hover events */}
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="default"
+                  disabled={status === "PUBLISHED"}
+                  className="space-x-2 flex items-center"
+                >
+                  <Send className="h-4 w-4" />
+                  <span>
+                    {status === "DRAFT" ? "Publish item" : "Has been published"}
+                  </span>
+                </Button>
+              </AlertDialogTrigger>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top">
+            {status === "PUBLISHED"
+              ? "Item has been published"
+              : "Click to publish item"}
+          </TooltipContent>
+        </Tooltip>
 
-        {/* Add w-full and prose-wider to remove constraints */}
-        <div
-          className="prose w-full max-w-none"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
-    </>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to publish?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action will make the item visible to the public.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handlePublish}>
+              Publish
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive" size="icon">
+            <Trash2 className="h-4 w-4" />
+            <span className="sr-only">Delete item</span>
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              item from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={handleDelete}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }

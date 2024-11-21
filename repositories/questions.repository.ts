@@ -1,44 +1,42 @@
+"use server"
 import db from "@/lib/db";
+import { QuestionProps } from "@/types/question";
 
-export async function findQuestions() {
+export async function findQuestions(): Promise<QuestionProps[]> {
   const questions = await db.question.findMany({
     include: {
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
       user: {
         select: {
           id: true,
           email: true,
+          profile: {
+            select: {
+              fullname: true,
+            }
+          }
         },
       },
+      categories: true,
+      answers: {
+        select:{
+          id: true,
+          textContent: true,
+          doctorId: true,
+          questionId: true,
+        }
+      }, 
     },
   });
   return questions;
 }
 
 export async function findQuestionBySlug(slug: string) {
-  const question = await db.question.findFirst({
-    where: {
-      slug,
-    },
+  return await db.question.findUnique({
+    where: { slug },
     include: {
-      user: {
-        select: {
-          id: true,
-          email: true,
-        },
-      },
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      user: true,
+      categories: true, // Make sure to include the categories
+      answers: true,
     },
   });
-  return question
 }

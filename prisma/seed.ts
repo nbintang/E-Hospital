@@ -95,7 +95,8 @@ async function main() {
       title: "How important is health for the brain?",
       slug: "how-important-is-health-for-the-brain",
       status: "PENDING",
-      textContent: randomText,
+      textContent:
+        "Health is vital for brain function as it impacts cognitive ability and mood, then why is it so important?",
       userId: patientUser.id,
       categories: {
         connect: { id: category.id },
@@ -116,9 +117,10 @@ async function main() {
   const answer = await db.answer.create({
     data: {
       textContent:
-        "Health is vital for brain function as it impacts cognitive ability and mood.",
+        "<p>Because it is one of the most important organs in the body.</p>",
       questionId: question.id,
       doctorId: doctor.id,
+      
     },
   });
 

@@ -11,27 +11,33 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import AnswerEditor from './editor';
-import useAnswerForm from "@/hooks/use-answers-form";
+import useAnswerQuest from "@/hooks/use-answer-quest";
+import { MinimalTiptapEditor } from "@/components/extensions/minimal-tiptap";
 
-export const AnswerForm: React.FC = () => {
-  const { form, handleCreate, onSubmit, editorRef } = useAnswerForm();
+export function AnswerForm({ id }: { id: string }) {
+  const { form, handleCreate, onSubmit, editorRef, isSubmitting } =
+    useAnswerQuest({ id });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full mt-4 space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full mt-4 space-y-6"
+      >
         <FormField
           control={form.control}
-          name="content"
+          name="textContent"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className=" font-bold text-2xl my-3 ml-1">Your Answer</FormLabel>
+              <FormLabel className=" font-bold text-2xl my-3 ml-1">
+                Your Answer
+              </FormLabel>
               <FormControl>
-                <AnswerEditor
+                <MinimalTiptapEditor
                   {...field}
                   throttleDelay={0}
                   className={cn("w-full", {
                     "border-destructive focus-within:border-destructive":
-                      form.formState.errors.content,
+                      form.formState.errors.textContent,
                   })}
                   editorContentClassName="some-class"
                   output="html"
@@ -51,12 +57,13 @@ export const AnswerForm: React.FC = () => {
         <Button
           type="submit"
           size="lg"
+          disabled={isSubmitting}
           variant={"blue"}
           className="font-semibold "
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>
   );
-};
+}

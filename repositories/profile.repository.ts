@@ -15,3 +15,4 @@ export async function findProfileByUserId({ userId }: { userId: string }) {
   });
   return profile;
 }
+

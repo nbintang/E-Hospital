@@ -2,13 +2,10 @@
 import {
     Card,
     CardHeader,
-    CardTitle,
-    CardDescription,
     CardContent,
     CardFooter,
   } from "@/components/ui/card";
   import { Skeleton } from "@/components/ui/skeleton";
-  import { filterTextContent } from "@/helper";
   import { cn } from "@/lib/utils";
 export const SkeletonCard = ({ className }: { className?: string }) => (
     <Card className={cn("w-full rounded-md", className)}>

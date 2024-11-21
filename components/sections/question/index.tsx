@@ -1,60 +1,23 @@
-import { Question } from "@/types/question";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { QuestionStatus } from "@prisma/client";
-
+import { QuestionProps } from "@/types/question";
+import { formatDate } from "@/helper/client";
 const statusColors: Record<QuestionStatus, string> = {
   PENDING: "bg-yellow-500",
-  ANSWERED: "bg-blue-500",
+  ANSWERED: "bg-green-500",
 };
-// Example data matching the new type
-export const questionsExample: Question[] = [
-  {
-    id: "1",
-    title: "Apa gejala umum dari diabetes?",
-    slug: "apa-gejala-umum-dari-diabetes",
-    categoryId: "1",
-    userId: "1",
-    isAnswered: true,
-    status: "ANSWERED",
-    textContent: "Apa gejala umum dari diabetes?",
-    category: {
-      id: "1",
-      name: "Penyakit Dalam",
-    },
-    user: {
-      id: "1",
-      email: "Ahmad Setiawan",
-    },
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    title: "Bagaimana menangani demam tinggi pada anak?",
-    slug: "bagaimana-menangani-demam-tinggi-pada-anak",
-    categoryId: "2",
-    userId: "2",
-    isAnswered: false,
-    status: "PENDING",
-    textContent: "Bagaimana menangani demam tinggi pada anak?",
-    category: {
-      id: "2",
-      name: "Pediatri",
-    },
-    user: {
-      id: "2",
-      email: "Siti Aisyah",
-    },
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
 
-export default function QuestionsCard({ question }: { question: Question }) {
+export default function QuestionsCard({ question }: { question: QuestionProps }) {
   return (
     <Card key={question.id} className="flex flex-col">
       <CardHeader className="pb-2">
@@ -73,25 +36,32 @@ export default function QuestionsCard({ question }: { question: Question }) {
               {question.user.email}
             </span>
           </div>
-          {question.isAnswered && (
-            <CheckCircle2 className="w-5 h-5 text-green-500" />
+          {question.status === "ANSWERED" && (
+            <CheckCircle2 className={`w-5 h-5 text-green-500`} />
           )}
         </div>
         <CardTitle className="text-base font-medium leading-tight">
-          {question.textContent}
+          {question.title}
         </CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          {question.textContent}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="pt-2">
+      <CardContent className="pt-2 flex justify-between items-end">
         <div className="flex flex-wrap gap-2 items-center">
           <Badge
             className={`${statusColors[question.status]} text-white text-xs`}
           >
             {question.status}
           </Badge>
-          <Badge variant="outline" className="text-xs">
-            {question.category.name}
-          </Badge>
+          {question.categories.map((category) => (
+            <Badge key={category.id} variant={"outline"} className="text-xs ">
+              {category.name}
+            </Badge>
+          ))}
         </div>
+
+        <p className="text-xs text-muted-foreground">{formatDate({date: question.createdAt})}</p>
       </CardContent>
     </Card>
   );

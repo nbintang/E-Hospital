@@ -16,9 +16,22 @@ import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { Charts } from "./admin-panel/charts";
-import { questionsExample } from "../sections/question";
+import { useQueryData } from "@/hooks/react-query-fn/use-query-data";
+import { findQuestions } from "@/repositories/questions.repository";
+import { QuestionProps } from "@/types/question";
+// import { questionsExample } from "../sections/question";
 
 export default function Dashboard() {
+  const {
+    data: questions,
+    isError,
+    isPending,
+    isSuccess,
+  } = useQueryData({
+    tags: "questions",
+    fetcher: async () => await findQuestions(),
+  });
+
   // Mock data for demonstration
   const recentPost = {
     title: "10 Tips for Effective Time Management",
@@ -104,7 +117,11 @@ export default function Dashboard() {
             </CardContent>
           </Card>
           <div className="justify-items-end ">
-            <Button variant={"ghost"} size={"sm"} className="flex text-muted-foreground gap-2 my-1">
+            <Button
+              variant={"ghost"}
+              size={"sm"}
+              className="flex text-muted-foreground gap-2 my-1"
+            >
               <p className="text-sm">See More</p>
               <DoubleArrowRightIcon className="h-5  w-5" />
             </Button>
@@ -154,16 +171,15 @@ export default function Dashboard() {
           <CardContent>
             <ScrollArea>
               <ul className="space-y-4">
-                {questionsExample.map((q) => (
-                  <li key={q.id} className="flex justify-between items-center">
-                    <span className="text-sm">{q.textContent}</span>
-                    <Badge
-                      variant={
-                        q.status === "ANSWERED" ? "success" : "secondary"
-                      }
-                    >
-                      {q.status}
-                    </Badge>
+                {questions.map((question: QuestionProps) => (
+                  <li
+                    key={question.id}
+                    className="flex justify-between items-center"
+                  >
+                    <span className="text-sm">{question.title}</span>
+                    <Badge variant={question.status === "ANSWERED"
+                            ? "success"
+                            : "secondary"}>{question.status}</Badge>
                   </li>
                 ))}
               </ul>

@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { filterTextContent, truncateText } from "@/helper";
+import { filterTextContent, truncateText } from "@/helper/common";
 import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
@@ -68,6 +68,7 @@ export default function ArticleCard({
           layout="fill"
           objectFit="cover"
           className="object-cover"
+          priority
         />
         
         <Badge

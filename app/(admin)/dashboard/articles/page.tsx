@@ -1,21 +1,11 @@
 import PostCard from "@/components/sections/post";
 import { SkeletonCard } from "@/components/sections/post/skeleton";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { filterTextContent } from "@/helper";
-import { cn } from "@/lib/utils";
 import { findArticles } from "@/repositories/articles.repository";
 import Link from "next/link";
 export default async function ArticlesPage() {
   const articles = await findArticles();
+
   return (
     <>
       <div className="flex justify-end mb-5 ">
@@ -41,4 +31,3 @@ export default async function ArticlesPage() {
     </>
   );
 }
-

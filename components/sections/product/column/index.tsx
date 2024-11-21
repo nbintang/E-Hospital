@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formatDate } from "@/helper/format-date";
+import { formatDate } from "@/helper/client/format-date";
 
 export type Medicine = {
   id: string;
