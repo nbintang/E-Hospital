@@ -20,6 +20,7 @@ export default function Answer({
   return (
     <Card key={answer.id} className="flex flex-col w-full mt-3">
       <CardHeader className="pb-2">
+        <p className="text-sm font-medium">Answered by</p>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
             <Avatar className="w-10 h-10">

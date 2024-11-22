@@ -11,27 +11,9 @@ import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { ArticleStatus } from "@prisma/client";
+import { ArticleProps } from "@/types/article";
 
-interface Category {
-  id: string;
-  slug: string;
-  createdAt: Date;
-  updatedAt: Date;
-  name: string;
-}
 
-interface Article {
-  id: string;
-  slug: string;
-  title: string;
-  imageUrl: string;
-  status: ArticleStatus;
-  content: string;
-  doctorId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  categories: Category[];
-}
 function isValidUrl(url: string) {
   try {
     new URL(url);
@@ -44,7 +26,7 @@ export default function ArticleCard({
   article,
   className,
 }: {
-  article: Article;
+  article: ArticleProps;
   className?: string;
 }) {
   const imageUrl = isValidUrl(article.imageUrl)

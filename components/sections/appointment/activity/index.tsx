@@ -1,8 +1,10 @@
+"use client"
 import useAppointmentCalendar from "@/hooks/use-appointment-calendar";
+import { AppointmentProps } from "@/types/appointment";
 import moment from "moment";
 
-export default function AppoinmentActivity() {
-  const { todayEvents } = useAppointmentCalendar();
+export default function AppoinmentActivity({appointments}: {appointments: AppointmentProps[]}) {
+  const { todayEvents } = useAppointmentCalendar({appointments});
 
   return todayEvents.length > 0 ? (
     <ul>

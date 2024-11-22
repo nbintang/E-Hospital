@@ -27,6 +27,7 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { usePathname } from "next/navigation";
+import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 
 type Submenu = {
   href: string;
@@ -54,7 +55,7 @@ export function CollapseMenuButton({
     submenu.active === undefined ? submenu.href === pathname : submenu.active
   );
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isSubmenuActive);
-
+const handleNavigate = useHandleLoadingNavigate({ pathname });
   return isOpen ? (
     <Collapsible
       open={isCollapsed}
@@ -113,7 +114,7 @@ export function CollapseMenuButton({
             className="w-full justify-start h-10 mb-1"
             asChild
           >
-            <Link href={href}>
+            <div    className="cursor-pointer"    onClick={() => handleNavigate(href)}>
               <span className="mr-4 ml-2">
                 <Dot size={18} />
               </span>
@@ -127,7 +128,7 @@ export function CollapseMenuButton({
               >
                 {label}
               </p>
-            </Link>
+            </div>
           </Button>
         ))}
       </CollapsibleContent>
@@ -172,15 +173,15 @@ export function CollapseMenuButton({
         <DropdownMenuSeparator />
         {submenus.map(({ href, label, active }, index) => (
           <DropdownMenuItem key={index} asChild>
-            <Link
+            <div
               className={`cursor-pointer ${
                 ((active === undefined && pathname === href) || active) &&
                 "bg-secondary"
               }`}
-              href={href}
+                onClick={() => handleNavigate(href)}
             >
               <p className="max-w-[180px] truncate">{label}</p>
-            </Link>
+            </div>
           </DropdownMenuItem>
         ))}
         <DropdownMenuArrow className="fill-border" />

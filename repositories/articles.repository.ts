@@ -1,12 +1,27 @@
-"use server";
+
 import db from "@/lib/db";
 import { formatSlugToTitle } from "@/helper/common";
 import { ArticleStatus } from "@prisma/client";
+import { ArticleProps } from "@/types/article";
 
 export async function findArticles() {
   const article = await db.article.findMany({
     include: {
       categories: true,
+      doctor: {
+        select:{
+          id: true,
+          user: {
+            select: {
+              profile: {
+                select: {
+                  fullname: true
+                }
+              }
+            }
+          }
+        }
+      },
     },
   });
   return article;

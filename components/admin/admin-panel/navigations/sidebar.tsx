@@ -1,6 +1,6 @@
 "use client";
 import { Menu } from "@/components/admin/admin-panel/navigations/menu";
-import { SidebarToggle } from "@/components/admin/admin-panel/sidebar-toggle";
+import { SidebarToggle } from "@/components/admin/admin-panel/navigations/sidebar-toggle";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
@@ -15,7 +15,7 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
+        "fixed top-0 left-0 z-40 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
         !getOpenState() ? "w-[90px]" : "w-72",
         settings.disabled && "hidden"
       )}

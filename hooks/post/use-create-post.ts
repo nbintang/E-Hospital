@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useCallback, useRef } from "react";
 import { Editor } from "@tiptap/core";
-import { PostSchema, PostValues } from "@/types/schemas/post";
+import { PostSchema, PostValues } from "@/schemas/post";
 import { createPost } from "@/actions/post/create-post";
 import { useMutateData } from "../react-query-fn/use-mutate-data";
 

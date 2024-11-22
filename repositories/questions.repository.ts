@@ -1,4 +1,4 @@
-"use server"
+
 import db from "@/lib/db";
 import { QuestionProps } from "@/types/question";
 

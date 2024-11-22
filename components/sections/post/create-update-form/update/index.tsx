@@ -22,7 +22,7 @@ import { useState } from "react";
 import { Paperclip, PlusIcon, Trash2Icon } from "lucide-react";
 import { TagsInput } from "@/components/extensions/input-tags";
 import useUpdatePostForm from "@/hooks/post/use-update.post";
-import { ArticleProps } from "@/types/post";
+import { ArticleProps } from "@/types/article";
 import {
   FileInput,
   FileUploader,

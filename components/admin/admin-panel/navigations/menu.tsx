@@ -2,19 +2,22 @@
 
 import Link from "next/link";
 import { Ellipsis, LogOut, TableOfContentsIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/components/admin/admin-panel/navigations/navigation-links";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CollapseMenuButton } from "@/components/admin/admin-panel/collapse-menu-button";
+import { CollapseMenuButton } from "@/components/admin/admin-panel/navigations/collapse-menu-button";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-  TooltipProvider
+  TooltipProvider,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -23,6 +26,7 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList(pathname);
+  const handleNavigate = useHandleLoadingNavigate({ pathname });
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">
@@ -68,7 +72,10 @@ export function Menu({ isOpen }: MenuProps) {
                               className="w-full justify-start h-10 mb-1"
                               asChild
                             >
-                              <Link href={href}>
+                              <div
+                                className="flex items-center cursor-pointer"
+                                onClick={() => handleNavigate(href)}
+                              >
                                 <span
                                   className={cn(isOpen === false ? "" : "mr-4")}
                                 >
@@ -84,7 +91,7 @@ export function Menu({ isOpen }: MenuProps) {
                                 >
                                   {label}
                                 </p>
-                              </Link>
+                              </div>
                             </Button>
                           </TooltipTrigger>
                           {isOpen === false && (
@@ -98,6 +105,7 @@ export function Menu({ isOpen }: MenuProps) {
                   ) : (
                     <div className="w-full" key={index}>
                       <CollapseMenuButton
+                      
                         icon={Icon}
                         label={label}
                         active={
