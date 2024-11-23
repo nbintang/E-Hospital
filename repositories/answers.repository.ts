@@ -57,5 +57,5 @@ export async function findAnswerByQuestionId({
   const { userId } = answer.doctor;
   const doctorProfile = await findProfileByUserId({ userId });
   if (!doctorProfile) throw new Error("Something went wrong");
-  return { ...answer, doctorProfile };
+  return { ...answer, doctorProfile } as AnswerWithDoctorProfileProps;
 }

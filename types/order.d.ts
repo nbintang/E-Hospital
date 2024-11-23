@@ -1,15 +1,25 @@
-import { OrderStatus } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
-export type OrderProps = {
-  id: string;
-  medicine: {
-    name: string;
-    category: { name: string };
+export type OrderProps = Prisma.OrderGetPayload<{
+  include: {
+    medicine: {
+      include: {
+        categories: {
+          select: {
+            name: true;
+          };
+        };
+      };
+    };
+    user: {
+      select: {
+        id: true;
+        email: true;
+        createdAt: true;
+        updatedAt: true;
+        password: true;
+        role: true;
+      };
+    };
   };
-  user: {
-    email: string;
-  };
-  totalPrice: number;
-  createdAt: Date;
-  status: OrderStatus;
-};
+}>;

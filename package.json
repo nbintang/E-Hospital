@@ -12,6 +12,7 @@
     "db:push": "npx prisma db push",
     "db:generate": "npx prisma generate",
     "db:studio": "npx prisma studio",
+    "db:validate": "npx prisma validate",
     "postinstall": "npx prisma generate"
   },
   "prisma": {
@@ -67,6 +68,7 @@
     "moment": "^2.30.1",
     "moment-range": "^4.0.2",
     "next": "15.0.2",
+    "next-auth": "^4.24.10",
     "next-themes": "^0.3.0",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-big-calendar": "^1.16.0",

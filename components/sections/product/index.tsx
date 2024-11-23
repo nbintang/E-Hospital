@@ -1,6 +1,6 @@
 "use client";
 
-import { productsColumn, Medicine } from "./column";
+import { productsColumn} from "./column";
 import {
   TableComponent,
   PaginationComponent,
@@ -8,6 +8,7 @@ import {
   ColumnVisibilityDropdown,
 } from "@/components/admin/admin-panel/tables";
 import useTablesSorting from "@/hooks/use-tables-sorting";
+import { Medicine } from "@prisma/client";
 
 export function DataTableMedicine({ data }: { data: Medicine[] }) {
   const { table } = useTablesSorting({ data, columns: productsColumn });

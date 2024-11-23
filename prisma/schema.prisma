@@ -59,13 +59,15 @@ model Profile {
   id          String   @id @default(uuid())
   fullname    String
   addressId   String?
+  profileUrl  String?
+  bioPdfUrl   String?
   gender      Gender?
   height      String?
   phoneNumber String?
   weight      String?
   userId      String   @unique
   user        Users    @relation(fields: [userId], references: [id])
-  address     Address? @relation("ProfileAddress", fields: [addressId], references: [id])
+  address     Address? @relation("UserProfileAddress", fields: [addressId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -157,8 +159,10 @@ model Medicine {
 model Address {
   id        String     @id @default(uuid())
   slug      String     @unique
+  latitude  Float // Latitude for geolocation
+  longitude Float // Longitude for geolocation
   name      String     @db.VarChar(255)
-  profiles  Profile[]  @relation("ProfileAddress")
+  profiles  Profile[]  @relation("UserProfileAddress")
   hospitals Hospital[] @relation("HospitalAddress")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt

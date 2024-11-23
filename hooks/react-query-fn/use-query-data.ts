@@ -1,7 +1,5 @@
 import {
-  keepPreviousData,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query";
 
 export function useQueryData({

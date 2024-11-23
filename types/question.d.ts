@@ -1,21 +1,11 @@
-import { QuestionStatus } from "@prisma/client";
-import { CategoryProps } from "./categories";
-import { UserProps } from "./user";
-import { AnswerProps } from "./answers";
+import { Prisma } from "@prisma/client";
 
-export interface QuestionProps {
-  id: string;
-  slug: string;
-  title: string;
-  userId: string;
-  status: QuestionStatus;
-  textContent: string;
-  user: UserProps;
-  categories: CategoryProps[];
-  answers: AnswerProps[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-
+// Question type with included user, categories, and answers
+export type QuestionProps = Prisma.QuestionGetPayload<{
+  include: {
+    user: true;
+    categories: true;
+    answers: true;
+  }
+}>;
 

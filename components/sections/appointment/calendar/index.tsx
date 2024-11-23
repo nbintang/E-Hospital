@@ -11,11 +11,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { formatDate } from "@/helper/client";
 import { Button } from "@/components/ui/button";
-
+import CustomToolbar from "./calendar-toolbar";
+import DialogCalendarContent from "./dialog-calendar-content";
 export default function AppointmentCalendar({
   appointments,
 }: {
@@ -30,69 +29,56 @@ export default function AppointmentCalendar({
     handleViewChange,
     isDialogOpen,
     setIsDialogOpen,
+
     selectedEvent,
   } = useAppointmentCalendar({ appointments });
 
   return (
     <>
-      {/* @ts-ignore */}
-      <BigCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        onSelectEvent={handleSelectEvent}
-        onNavigate={handleNavigate}
-        view={view}
-        onView={handleViewChange}
-        views={["month", "week", "day", "agenda"]}
-        date={selectedDate}
-        toolbar={true}
-      />
-      <Dialog open={isDialogOpen}>
-        {selectedEvent ? (
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{selectedEvent?.title}</DialogTitle>
-              <DialogDescription>Event Details</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="font-medium">ID:</span>
-                <span className="col-span-3">{selectedEvent?.id}</span>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="font-medium">Start:</span>
-                <span className="col-span-3">
-                  {formatDate({
-                    date: selectedEvent?.start,
-                    format: "DD-MMM-YYYY",
-                  })}
-                </span>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="font-medium">End:</span>
-                <span className="col-span-3">
-                  {formatDate({
-                    date: selectedEvent?.end,
-                    format: "DD-MMM-YYYY",
-                  })}
-                </span>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <span className="font-medium">All Day:</span>
-                <span className="col-span-3">
-                  {selectedEvent?.allDay ? "Yes" : "No"}
-                </span>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
-            </DialogFooter>
-          </DialogContent>
-        ) : (
-          <div>Something Went Wrong </div>
-        )}
+      <div className="max-w-[1000px] overflow-x-auto mx-auto">
+        <div className="min-w-[800px]">
+          {/* @ts-ignore */}
+          <BigCalendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            onSelectEvent={handleSelectEvent}
+            onNavigate={handleNavigate}
+            view={view}
+            onView={handleViewChange}
+            views={["month", "week", "day", "agenda"]}
+            date={selectedDate}
+            toolbar={true}
+            components={{
+              toolbar: CustomToolbar, // Use the custom toolbar here
+            }}
+            style={{ height: 500 }}
+          />
+        </div>
+      </div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              Appointment Details
+            </DialogTitle>
+            <DialogDescription>
+              View and manage your upcoming appointment.
+            </DialogDescription>
+          </DialogHeader>
+          {selectedEvent && (
+            <DialogCalendarContent selectedEvent={selectedEvent} />
+          )}
+          <DialogFooter className="sm:justify-between">
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setIsDialogOpen(false)}>
+              Confirm Appointment
+            </Button>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
     </>
   );

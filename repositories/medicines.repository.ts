@@ -7,6 +7,6 @@ export async function findMedicineById(id: string) {
 }
 
 export async function findMedicines() {
-  const medicines = await db.medicine.findMany({ include: { category: true } });
+  const medicines = await db.medicine.findMany();
 return medicines;
 }

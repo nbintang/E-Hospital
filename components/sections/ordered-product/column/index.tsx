@@ -57,14 +57,7 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
       return <div className="font-medium">{medicine?.name || "Unknown"}</div>;
     },
   },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => {
-      const category = row.original.medicine?.category;
-      return <div className="font-medium">{category?.name}</div>;
-    }
-  },
+
 
   {
     accessorKey: "user",

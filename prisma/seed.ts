@@ -8,6 +8,8 @@ async function main() {
   // Create sample address
   const address = await db.address.create({
     data: {
+      latitude: 37.7749,
+      longitude: -122.4194,
       slug: `address-${Date.now()}`,
       name: "123 Main St, City, Country",
     },
@@ -53,6 +55,7 @@ async function main() {
       role: "DOCTOR",
       profile: {
         create: {
+          profileUrl:"https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/articles/file_skl1xh.jpg",
           fullname: "Dr. John Doe",
           gender: "MALE",
           height: "180cm",
@@ -63,6 +66,7 @@ async function main() {
       },
       doctor: {
         create: {
+          
           hospitalId: hospital.id,
           specializationId: specialization.id,
         },
@@ -78,6 +82,7 @@ async function main() {
       role: "PATIENT",
       profile: {
         create: {
+          profileUrl:"https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/bookstore/file_pb5vga.jpg",
           fullname: "Jane Smith",
           gender: "FEMALE",
           height: "165cm",
@@ -140,7 +145,7 @@ async function main() {
     data: {
       title: "How important health is",
       content: randomText,
-      imageUrl: "tes",
+      imageUrl: "https://res.cloudinary.com/da6hciwjn/image/upload/v1731601886/file_cqy2fo.jpg",
       slug: "how-important-health-is",
       doctorId: doctor.id,
       categories: {

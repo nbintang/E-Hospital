@@ -1,26 +1,30 @@
-import { ProfileProps } from "./profile";
+import { Prisma } from "@prisma/client";
 
-export interface AnswerProps {
-    id: string;
-    textContent: string;
-    doctorId: string;
-    questionId: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+// Basic Answer type
+export type AnswerProps = Prisma.AnswerGetPayload<{
+  select: {
+    id: true;
+    textContent: true;
+    doctorId: true;
+    questionId: true;
+    createdAt: true;
+    updatedAt: true;
   }
+}>;
 
-  export interface AnswerWithDoctorProfileProps {
-    id: string;
-    textContent: string;
+// Extended Answer type with doctor profile
+export type AnswerWithDoctorProfileProps = Prisma.AnswerGetPayload<{
+  include: {
     doctor: {
-      specialization: {
-        name: string;
-      };
-      userId: string;
+      include: {
+        specialization: {
+          select: {
+            name: true;
+          }
+        };
+        user: true;
+      }
     };
-    doctorId: string;
-    questionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    doctorProfile: ProfileProps
-  };
+    doctorProfile: true;
+  }
+}>;

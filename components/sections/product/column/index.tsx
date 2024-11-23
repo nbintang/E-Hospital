@@ -10,17 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDate } from "@/helper/client/format-date";
+import { Medicine } from "@prisma/client";
 
-export type Medicine = {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  categoryId: string;
-  createdAt: Date; // or Date
-  updatedAt: Date; // or Date
-  category: { name: string }; // nested category type
-};
 
 export const productsColumn: ColumnDef<Medicine>[] = [
   {
@@ -61,19 +52,11 @@ export const productsColumn: ColumnDef<Medicine>[] = [
     },
   },
   {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => {
-      const category = row.original.category;
-      return <div className="font-medium">{category?.name}</div>;
-    },
-  },
-  {
     accessorKey: "createdAt",
     header: "Created Date",
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
-      const formatted = formatDate(date);
+      const formatted = formatDate({ date });
       return <div className="text-right">{formatted}</div>;
     },
   },
@@ -82,7 +65,7 @@ export const productsColumn: ColumnDef<Medicine>[] = [
     header: "Updated Date",
     cell: ({ row }) => {
       const date = new Date(row.getValue("updatedAt"));
-      const formatted = formatDate(date);
+      const formatted = formatDate({ date });
       return <div className="text-right">{formatted}</div>;
     },
   },

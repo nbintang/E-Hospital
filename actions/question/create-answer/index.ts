@@ -7,7 +7,7 @@ export async function createAnswer(formData: FormData, questionId: string) {
   const answer = await createAnswerByQuestionId({
     textContent,
     questionId,
-    doctorId: "dc419940-2b71-41e4-a560-2ce7d3427386",
+    doctorId: "84c025d2-fa87-482b-a661-3e9fdf86f024",
   });
   if (!answer.doctorId) throw new Error("Unauthorized");
 

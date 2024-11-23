@@ -1,22 +1,21 @@
-import { Doctor } from "@prisma/client";
-import { CategoryProps } from "./categories";
+import { Prisma } from "@prisma/client";
 
-export interface ArticleProps {
-  id: string;
-  slug: string;
-  title: string;
-  imageUrl: string;
-  status: ArticleStatus;
-  content: string;
-  doctorId: string;
-  doctor?:{
-    id: string;
-    user?:{
-      profile?:{ fullname: string; } | null | undefined; // Add null to the union type
-
-    }
-  };
-  createdAt: Date;
-  updatedAt: Date;
-  categories: CategoryProps[];
-}
+// Article type with doctor and categories
+export type ArticleProps = Prisma.ArticleGetPayload<{
+  include: {
+    doctor: {
+      include: {
+        user: {
+          include: {
+            profile: {
+              select: {
+                fullname: true;
+              }
+            }
+          }
+        }
+      }
+    };
+    categories: true;
+  }
+}>;

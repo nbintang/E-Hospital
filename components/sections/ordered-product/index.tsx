@@ -5,7 +5,6 @@ import { orderedProductColumns} from "./column";
 import {
   ColumnVisibilityDropdown,
   PaginationComponent,
-  Search,
   TableComponent,
 } from "../../admin/admin-panel/tables";
 import { OrderProps } from "@/types/order";
@@ -16,7 +15,7 @@ export default function OrderedProducts({ data }: { data: OrderProps[] }) {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-4 space-x-4">
-        <Search table={table} />
+
         <ColumnVisibilityDropdown table={table} />
       </div>
       <TableComponent table={table} />

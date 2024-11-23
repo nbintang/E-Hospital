@@ -27,7 +27,7 @@ export async function updatePost(formData: FormData) {
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: "dc419940-2b71-41e4-a560-2ce7d3427386",
+      doctorId: "84c025d2-fa87-482b-a661-3e9fdf86f024",
     });
 
     revalidatePath("/dashboard/articles");
