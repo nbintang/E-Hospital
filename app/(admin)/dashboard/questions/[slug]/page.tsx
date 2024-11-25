@@ -17,12 +17,13 @@ export default async function Question({ params }: { params: Params }) {
   return (
     <div>
       {question && <QuestionsCard question={question} />}
-      {question.status === "PENDING" && (
+      {question.status === "PENDING" ? (
         <TooltipProvider>
           <AnswerForm id={question.id} />
-        </TooltipProvider>)}
-
+        </TooltipProvider>
+      ) : (
         <Answer answer={answer} />
+      )}
     </div>
   );
 }

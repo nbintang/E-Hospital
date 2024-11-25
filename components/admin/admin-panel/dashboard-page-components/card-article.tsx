@@ -15,6 +15,9 @@ export function CardArticle({
 }: {
   article: ArticleProps;
 }) {
+  let sanitizedContent = sanitizeContent(recentPost.content); // Use let for sanitized content
+  // Remove image tags from the sanitized content
+  sanitizedContent = sanitizedContent.replace(/<img[^>]*>/g, ''); // Remove all <img> tags
   return (
     <Card className="col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden relative ">
       <CardContent>
@@ -31,13 +34,12 @@ export function CardArticle({
           <h3 className="text-lg md:text-xl font-semibold text-white">
             {recentPost.title}
           </h3>
-          <p className="text-sm text-secondary/70 mt-2">
+          <p className="text-sm pr-3 text-secondary/70 mt-2">
             {" "}
             <span
               className=""
               dangerouslySetInnerHTML={{
-                __html:
-                  sanitizeContent(recentPost.content).slice(0, 200) + "...",
+               __html: sanitizedContent.slice(0, 200) + "..."
               }}
             />
           </p>

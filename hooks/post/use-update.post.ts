@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
-import { PostSchema, PostValues } from "@/schemas/post";
+import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { toast } from "sonner";
 import { ArticleBySlugProps, ArticleProps } from "@/types/article";
 import { updatePost } from "@/actions/post/update-post";

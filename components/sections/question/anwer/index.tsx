@@ -25,12 +25,12 @@ export default function Answer({
           <div className="flex items-center space-x-2">
             <Avatar className="w-10 h-10">
               <AvatarFallback>
-                {answer.doctorProfile.user.email?.charAt(0).toUpperCase()}
+                {answer.doctor.user.email?.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <span className="text-base font-medium text-primary">
-                {answer.doctorProfile.fullname}
+                {answer.doctor.user.profile?.fullname}
               </span>
               <span className="text-xs font-medium text-muted-foreground">
                 {answer.doctor.specialization.name}
@@ -48,7 +48,9 @@ export default function Answer({
 
       <CardFooter>
         <div className="flex justify-end w-full ">
-          <p className="text-xs text-muted-foreground">{formatDate({date: answer.createdAt})}</p>
+          <p className="text-xs text-muted-foreground">
+            {formatDate({ date: answer.createdAt })}
+          </p>
         </div>
       </CardFooter>
     </Card>

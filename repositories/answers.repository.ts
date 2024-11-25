@@ -40,22 +40,29 @@ export async function findAnswerByQuestionId({
     where: { questionId },
     include: {
       doctor: {
-        select: {
+        include: {
+          user: {
+            select: {
+              email: true,
+              profile: {
+                select: {
+                  fullname: true,
+                  profileUrl: true,
+                },
+              },
+            },
+          },
           specialization: {
             select: {
               name: true,
             },
           },
-          userId: true,
         },
       },
     },
   });
   if (!answer) {
-    throw new Error("Doctor Not Authorized");
+    throw new Error("No answer found");
   }
-  const { userId } = answer.doctor;
-  const doctorProfile = await findProfileByUserId({ userId });
-  if (!doctorProfile) throw new Error("Something went wrong");
-  return { ...answer, doctorProfile } as AnswerWithDoctorProfileProps;
+  return answer;
 }

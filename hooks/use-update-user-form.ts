@@ -1,6 +1,6 @@
 import { formatStrToNum } from "@/helper/common/format-str-to-number";
 import { ProfileProps } from "@/types/profile";
-import { ProfileSchema, ProfileFormValues } from "@/schemas/profile";
+import { ProfileSchema, ProfileFormValues } from "@/schemas/profile-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

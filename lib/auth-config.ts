@@ -82,11 +82,7 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         const u = await findUserByEmail(user.email as string);
-        console.log({
-          ...token,
-          id: user.id,
-          role: u?.role,
-        });
+    
 
         return {
           ...token,
@@ -94,7 +90,6 @@ const authOptions: NextAuthOptions = {
           role: u?.role,
         };
       }
-      console.log("JWT reused:", token);
       return token;
     },
   },
