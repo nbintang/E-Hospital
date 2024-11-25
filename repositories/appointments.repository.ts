@@ -1,3 +1,4 @@
+"use server"
 import db from "@/lib/db";
 import { AppointmentProps } from "@/types/appointment";
 import { findDoctorById } from "./articles.repository";

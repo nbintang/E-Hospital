@@ -1,11 +1,11 @@
 import React from "react";
-import { findArticlesBySlug } from "@/repositories/articles.repository";
 import { Params } from "@/types/params";
 import { notFound } from "next/navigation";
 import PostDetail from "@/components/sections/post/detail";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { findCategories } from "@/repositories/categories.repository";
 import UpdatePostForm from "@/components/sections/post/create-update-form/update";
+import { findArticlesBySlug } from "@/repositories/articles.repository";
+import { findCategories } from "@/repositories/categories.repository";
 export default async function ArticlesDetail({ params }: { params: Params }) {
   const { slug } = await params;
   if (!slug) return null;

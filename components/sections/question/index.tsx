@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { QuestionStatus } from "@prisma/client";
-import { QuestionProps } from "@/types/question";
+import { QuestionBySlug, QuestionProps } from "@/types/question";
 import { formatDate } from "@/helper/client";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
@@ -23,10 +23,11 @@ const statusColors: Record<QuestionStatus, string> = {
 export default function QuestionsCard({
   question,
 }: {
-  question: QuestionProps;
+  question?: QuestionBySlug | QuestionProps;
 }) {
   const pathname =usePathname();
   const handleNavigate = useHandleLoadingNavigate({ pathname });
+  if(!question) return null
   return (
     <div
     onClick={() => handleNavigate(`/dashboard/questions/${question.slug}`)}

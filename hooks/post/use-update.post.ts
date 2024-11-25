@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { PostSchema, PostValues } from "@/schemas/post";
 import { toast } from "sonner";
-import { ArticleProps } from "@/types/article";
+import { ArticleBySlugProps, ArticleProps } from "@/types/article";
 import { updatePost } from "@/actions/post/update-post";
 import { replaceImageUrlToBase64 } from "@/helper/client";
 import { CategoryProps } from "@/types/categories";
@@ -15,7 +15,7 @@ export default function useUpdatePostForm({
   article,
   categories,
 }: {
-  article: ArticleProps;
+  article: ArticleBySlugProps;
   categories: CategoryProps[];
 }) {
   const editorRef = useRef<Editor | null>(null);

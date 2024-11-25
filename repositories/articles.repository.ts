@@ -2,15 +2,14 @@
 import db from "@/lib/db";
 import { formatSlugToTitle } from "@/helper/common";
 import { ArticleStatus } from "@prisma/client";
-import { ArticleProps } from "@/types/article";
+import { ArticleBySlugProps, ArticleProps } from "@/types/article";
 
-export async function findArticles() {
+export async function findArticles(): Promise<ArticleProps[]> {
   const article = await db.article.findMany({
     include: {
       categories: true,
       doctor: {
-        select:{
-          id: true,
+        include:{
           user: {
             select: {
               profile: {
@@ -116,7 +115,7 @@ export async function updateArticles({
   });
 }
 
-export async function findArticlesBySlug({ slug }: { slug: string }) {
+export async function findArticlesBySlug({ slug }: { slug: string }): Promise<ArticleBySlugProps | null> {
   return await db.article.findUnique({
     where: { slug },
     include: {

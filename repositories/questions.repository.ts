@@ -1,6 +1,6 @@
-
 import db from "@/lib/db";
-import { QuestionProps } from "@/types/question";
+import { QuestionBySlug, QuestionProps } from "@/types/question";
+import { Prisma } from "@prisma/client";
 
 export async function findQuestions(): Promise<QuestionProps[]> {
   const questions = await db.question.findMany({
@@ -12,25 +12,27 @@ export async function findQuestions(): Promise<QuestionProps[]> {
           profile: {
             select: {
               fullname: true,
-            }
-          }
+            },
+          },
         },
       },
       categories: true,
       answers: {
-        select:{
+        select: {
           id: true,
           textContent: true,
           doctorId: true,
           questionId: true,
-        }
-      }, 
+        },
+      },
     },
   });
   return questions;
 }
 
-export async function findQuestionBySlug(slug: string) {
+export async function findQuestionBySlug(
+  slug: string
+){
   return await db.question.findUnique({
     where: { slug },
     include: {

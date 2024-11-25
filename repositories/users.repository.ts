@@ -25,3 +25,11 @@ export async function findUserById(id: string) {
   if (!user) return null;
   return user;
 }
+
+
+export async function findUserByEmail(email: string) {
+  const user = await db.users.findFirst({ where: { email } });
+  return user
+}
+
+

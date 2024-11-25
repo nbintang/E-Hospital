@@ -10,7 +10,6 @@ import { filterTextContent, truncateText } from "@/helper/common";
 import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { ArticleStatus } from "@prisma/client";
 import { ArticleProps } from "@/types/article";
 
 

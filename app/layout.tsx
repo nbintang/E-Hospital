@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import RQProvider from "@/components/providers/rq-provider";
+import { NextAuthProviders } from "@/components/providers/auth-provider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -27,15 +28,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <RQProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          suppressHydrationWarning
-        >
-          {children}
-          <Toaster />
-        </body>
-      </RQProvider>
+      <NextAuthProviders>
+        <RQProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            suppressHydrationWarning
+          >
+            {children}
+            <Toaster />
+          </body>
+        </RQProvider>
+      </NextAuthProviders>
     </html>
   );
 }

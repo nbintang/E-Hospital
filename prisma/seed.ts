@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import hash from 'bcryptjs';
 
 const db = new PrismaClient();
 
 const randomText = `<p class="text-node">Batuk pada lansia seringkali memerlukan penanganan khusus agar tidak berkembang menjadi masalah kesehatan yang lebih serius. Berikut beberapa tips yang aman untuk mengatasi batuk pada orang tua:</p><ol class="list-node"><li><p class="text-node"><strong>Minum Air Hangat</strong></p><p class="text-node"></p><img height="273.6" width="410.40000000000003" title="" alt="" src="https://res.cloudinary.com/da6hciwjn/image/upload/w_410,h_274/articles/qggek2zqrurjkr51gkln.jpg"><p class="text-node"><br>Minum air hangat dapat membantu meredakan tenggorokan dan mengurangi iritasi akibat batuk. Air hangat juga membantu menjaga tubuh tetap terhidrasi, yang sangat penting bagi lansia.</p></li><li><p class="text-node"><strong>Gunakan Humidifier</strong><br>Udara kering dapat memperburuk batuk. Menambahkan humidifier di kamar tidur atau ruangan lain tempat mereka sering berada bisa membantu menjaga kelembaban udara dan meredakan batuk.</p></li><li><p class="text-node"><strong>Konsumsi Madu</strong></p><img height="216" width="324" title="" alt="" src="https://res.cloudinary.com/da6hciwjn/image/upload/w_324,h_216/articles/mjp1ggmu085lnzgiw3ay.jpg"><p class="text-node"><br>Madu memiliki sifat anti-inflamasi dan dapat membantu meredakan tenggorokan yang gatal. Tambahkan satu sendok madu ke dalam teh hangat untuk hasil yang lebih baik.</p></li><li><p class="text-node"><strong>Hindari Pemicu Batuk</strong><br>Pastikan lingkungan sekitar bebas dari asap rokok, debu, atau polusi lainnya. Bahan-bahan ini dapat memicu batuk dan memperburuk kondisi pernapasan.</p></li><li><p class="text-node"><strong>Konsultasi dengan Dokter</strong><br>Batuk yang berkepanjangan atau disertai gejala lain seperti demam atau sesak napas memerlukan perhatian medis segera. Konsultasikan dengan dokter untuk mendapatkan perawatan yang tepat.</p></li></ol><p class="text-node">Ingat, kesehatan lansia perlu dijaga dengan lebih hati-hati, terutama ketika mereka mengalami gejala batuk atau flu. Semoga tips ini bermanfaat dan membantu menjaga kesehatan orang tua Anda.</p>.`;
 
 async function main() {
+  const password = await hash.hash("12345678", 10);
   // Create sample address
   const address = await db.address.create({
     data: {
@@ -51,7 +53,7 @@ async function main() {
   const doctorUser = await db.users.create({
     data: {
       email: "doctor@example.com",
-      password: "password123",
+      password,
       role: "DOCTOR",
       profile: {
         create: {
@@ -78,7 +80,7 @@ async function main() {
   const patientUser = await db.users.create({
     data: {
       email: "patient@example.com",
-      password: "password123",
+      password,
       role: "PATIENT",
       profile: {
         create: {

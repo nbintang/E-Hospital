@@ -19,3 +19,11 @@ export type ArticleProps = Prisma.ArticleGetPayload<{
     categories: true;
   }
 }>;
+
+
+
+export type ArticleBySlugProps = Prisma.ArticleGetPayload<{
+  include:{
+    categories: true
+  }
+}>

@@ -1,6 +1,7 @@
 import db from "@/lib/db";
+import { CategoryProps } from "@/types/categories";
 
-export const findCategories = async () => (
+export const findCategories = async () : Promise<CategoryProps[]> => (
     await db.category.findMany()
 )
 

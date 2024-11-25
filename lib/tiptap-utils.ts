@@ -1,4 +1,4 @@
-import { MinimalTiptapProps } from "../components/sections/post/create-update-form/editor/toolbar-editor";
+import { MinimalTiptapProps } from "@/components/extensions/minimal-tiptap";
 import type { Editor } from "@tiptap/core";
 type ShortcutKeyResult = {
   symbol: string

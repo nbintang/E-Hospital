@@ -8,15 +8,16 @@ export function useQueryData({
   placeholderData
 }: {
   tags: string;
-  fetcher: (dataInput?: any) => Promise<any>;
+  fetcher: (dataInput?: any) => Promise<void>;
   placeholderData?: any;
 }) {
-  const { data, isError, isPending, isSuccess, ...rest } = useQuery({
+  const { data, isError, isPending, isSuccess, ...partials } = useQuery({
     queryKey: [tags],
     queryFn: fetcher,
     placeholderData,
     
   });
 
-  return { data, isError, isPending, isSuccess, ...rest };
+  return { data, isError, isPending, isSuccess, partials };
 }
+

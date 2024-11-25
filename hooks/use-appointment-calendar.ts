@@ -1,4 +1,3 @@
-import { Hospital } from "./../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/index.d";
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer, View } from "react-big-calendar";
 import moment from "moment";
