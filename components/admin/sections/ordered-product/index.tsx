@@ -6,7 +6,7 @@ import {
   ColumnVisibilityDropdown,
   PaginationComponent,
   TableComponent,
-} from "../../admin/admin-panel/tables";
+} from "../../admin-panel/tables";
 import { OrderProps } from "@/types/order";
 
 export default function OrderedProducts({ data }: { data: OrderProps[] }) {

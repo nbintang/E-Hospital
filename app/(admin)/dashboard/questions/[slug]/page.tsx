@@ -1,11 +1,11 @@
-import QuestionsCard from "@/components/sections/question";
+import QuestionsCard from "@/components/admin/sections/question";
 import React from "react";
-import { AnswerForm } from "@/components/sections/question/answer-form";
+import { AnswerForm } from "@/components/admin/sections/question/answer-form";
 import { findQuestionBySlug } from "@/repositories/questions.repository";
 import { Params } from "@/types/params";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { findAnswerByQuestionId } from "@/repositories/answers.repository";
-import Answer from "@/components/sections/question/anwer";
+import Answer from "@/components/admin/sections/question/anwer";
 
 export default async function Question({ params }: { params: Params }) {
   const { slug } = await params;

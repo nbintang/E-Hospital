@@ -1,4 +1,4 @@
-import Profile from "@/components/sections/account";
+import Profile from "@/components/admin/sections/account";
 
 export default function ProfilePage() {
     return (

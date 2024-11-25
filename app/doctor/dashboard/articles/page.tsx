@@ -1,4 +1,4 @@
-import PostCard from "@/components/sections/post";
+import PostCard from "@/components/admin/sections/post";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 export default function ArticlesPage() {

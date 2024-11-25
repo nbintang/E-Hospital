@@ -1,5 +1,5 @@
-import PostCard from "@/components/sections/post";
-import { SkeletonCard } from "@/components/sections/post/skeleton";
+import PostCard from "@/components/admin/sections/post";
+import { SkeletonCard } from "@/components/admin/sections/post/skeleton";
 import { Button } from "@/components/ui/button";
 import { findArticles } from "@/repositories/articles.repository";
 import Link from "next/link";

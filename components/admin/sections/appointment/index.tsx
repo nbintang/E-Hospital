@@ -1,8 +1,8 @@
 
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import AppointmentCalendar from "@/components/sections/appointment/calendar";
-import AppoinmentActivity from "@/components/sections/appointment/activity";
+import AppointmentCalendar from "@/components/admin/sections/appointment/calendar";
+import AppoinmentActivity from "@/components/admin/sections/appointment/activity";
 import { findAppointmentsByDoctorId } from "@/repositories/appointments.repository";
 import {
   Card,

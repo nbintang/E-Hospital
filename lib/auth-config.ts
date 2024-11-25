@@ -82,7 +82,6 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         const u = await findUserByEmail(user.email as string);
-    
 
         return {
           ...token,
@@ -92,6 +91,6 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-  },
+  }
 };
 export default authOptions;

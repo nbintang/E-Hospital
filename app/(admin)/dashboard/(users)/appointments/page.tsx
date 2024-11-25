@@ -1,4 +1,4 @@
-import Appointment from '@/components/sections/appointment'
+import Appointment from '@/components/admin/sections/appointment'
 import React from 'react'
 
 export default function AppointmentsPage() {

@@ -1,9 +1,9 @@
 import React from "react";
 import { Params } from "@/types/params";
 import { notFound } from "next/navigation";
-import PostDetail from "@/components/sections/post/detail";
+import PostDetail from "@/components/admin/sections/post/detail";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import UpdatePostForm from "@/components/sections/post/create-update-form/update";
+import UpdatePostForm from "@/components/admin/sections/post/create-update-form/update";
 import { findArticlesBySlug } from "@/repositories/articles.repository";
 import { findCategories } from "@/repositories/categories.repository";
 export default async function ArticlesDetail({ params }: { params: Params }) {

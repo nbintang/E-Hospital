@@ -1,4 +1,4 @@
-import CreatePostForm from "@/components/sections/post/create-update-form/create";
+import CreatePostForm from "@/components/admin/sections/post/create-update-form/create";
 import { findCategories } from "@/repositories/categories.repository";
 
 export default async function CreatePostPage() {

@@ -2,7 +2,7 @@
 import { findQuestions } from "@/repositories/questions.repository";
 import { Charts } from "@/components/admin/admin-panel/charts";
 import { findArticles } from "@/repositories/articles.repository";
-import {CardArticlesSection, CardOrderTable, CardQuestionLists, CardUserTable } from "@/components/admin/admin-panel/dashboard-page-components";
+import {CardArticlesSection, CardOrderTable, CardQuestionLists, CardUserTable } from "@/components/admin/sections/main";
 export default async function Dashboard() {
   const questions = await findQuestions();
 

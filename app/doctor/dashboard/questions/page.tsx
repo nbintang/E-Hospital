@@ -1,4 +1,4 @@
-import QuestionsCard from "@/components/sections/question";
+import QuestionsCard from "@/components/admin/sections/question";
 import { findQuestions } from "@/repositories/questions.repository";
 
 import Link from "next/link";
