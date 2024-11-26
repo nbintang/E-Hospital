@@ -48,7 +48,7 @@ export default function SigninForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4 pt-6">
+        <div className="space-y-4 pt-6">
           <FormField
             control={form.control}
             name="email"
@@ -78,6 +78,7 @@ export default function SigninForm() {
           <Button
             className="w-full"
             size="lg"
+            variant={"blue"}
             type="submit"
             disabled={isLoading}
           >
@@ -88,7 +89,7 @@ export default function SigninForm() {
               Lupa Password
             </Button>
           </div>
-        </CardContent>
+        </div>
       </form>
     </Form>
   );

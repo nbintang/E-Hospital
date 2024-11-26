@@ -11,22 +11,22 @@ const articles = [
   {
     title: "Tips Menjaga Kesehatan di Musim Pancaroba",
     content: "Pelajari cara menjaga kesehatan tubuh saat pergantian musim untuk mencegah berbagai penyakit.",
-    image: "/placeholder.svg",
+    image: "/img/coughing.jpg",
   },
   {
     title: "Manfaat Olahraga Rutin bagi Kesehatan Mental",
     content: "Temukan bagaimana olahraga teratur dapat meningkatkan kesehatan mental dan kesejahteraan Anda.",
-    image: "/placeholder.svg",
+    image: "/img/coughing.jpg",
   },
   {
     title: "Pentingnya Pola Makan Seimbang",
     content: "Pahami mengapa pola makan seimbang penting untuk kesehatan jangka panjang dan bagaimana menerapkannya.",
-    image: "/placeholder.svg",
+    image: "/img/coughing.jpg",
   },
   {
     title: "Teknik Relaksasi untuk Mengurangi Stres",
     content: "Pelajari berbagai teknik relaksasi efektif untuk mengelola stres dan meningkatkan kualitas hidup Anda.",
-    image: "/placeholder.svg",
+    image: "/img/surgery.jpg",
   },
 ]
 
@@ -52,9 +52,9 @@ export default function ArticleCarousel() {
     >
       <CarouselContent className="-ml-4">
         {articles.map((article, index) => (
-          <CarouselItem key={index} className="pl-4  md:basis-1/2 lg:basis-1/3">
+          <CarouselItem key={index} className="pl-4 sm:basis-1/2 lg:basis-1/3">
             <Card>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
+              <div className="relative aspect-video overflow-hidden rounded-t-lg">
                 <Image
                   src={article.image}
                   alt={`${article.title} thumbnail`}

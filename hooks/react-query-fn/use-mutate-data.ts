@@ -8,7 +8,7 @@ export function useMutateData({
   toastId,
   fetcher,
   tags,
-  redirectUrl
+  redirectUrl,
 }: {
   toastSuccess?: string;
   toastLoading?: string;

@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import ArticleCarousel from "./article-carousel";
 
 export function ArticleSection() {
@@ -9,18 +15,18 @@ export function ArticleSection() {
       <h2 className="text-2xl font-bold tracking-tight mb-8">
         Artikel Kesehatan
       </h2>
-      <div className="grid gap-6 justify-items-center">
-        <Card className="overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-6 p-6">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+      <div className="grid  gap-6 justify-items-center">
+        <Card className="overflow-hidden ">
+          <div className="grid md:grid-cols-2 gap-6 ">
+            <div className="relative aspect-video md:aspect-square lg:aspect-video h-full overflow-hidden ">
               <Image
-                src="/placeholder.svg"
+                src="/img/coughing.jpg"
                 alt="Coffee cup on wooden table"
                 fill
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col justify-center space-y-4">
+            <div className="flex flex-col justify-center p-6 space-y-4">
               <CardHeader className="p-0">
                 <CardTitle className="text-2xl">
                   Khasiat Kopi untuk Diet, Ini Faktanya!
@@ -30,7 +36,10 @@ export function ArticleSection() {
                 <p className="text-gray-500">
                   Pemanfaatan kopi untuk diet dilakukan karena kandungan kafein
                   yang terdapat pada kopi diyakini dapat meningkatkan laju
-                  metabolisme dan pembakaran lemak.
+                  metabolisme dan pembakaran lemak. Lorem ipsum dolor sit amet,
+                  consectetur adipisicing elit. Quia ea, dolorem ducimus
+                  provident dicta ad atque dignissimos asperiores. Facilis odit
+                  tempora animi assumenda!
                 </p>
                 <Link
                   href="#"
@@ -56,9 +65,9 @@ export function ArticleSection() {
             </div>
           </div>
         </Card>
-        {/* <div className="w-full">
+        <div className="max-w-xs sm:max-w-[600px] lg:max-w-none">
           <ArticleCarousel />
-        </div> */}
+        </div>
       </div>
     </section>
   );

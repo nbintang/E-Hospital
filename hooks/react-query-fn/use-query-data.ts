@@ -1,11 +1,9 @@
-import {
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export function useQueryData({
   tags,
   fetcher,
-  placeholderData
+  placeholderData,
 }: {
   tags: string;
   fetcher: (dataInput?: any) => Promise<void>;
@@ -15,9 +13,7 @@ export function useQueryData({
     queryKey: [tags],
     queryFn: fetcher,
     placeholderData,
-    
   });
 
   return { data, isError, isPending, isSuccess, partials };
 }
-

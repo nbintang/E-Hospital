@@ -43,17 +43,16 @@ export default function useAppointmentCalendar({
       longitude: appointment.doctor.hospital.address.longitude,
     };
     const patientImg = appointment.user.profile?.profileUrl;
-    const startDate = new Date(appointment.dateTime); // Convert to Date object
+    const startDate = new Date(appointment.dateTime); 
     const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 1); // Adjust for 1-day duration
-  
+    endDate.setDate(startDate.getDate() + 1); 
     return {
       id: appointment.id,
       patient,
       patientImg,
       title: `Appointment (${capitalizeStr(appointment.status)})`,
-      start: startDate, // Pass Date object here
-      end: endDate, // Pass Date object here
+      start: startDate, 
+      end: endDate, 
       status: appointment.status,
       locations: {
         hospital,

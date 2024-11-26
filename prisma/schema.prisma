@@ -159,8 +159,8 @@ model Medicine {
 model Address {
   id        String     @id @default(uuid())
   slug      String     @unique
-  latitude  Float // Latitude for geolocation
-  longitude Float // Longitude for geolocation
+  latitude  Float 
+  longitude Float 
   name      String     @db.VarChar(255)
   profiles  Profile[]  @relation("UserProfileAddress")
   hospitals Hospital[] @relation("HospitalAddress")

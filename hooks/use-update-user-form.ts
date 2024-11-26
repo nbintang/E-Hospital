@@ -15,9 +15,9 @@ export default function useUpdateUserForm({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
       fullname: profile.fullname,
-      height: profile.height ? parseInt(profile.height) : undefined, // Handle null correctly
+      height: profile.height ? parseInt(profile.height) : undefined, 
       gender: profile.gender,
-      phoneNumber: profile.phoneNumber || "", // Handle null correctly
+      phoneNumber: profile.phoneNumber || "", 
       weight: profile.weight ? parseInt(profile.weight) : undefined, // Handle null correctly
       email: profile.user.email || "",
     },

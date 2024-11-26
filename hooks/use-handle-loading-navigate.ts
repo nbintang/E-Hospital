@@ -6,7 +6,7 @@ import { toast } from "sonner";
 export function useHandleLoadingNavigate({ pathname }: { pathname: string }) {
   const router = useRouter();
   const handleNavigate = (href: string) => {
-    if (pathname === href) return; // Prevent navigation and toast for the same route
+    if (pathname === href) return;
     const currentRoute = `${href
       .split("/")
       .pop()
@@ -20,9 +20,8 @@ export function useHandleLoadingNavigate({ pathname }: { pathname: string }) {
     router.push(href);
   };
 
-  // Listen for changes in the `pathname` to update or dismiss the toast
   useEffect(() => {
-    toast.dismiss("redirect"); // Dismiss the toast after the navigation is complete
+    toast.dismiss("redirect"); 
   }, [pathname]);
   return handleNavigate;
 }
