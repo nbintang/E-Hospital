@@ -81,6 +81,7 @@
     "react-dropzone": "^14.3.5",
     "react-hook-form": "^7.53.1",
     "react-hot-toast": "^2.4.1",
+    "react-image-crop": "^11.0.7",
     "react-leaflet": "5.0.0-rc.1",
     "react-medium-image-zoom": "^5.2.10",
     "recharts": "^2.13.3",
