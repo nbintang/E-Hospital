@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import Company from "@/components/icons/company";
 import { cn } from "@/lib/utils";
-import { useOpenDialog } from "@/hooks/use-open-dialog";
+import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = React.useState(false);

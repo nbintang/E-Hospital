@@ -4,6 +4,7 @@ export async function findUsers() {
   const users = await db.users.findMany({
     where: {
       role: "PATIENT",
+      termAccepted: true,
     },
     select: {
       id: true,

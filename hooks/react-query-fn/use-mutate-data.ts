@@ -39,7 +39,7 @@ export function useMutateData({
       router.push(`${redirectUrl}`);
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed post", {
+      toast.error(error.message || "Failed", {
         id: toastId,
         position: "bottom-right",
         description: "Please try again later",

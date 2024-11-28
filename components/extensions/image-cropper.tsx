@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog"
 
 import "react-image-crop/dist/ReactCrop.css"
-import { FileWithPreview } from "@/app/(auth)/signup/page"
+import { FileWithPreview } from "@/schemas/signup-schema"
 import { CropIcon, Trash2Icon } from "lucide-react"
 
 interface ImageCropperProps {
@@ -29,6 +29,7 @@ interface ImageCropperProps {
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
   selectedFile: FileWithPreview | null
   setSelectedFile: React.Dispatch<React.SetStateAction<FileWithPreview | null>>
+  setCroppedImage: React.Dispatch<React.SetStateAction<string>>; // Add this line
 }
 
 export function ImageCropper({
@@ -36,6 +37,7 @@ export function ImageCropper({
   setDialogOpen,
   selectedFile,
   setSelectedFile,
+  setCroppedImage
 }: ImageCropperProps) {
   const aspect = 1
 
@@ -43,7 +45,7 @@ export function ImageCropper({
 
   const [crop, setCrop] = React.useState<Crop>()
   const [croppedImageUrl, setCroppedImageUrl] = React.useState<string>("")
-  const [croppedImage, setCroppedImage] = React.useState<string>("")
+
 
   function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
     if (aspect) {
@@ -102,16 +104,14 @@ export function ImageCropper({
       <DialogTrigger>
         <Avatar className="size-36 cursor-pointer ring-offset-2 ring-2 ring-slate-200">
           <AvatarImage
-            src={croppedImage ? croppedImage : selectedFile?.preview}
+                src={croppedImageUrl || selectedFile?.preview} 
             alt="@shadcn"
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DialogTrigger>
       <DialogContent className="p-0 gap-0">
-        <DialogTitle>
-        <p>Crop Image</p>
-        </DialogTitle>
+        <DialogTitle className="hidden"></DialogTitle>
         <div className="p-6 size-full">
           <ReactCrop
             crop={crop}

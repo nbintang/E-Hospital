@@ -17,12 +17,12 @@ export async function replaceBase64ToImgUrl(content: string) {
 
     if (base64Src.startsWith("data:image/")) {
       try {
-        const { url } = await uploadToCloudinary(
-          base64Src,
-          true,
-          roundedWidth,
-          roundedHeight
-        );
+        const { url } = await uploadToCloudinary({
+          file: base64Src,
+          isBase64: true,
+          width: roundedWidth,
+          height: roundedHeight,
+        });
 
         const cloudinarySrc =
           `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/w_${roundedWidth},h_${roundedHeight}/` +

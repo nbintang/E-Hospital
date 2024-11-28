@@ -8,8 +8,8 @@ import { CaretDownIcon } from '@radix-ui/react-icons'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { ToolbarButton } from './toolbar-button'
 import { ShortcutKey } from './shortcut-key'
-import { getShortcutKey } from '../utils'
 
+import { getShortcutKey } from '@/lib/file-utils'
 interface ToolbarSectionProps extends VariantProps<typeof toggleVariants> {
   editor: Editor
   actions: FormatAction[]

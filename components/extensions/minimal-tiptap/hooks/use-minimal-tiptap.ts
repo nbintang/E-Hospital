@@ -19,7 +19,7 @@ import {
   FileHandler
 } from '../extensions'
 import { cn } from '@/lib/utils'
-import { fileToBase64, getOutput, randomId } from '../utils'
+import { fileToBase64, getOutput, randomId } from '@/lib/file-utils'
 import { useThrottle } from './use-throttle'
 import { toast } from 'sonner'
 

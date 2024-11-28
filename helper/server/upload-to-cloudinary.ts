@@ -2,12 +2,19 @@ import { cloudinary } from "@/lib/cld";
 
 const MAX_DIMENSION = 65500;
 
-export async function uploadToCloudinary(
-  file: File | string,
+export async function uploadToCloudinary({
+  folder,
+  file,
   isBase64 = false,
-  width?: number,
-  height?: number
-): Promise<{ url: string; width: number; height: number }> {
+  width,
+  height,
+}: {
+  folder?: string;
+  file: File | string;
+  isBase64?: boolean;
+  width?: number;
+  height?: number;
+}): Promise<{ url: string; width: number; height: number }> {
   return new Promise((resolve, reject) => {
     if (width && height) {
       if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
@@ -18,7 +25,7 @@ export async function uploadToCloudinary(
     }
 
     let uploadOptions: Record<string, any> = {
-      folder: "articles",
+      folder,
       upload_preset: "ml_default",
     };
     if (width && height) {

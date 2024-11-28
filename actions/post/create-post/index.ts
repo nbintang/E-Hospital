@@ -18,7 +18,10 @@ export async function createPost(formData: FormData) {
 
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
-    const mainImg = await uploadToCloudinary(mainImage);
+    const mainImg = await uploadToCloudinary({
+      file: mainImage,
+      folder: "articles",
+    });
     const updatedContent = await replaceBase64ToImgUrl(content);
 
     const article = await createArticles({
@@ -36,9 +39,6 @@ export async function createPost(formData: FormData) {
     revalidatePath("/dashboard/articles");
     return { success: true, data: article };
   } catch (error) {
-    // Propagate the error so React Query or client-side handlers can catch it
-    throw error instanceof Error
-      ? error
-      : new Error("Failed to create post");
+    throw error instanceof Error ? error : new Error("Failed to create post");
   }
 }

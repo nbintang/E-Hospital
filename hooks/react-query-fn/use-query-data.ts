@@ -6,7 +6,7 @@ export function useQueryData({
   placeholderData,
 }: {
   tags: string;
-  fetcher: (dataInput?: any) => Promise<void>;
+  fetcher: (dataInput?: any) => Promise<any>;
   placeholderData?: any;
 }) {
   const { data, isError, isPending, isSuccess, ...partials } = useQuery({

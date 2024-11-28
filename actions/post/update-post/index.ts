@@ -18,7 +18,7 @@ export async function updatePost(formData: FormData) {
 
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
-    const mainImg = await uploadToCloudinary(mainImage);
+    const mainImg = await uploadToCloudinary({ file: mainImage, folder: "articles" });
     const updatedContent = await replaceBase64ToImgUrl(content);
 
     const article = await updateArticles({

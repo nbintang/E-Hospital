@@ -8,6 +8,174 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Users {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  role         Role          @default(PATIENT)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  termAccepted Boolean       @default(false)
+  appointments Appointment[]
+  doctor       Doctor?
+  orders       Order[]
+  profile      Profile?
+  questions    Question[]
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  fullname    String
+  addressId   String?
+  gender      Gender?
+  height      String?
+  phoneNumber String?
+  weight      String?
+  userId      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bioPdfUrl   String?
+  profileUrl  String?
+  address     Address? @relation("UserProfileAddress", fields: [addressId], references: [id])
+  user        Users    @relation(fields: [userId], references: [id])
+}
+
+model Doctor {
+  id               String         @id @default(uuid())
+  userId           String         @unique
+  hospitalId       String
+  specializationId String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  questions        Answer[]
+  appointments     Appointment[]
+  articles         Article[]
+  hospital         Hospital       @relation(fields: [hospitalId], references: [id])
+  specialization   Specialization @relation(fields: [specializationId], references: [id])
+  user             Users          @relation(fields: [userId], references: [id])
+}
+
+model Specialization {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  doctors   Doctor[]
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  textContent String
+  doctorId    String
+  questionId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  question    Question @relation(fields: [questionId], references: [id])
+}
+
+model Question {
+  id          String         @id @default(uuid())
+  slug        String         @unique
+  title       String
+  userId      String
+  status      QuestionStatus @default(PENDING)
+  textContent String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  answers     Answer[]
+  user        Users          @relation(fields: [userId], references: [id])
+  categories  Category[]     @relation("QuestionCategories")
+}
+
+model Article {
+  id         String        @id @default(uuid())
+  slug       String        @unique
+  title      String
+  imageUrl   String
+  content    String
+  status     ArticleStatus
+  doctorId   String
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  doctor     Doctor        @relation(fields: [doctorId], references: [id])
+  categories Category[]    @relation("ArticleCategories")
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  slug      String     @unique
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  articles  Article[]  @relation("ArticleCategories")
+  medicine  Medicine[] @relation("MedicineCategories")
+  questions Question[] @relation("QuestionCategories")
+}
+
+model Medicine {
+  id          String     @id @default(uuid())
+  name        String
+  price       Float
+  description String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  orders      Order[]
+  categories  Category[] @relation("MedicineCategories")
+}
+
+model Address {
+  id        String     @id @default(uuid())
+  slug      String     @unique
+  name      String     @db.VarChar(255)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  latitude  Float
+  longitude Float
+  hospitals Hospital[] @relation("HospitalAddress")
+  profiles  Profile[]  @relation("UserProfileAddress")
+}
+
+model Hospital {
+  id          String        @id @default(uuid())
+  slug        String        @unique
+  name        String
+  addressId   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Appointment Appointment[]
+  doctors     Doctor[]
+  address     Address       @relation("HospitalAddress", fields: [addressId], references: [id])
+}
+
+model Appointment {
+  id         String            @id @default(uuid())
+  userId     String
+  doctorId   String
+  hospitalId String
+  dateTime   DateTime
+  status     AppointmentStatus @default(PENDING)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  doctor     Doctor            @relation(fields: [doctorId], references: [id])
+  hospital   Hospital          @relation(fields: [hospitalId], references: [id])
+  user       Users             @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String
+  medicineId String
+  quantity   Int
+  totalPrice Float
+  status     OrderStatus @default(PROCESSING)
+  stock      Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  medicine   Medicine    @relation(fields: [medicineId], references: [id])
+  user       Users       @relation(fields: [userId], references: [id])
+}
+
 enum Role {
   DOCTOR
   PATIENT
@@ -39,171 +207,4 @@ enum OrderStatus {
 enum ArticleStatus {
   DRAFT
   PUBLISHED
-}
-
-model Users {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  password     String
-  role         Role          @default(PATIENT)
-  profile      Profile?
-  doctor       Doctor?
-  questions    Question[]
-  appointments Appointment[]
-  orders       Order[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-}
-
-model Profile {
-  id          String   @id @default(uuid())
-  fullname    String
-  addressId   String?
-  profileUrl  String?
-  bioPdfUrl   String?
-  gender      Gender?
-  height      String?
-  phoneNumber String?
-  weight      String?
-  userId      String   @unique
-  user        Users    @relation(fields: [userId], references: [id])
-  address     Address? @relation("UserProfileAddress", fields: [addressId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Doctor {
-  id               String         @id @default(uuid())
-  userId           String         @unique
-  hospitalId       String
-  specializationId String
-  specialization   Specialization @relation(fields: [specializationId], references: [id])
-  user             Users          @relation(fields: [userId], references: [id])
-  hospital         Hospital       @relation(fields: [hospitalId], references: [id])
-  questions        Answer[]
-  articles         Article[]
-  appointments     Appointment[]
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-}
-
-model Specialization {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  doctors   Doctor[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Answer {
-  id          String   @id @default(uuid())
-  textContent String   @db.Text
-  doctorId    String
-  question    Question @relation(fields: [questionId], references: [id])
-  questionId  String
-  doctor      Doctor   @relation(fields: [doctorId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Question {
-  id          String         @id @default(uuid())
-  slug        String         @unique
-  title       String
-  userId      String
-  status      QuestionStatus @default(PENDING)
-  textContent String         @db.Text
-  user        Users          @relation(fields: [userId], references: [id])
-  categories  Category[]     @relation("QuestionCategories") // New relation
-  answers     Answer[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-}
-
-model Article {
-  id         String        @id @default(uuid())
-  slug       String        @unique
-  title      String
-  imageUrl   String
-  content    String        @db.Text
-  status     ArticleStatus
-  doctorId   String
-  doctor     Doctor        @relation(fields: [doctorId], references: [id])
-  categories Category[]    @relation("ArticleCategories")
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-}
-
-model Category {
-  id        String     @id @default(uuid())
-  slug      String     @unique
-  name      String
-  questions Question[] @relation("QuestionCategories")
-  articles  Article[]  @relation("ArticleCategories")
-  medicine  Medicine[] @relation("MedicineCategories")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now())
-}
-
-model Medicine {
-  id          String     @id @default(uuid())
-  name        String
-  price       Float
-  description String
-  categories  Category[] @relation("MedicineCategories") // New relation
-  orders      Order[] // Existing relation
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
-
-model Address {
-  id        String     @id @default(uuid())
-  slug      String     @unique
-  latitude  Float 
-  longitude Float 
-  name      String     @db.VarChar(255)
-  profiles  Profile[]  @relation("UserProfileAddress")
-  hospitals Hospital[] @relation("HospitalAddress")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-}
-
-model Hospital {
-  id          String        @id @default(uuid())
-  slug        String        @unique
-  name        String
-  addressId   String
-  doctors     Doctor[]
-  address     Address       @relation("HospitalAddress", fields: [addressId], references: [id])
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  Appointment Appointment[]
-}
-
-model Appointment {
-  id         String            @id @default(uuid())
-  userId     String
-  doctorId   String
-  hospitalId String
-  dateTime   DateTime
-  status     AppointmentStatus @default(PENDING)
-  user       Users             @relation(fields: [userId], references: [id])
-  doctor     Doctor            @relation(fields: [doctorId], references: [id])
-  hospital   Hospital          @relation(fields: [hospitalId], references: [id])
-  createdAt  DateTime          @default(now())
-  updatedAt  DateTime          @updatedAt
-}
-
-model Order {
-  id         String      @id @default(uuid())
-  userId     String
-  medicineId String
-  quantity   Int
-  totalPrice Float
-  status     OrderStatus @default(PROCESSING)
-  stock      Int
-  user       Users       @relation(fields: [userId], references: [id])
-  medicine   Medicine    @relation(fields: [medicineId], references: [id])
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
 }

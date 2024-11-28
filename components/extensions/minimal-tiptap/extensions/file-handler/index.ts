@@ -1,7 +1,7 @@
 import { type Editor, Extension } from '@tiptap/react'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import type { FileError, FileValidationOptions } from '../../utils'
-import { filterFiles } from '../../utils'
+import type { FileError, FileValidationOptions } from '@/lib/file-utils'
+import { filterFiles } from '@/lib/file-utils'
 
 type FileHandlePluginOptions = {
   key?: PluginKey
