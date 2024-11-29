@@ -2,15 +2,27 @@ import QuestionsCard from "@/components/admin/sections/question";
 import React from "react";
 import { AnswerForm } from "@/components/admin/sections/question/answer-form";
 import { findQuestionBySlug } from "@/repositories/questions.repository";
-type Params = Promise<{ slug: string }>
-export default async  function Question({ params }: { params: Params }) {
-  const question = await findQuestionBySlug((await params).slug)
+import { Params } from "@/types/params";
+import { findAnswerByQuestionId } from "@/repositories/answers.repository";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Answer from "@/components/admin/sections/question/anwer";
+export default async function Question({ params }: { params: Params }) {
+  const { slug } = await params;
+  if (!slug) return null;
+  const question = await findQuestionBySlug(slug);
+  if (!question) return null;
+  const answer = await findAnswerByQuestionId({ questionId: question.id });
 
   return (
     <div>
-      {" "}
       {question && <QuestionsCard question={question} />}
-      <AnswerForm />
+      {question.status === "PENDING" ? (
+        <TooltipProvider>
+          <AnswerForm id={question.id} />
+        </TooltipProvider>
+      ) : (
+        <Answer answer={answer} />
+      )}
     </div>
   );
 }

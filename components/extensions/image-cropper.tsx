@@ -134,7 +134,7 @@ export function ImageCropper({
             </Avatar>
           </ReactCrop>
         </div>
-        <DialogFooter className="p-6 pt-0 justify-center ">
+        <DialogFooter className="p-6 pt-0 justify-center gap-3 flex">
           <DialogClose asChild>
             <Button
               size={"sm"}

@@ -26,7 +26,7 @@ export function SigninDialaog() {
         <DialogHeader>
           <DialogTitle>
             <div className="flex justify-center pt-8">
-              <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
                 <Company className="h-8 w-8" />
                 <div>
                   <h3 className="font-semibold text-fusion-red">Rumah Sakit</h3>
@@ -36,7 +36,7 @@ export function SigninDialaog() {
             </div>
           </DialogTitle>
           <div className="text-center space-y-1.5">
-            <div className="font-semibold text-lg text-clean-pool">
+            <div className="font-semibold text-lg text-blue-600">
               Masuk ke Akun Anda
             </div>
             <div className="text-sm text-muted-foreground text-soft-clean-pool">

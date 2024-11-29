@@ -60,25 +60,24 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 
     const parseMinItems = minItems ?? 0;
     const parseMaxItems = maxItems ?? Infinity;
-
     const onValueChangeHandler = React.useCallback(
       (val: string) => {
         if (!value.includes(val) && value.length < parseMaxItems) {
           onValueChange([...value, val]);
         }
       },
-      [value],
+      [value, onValueChange, parseMaxItems], // Added onValueChange and parseMaxItems
     );
-
+    
     const RemoveValue = React.useCallback(
       (val: string) => {
         if (value.includes(val) && value.length > parseMinItems) {
           onValueChange(value.filter((item) => item !== val));
         }
       },
-      [value],
+      [value, onValueChange, parseMinItems], // Added onValueChange and parseMinItems
     );
-
+    
     const handlePaste = React.useCallback(
       (e: React.ClipboardEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -97,7 +96,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
         onValueChange(newValue);
         setInputValue("");
       },
-      [value],
+      [value, onValueChange, parseMaxItems], // Added onValueChange and parseMaxItems
     );
 
     const handleSelect = React.useCallback(
@@ -130,32 +129,32 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
         }
       };
       VerifyDisable();
-    }, [value]);
+    }, [value, parseMinItems, parseMaxItems]);
 
     // ? check: Under build , default option support
     // * support : for the uncontrolled && controlled ui
 
-    /*  React.useEffect(() => {
-      if (!defaultOptions) return;
-      onValueChange([...value, ...defaultOptions]);
-    }, []); */
+    //  React.useEffect(() => {
+    //   if (!defaultOptions) return;
+    //   onValueChange([...value, ...defaultOptions]);
+    // }, []); 
 
     const handleKeyDown = React.useCallback(
       async (e: React.KeyboardEvent<HTMLInputElement>) => {
         e.stopPropagation();
-
+    
         const moveNext = () => {
           const nextIndex =
             activeIndex + 1 > value.length - 1 ? -1 : activeIndex + 1;
           setActiveIndex(nextIndex);
         };
-
+    
         const movePrev = () => {
           const prevIndex =
             activeIndex - 1 < 0 ? value.length - 1 : activeIndex - 1;
           setActiveIndex(prevIndex);
         };
-
+    
         const moveCurrent = () => {
           const newIndex =
             activeIndex - 1 <= 0
@@ -166,9 +165,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
           setActiveIndex(newIndex);
         };
         const target = e.currentTarget;
-
-        // ? Suggest : the multi select should support the same pattern
-
+    
         switch (e.key) {
           case "ArrowLeft":
             if (dir === "rtl") {
@@ -181,7 +178,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
               }
             }
             break;
-
+    
           case "ArrowRight":
             if (dir === "rtl") {
               if (value.length > 0 && target.selectionStart === 0) {
@@ -193,7 +190,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
               }
             }
             break;
-
+    
           case "Backspace":
           case "Delete":
             if (value.length > 0) {
@@ -209,12 +206,12 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
               }
             }
             break;
-
+    
           case "Escape":
             const newIndex = activeIndex === -1 ? value.length - 1 : -1;
             setActiveIndex(newIndex);
             break;
-
+    
           case "Enter":
             if (inputValue.trim() !== "") {
               e.preventDefault();
@@ -224,8 +221,9 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
             break;
         }
       },
-      [activeIndex, value, inputValue, RemoveValue],
+      [activeIndex, value, inputValue, RemoveValue, dir, isValueSelected, onValueChangeHandler, selectedValue] 
     );
+    
 
     const mousePreventDefault = React.useCallback((e: React.MouseEvent) => {
       e.preventDefault();

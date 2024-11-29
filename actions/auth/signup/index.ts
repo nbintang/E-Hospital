@@ -4,7 +4,7 @@ import { uploadToCloudinary } from "@/helper/server";
 import db from "@/lib/db";
 import { findUserByEmail } from "@/repositories/users.repository";
 import { Gender, Prisma } from "@prisma/client";
-import { redirect } from "next/navigation";
+import { hashPassword } from '../../../helper/server/hash-password';
 
 type NewUserProps = Prisma.UsersCreateInput & {
   profileUrl: string;
@@ -26,24 +26,28 @@ export default async function CreateRegistrationUser({
   latitude,
   name: addressName,
 }: NewUserProps) {
-  const { url } = await uploadToCloudinary({
-    file: profileUrl,
-    folder: "user-profle",
-    isBase64: true,
-  });
+  const profileImg = profileUrl
+    ? await uploadToCloudinary({
+        file: profileUrl,
+        folder: "user-profle",
+        isBase64: true,
+      })
+    : null;
 
   const existingUser = await findUserByEmail(email);
-  if (existingUser) throw new Error("User");
+  if (existingUser) throw new Error("User already exists");
+
+  const hashedPassword = await hashPassword(password);
 
   const newUser = await db.users.create({
     data: {
       email,
-      password,
+      password: hashedPassword,
       termAccepted,
       profile: {
         create: {
           fullname,
-          profileUrl: url,
+          profileUrl: profileImg ? profileImg.url : null,
           gender,
           address: {
             create: {
@@ -57,6 +61,5 @@ export default async function CreateRegistrationUser({
       },
     },
   });
-return newUser  
-
+  return newUser;
 }

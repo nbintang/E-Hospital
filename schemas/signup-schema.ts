@@ -3,7 +3,7 @@ import * as z from "zod";
 export const SignUpSchema = z.object({
   profileUrl: z.preprocess(
     (v) => (v === "" || v === undefined ? null : v),
-    z.instanceof(File).or(z.string().nullable())
+    z.instanceof(File).or(z.string().nullable()).optional()
   ),
   email: z.string().email({
     message: "Please enter a valid email address",

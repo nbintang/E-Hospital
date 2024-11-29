@@ -19,7 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import MapInput from "@/components/extensions/map-input";
 import { ImageCropper } from "@/components/extensions/image-cropper";
 import useSignUp from "@/hooks/auth/use-signup";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,7 +33,13 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { LoaderCircleIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { cn } from "../../../lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
 
 export default function SignUpForm() {
   const {
@@ -48,36 +53,59 @@ export default function SignUpForm() {
     getRootProps,
     getInputProps,
     location,
+    isAddressLoading,
     setCroppedImage,
     handleLocationChange,
   } = useSignUp();
 
   const [open, setOpen] = useState(false);
-
+  const MapInput = useMemo(
+    () =>
+      dynamic(() => import("@/components/extensions/map-input"), {
+        ssr: false,
+      }),
+    []
+  );
+const handleOpenDialogButton = async () => {
+  const triggerValidate = await form.trigger();
+  if (triggerValidate) {
+    setOpen(true);
+  } else {
+    toast.error("Please fill in all the required fields.");
+  }
+}
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className=" grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className=" grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="space-y-8 col-span-1">
-            <div className="flex justify-center md:justify-start">
-              {selectedFile ? (
-                <ImageCropper
-                  dialogOpen={isDialogCropOpen}
-                  setDialogOpen={setIsDialogCropOpen}
-                  selectedFile={selectedFile}
-                  setCroppedImage={setCroppedImage}
-                  setSelectedFile={setSelectedFile}
-                />
-              ) : (
-                <Avatar
-                  {...getRootProps()}
-                  className="size-24 md:size-36 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
-                >
-                  <input {...getInputProps()} />
-                  <AvatarImage src={"/img/no-image.jpg"} alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              )}
+            <div>
+              <div className="mb-3">
+              <Label className="">Profile Picture (Optional)</Label>
+              </div>
+              <div className="flex justify-center md:justify-start">
+                {selectedFile ? (
+                  <ImageCropper
+                    dialogOpen={isDialogCropOpen}
+                    setDialogOpen={setIsDialogCropOpen}
+                    selectedFile={selectedFile}
+                    setCroppedImage={setCroppedImage}
+                    setSelectedFile={setSelectedFile}
+                  />
+                ) : (
+                  <Avatar
+                    {...getRootProps()}
+                    className="size-24 md:size-36 cursor-pointer ring-offset-2 ring-2 ring-slate-200"
+                  >
+                    <input {...getInputProps()} />
+                    <AvatarImage src={"/img/no-image.jpg"} alt="@shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                )}
+              </div>
+              <p className="text-muted-foreground text-sm mt-3">
+                Upload your profile picture for a personalized experience{" "}
+              </p>
             </div>
 
             <FormField
@@ -150,7 +178,13 @@ export default function SignUpForm() {
           </div>
           <div className="space-y-8 col-span-1">
             <div>
-              <h1 className="my-4">Choose your Location</h1>
+              <div className="my-2">
+                <Label className="text-primary">Choose your Location</Label>
+                <p className="text-muted-foreground text-sm">
+                  Select your current location, Lorem ipsum dolor sit amet
+                  consectetur, adipisicing elit. Quod, repellat nesciunt?
+                </p>
+              </div>
               <div className="h-96 w-full rounded-lg overflow-hidden ">
                 <MapInput
                   location={location}
@@ -158,9 +192,18 @@ export default function SignUpForm() {
                 />
               </div>
               {/* Display the selected address here */}
-              <div className="mt-4">
-                <h2 className="text-lg font-semibold">Selected Address:</h2>
-                <p>{addressName || "No address selected"}</p>
+              <div className="mt-4 ">
+                <h2 className="text-base  font-medium">Selected Address:</h2>
+                <div className={cn("text-muted-foreground text-sm max-w-[300px] md:max-w-[400px] ")}>
+                  {!isAddressLoading ? (
+                    addressName || "No address selected"
+                  ) : (
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 " />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -189,12 +232,20 @@ export default function SignUpForm() {
         </div>
         <div className="flex justify-end">
           <Button
-            className="mt-4"
+            className="mt-4 px-9 flex items-center gap-x-3"
             type="button"
-            onClick={() => setOpen(true)} // Open the dialog
+            variant={"blue"}
+            onClick={handleOpenDialogButton}
             disabled={form.formState.isSubmitting}
           >
-            Register
+            {form.formState.isSubmitting ? (
+              <>
+                <LoaderCircleIcon className="size-4" />
+                <p>Submitting</p>
+              </>
+            ) : (
+              <p>Submit</p>
+            )}
           </Button>
         </div>
       </form>
@@ -203,8 +254,7 @@ export default function SignUpForm() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, eum sit.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

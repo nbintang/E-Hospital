@@ -29,9 +29,11 @@ const authOptions: NextAuthOptions = {
         try {
           const user = await findUserByEmail(credentials.email);
 
-          if (!user) {
-            throw new Error("User not found");
-          }
+          if (!user) throw new Error("User not found");
+
+          if (user.termAccepted === false)
+            throw new Error("Please accept terms and conditions");
+
           const password = credentials.password;
           const hashedPassword = user.password;
 
@@ -40,9 +42,8 @@ const authOptions: NextAuthOptions = {
             hashedPassword,
           });
 
-          if (!isPasswordValid) {
-            throw new Error("Invalid email or password");
-          }
+          if (!isPasswordValid) throw new Error("Invalid email or password");
+
           const userProfile = await findProfileByUserId({ userId: user.id });
           return {
             id: user.id as string,
@@ -63,9 +64,7 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, account }) {
-      if (account?.provider === "credentials") {
-        return true;
-      }
+      if (account?.provider === "credentials") return true;
       return false; // Reject if not handled
     },
     async session({ session, token }) {
@@ -91,6 +90,6 @@ const authOptions: NextAuthOptions = {
       }
       return token;
     },
-  }
+  },
 };
 export default authOptions;

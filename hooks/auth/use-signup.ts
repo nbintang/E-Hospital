@@ -18,7 +18,6 @@ export default function useSignUp() {
   const [addressName, setAddressName] = useState<string>("");
   const [croppedImage, setCroppedImage] = useState<string>("");
   const router = useRouter();
-  const [isLoadingMaps, setIsLoadingMaps] = useState(false);
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -50,16 +49,20 @@ export default function useSignUp() {
   const res = useQuery({
     queryKey: ["location", location], // Add location to the query key
     queryFn: async () => {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.lat}&lon=${location.lng}`
-      );
-      if (!response.ok) throw new Error("Failed to fetch address");
-      const data = await response.json();
-      return {
-        address: data.display_name,
-        lng: parseFloat(data.lon),
-        lat: parseFloat(data.lat),
-      };
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.lat}&lon=${location.lng}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch address");
+        const data = await response.json();
+        return {
+          address: data.display_name,
+          lng: parseFloat(data.lon),
+          lat: parseFloat(data.lat),
+        };
+      } catch (error) {
+        console.log(error);
+      }
     },
     enabled: !!location.lat && !!location.lng,
   });
@@ -86,9 +89,9 @@ export default function useSignUp() {
           profileUrl: croppedImage,
         }),
         {
-          loading: "Creating user...",
-          success: "User created successfully",
-          error: "Failed to create user",
+          loading: "Signing up...",
+          success: "Signup successfully",
+          error: "Failed to Signup, please try again later",
         }
       );
       router.push("/");
@@ -106,6 +109,7 @@ export default function useSignUp() {
   };
 
   return {
+    isAddressLoading: res.isLoading || res.isFetching || res.isPending,
     addressName,
     setCroppedImage,
     form,

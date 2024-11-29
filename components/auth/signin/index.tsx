@@ -16,6 +16,7 @@ import { SigninFormValues, signinSchema } from "@/schemas/signin-schema";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import handleSignIn from "@/actions/auth/signin";
 
 export default function SigninForm() {
   const form = useForm<SigninFormValues>({
@@ -25,24 +26,14 @@ export default function SigninForm() {
       password: "",
     },
   });
-  const router = useRouter();
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: SigninFormValues) {
-    const result = await signIn("credentials", { ...values, redirect: false });
-    if (result) {
-      toast.promise(new Promise((resolve) => resolve(result)), {
-        loading: "Memproses...",
-        success: "Berhasil Masuk",
-        error: result.error,
-      });
-
-      if (result.error) {
-        console.log(result.error);
-      } else {
-        router.push("/dashboard");
-      }
-    }
+    toast.promise(handleSignIn(values), {
+      loading: "Memproses...",
+      success: "Berhasil Masuk",
+      error: "Terjadi kesalahan, silahkan coba lagi",
+    });
   }
 
   return (
