@@ -2,7 +2,11 @@
 
 import { formatCategoriesToSlugs, formatTitleToSlug } from "@/helper/common";
 import { replaceBase64ToImgUrl, uploadToCloudinary } from "@/helper/server";
-import { createArticles, updateArticles } from "@/repositories/articles.repository";
+import getServerSessionOptions from "@/helper/server/get-server-session";
+import {
+  findDoctorByUserId,
+  updateArticles,
+} from "@/repositories/articles.repository";
 import { revalidatePath } from "next/cache";
 
 export async function updatePost(formData: FormData) {
@@ -12,13 +16,19 @@ export async function updatePost(formData: FormData) {
     const mainImage = formData.get("image") as File;
     const category = formData.getAll("category") as string[];
 
+    const session = await getServerSessionOptions();
+    const doctorExist = await findDoctorByUserId(session.user.id);
+    if (!doctorExist) throw new Error("Doctor not authenticated");
     if (!title || !content || !mainImage || category.length === 0) {
       throw new Error("Missing required fields");
     }
 
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
-    const mainImg = await uploadToCloudinary({ file: mainImage, folder: "articles" });
+    const mainImg = await uploadToCloudinary({
+      file: mainImage,
+      folder: "articles",
+    });
     const updatedContent = await replaceBase64ToImgUrl(content);
 
     const article = await updateArticles({
@@ -27,7 +37,7 @@ export async function updatePost(formData: FormData) {
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: "7fe30d5c-3e52-407a-8fe5-331404bd887b",
+      doctorId: doctorExist.id,
     });
 
     revalidatePath("/dashboard/articles");

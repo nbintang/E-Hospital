@@ -81,11 +81,14 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         const u = await findUserByEmail(user.email as string);
+        if(!u) return token
+        const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 1 day
 
         return {
           ...token,
           id: user.id,
-          role: u?.role,
+          role: u.role,
+          exp: expirationTime,
         };
       }
       return token;

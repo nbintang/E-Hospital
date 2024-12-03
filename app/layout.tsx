@@ -7,7 +7,7 @@ import RQProvider from "@/components/providers/rq-provider";
 import { NextAuthProviders } from "@/components/providers/auth-provider";
 import { SiteHeader } from "@/components/client/panel/site-header";
 import ClientLayout from "@/components/client/panel/client-layout";
-import { SigninDialaog } from "@/components/auth/signin/signin-dialog";
+import { SigninDialog } from "@/components/auth/signin/signin-dialog";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,7 +37,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             suppressHydrationWarning
           >
-            <SigninDialaog />
+            <SigninDialog />
             <ClientLayout>{children}</ClientLayout>
             <Toaster />
           </body>

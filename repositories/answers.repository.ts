@@ -1,6 +1,4 @@
 import db from "@/lib/db";
-import { findDoctorById } from "./articles.repository";
-import { findProfileByUserId } from "./profile.repository";
 import { AnswerWithDoctorProfileProps } from "../types/answers";
 
 export async function createAnswerByQuestionId({
@@ -12,8 +10,6 @@ export async function createAnswerByQuestionId({
   questionId: string;
   textContent: string;
 }) {
-  const doctor = await findDoctorById(doctorId);
-  if (!doctor) throw new Error("Doctor Unauthorized");
   const answer = await db.answer.create({
     data: {
       doctorId,

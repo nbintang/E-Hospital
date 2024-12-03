@@ -2,7 +2,12 @@
 
 import { formatCategoriesToSlugs, formatTitleToSlug } from "@/helper/common";
 import { replaceBase64ToImgUrl, uploadToCloudinary } from "@/helper/server";
-import { createArticles } from "@/repositories/articles.repository";
+import getServerSessionOptions from "@/helper/server/get-server-session";
+
+import {
+  createArticles,
+  findDoctorByUserId,
+} from "@/repositories/articles.repository";
 import { revalidatePath } from "next/cache";
 
 export async function createPost(formData: FormData) {
@@ -11,11 +16,12 @@ export async function createPost(formData: FormData) {
     const content = formData.get("content") as string;
     const mainImage = formData.get("image") as File;
     const category = formData.getAll("category") as string[];
-
+    const session = await getServerSessionOptions();
+    const doctorExist = await findDoctorByUserId(session.user.id);
+    if (!doctorExist) throw new Error("Doctor not authenticated");
     if (!title || !content || !mainImage || category.length === 0) {
       throw new Error("Missing required fields");
     }
-
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
     const mainImg = await uploadToCloudinary({
@@ -30,7 +36,7 @@ export async function createPost(formData: FormData) {
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: "7fe30d5c-3e52-407a-8fe5-331404bd887b",
+      doctorId: doctorExist.id,
     });
     if (!article.doctorId) {
       throw new Error("Doctor not authenticated");

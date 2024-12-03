@@ -6,6 +6,7 @@ import { Editor } from "@tiptap/core";
 import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { createPost } from "@/actions/post/create-post";
 import { useMutateData } from "../react-query-fn/use-mutate-data";
+import { useSession } from "next-auth/react";
 
 export default function useCreatePostForm() {
   const editorRef = useRef<Editor | null>(null);
@@ -18,7 +19,7 @@ export default function useCreatePostForm() {
       content: "",
     },
   });
-
+  const { data: session } = useSession();
   const handleCreate = useCallback(
     ({ editor }: { editor: Editor }) => {
       if (form.getValues("content") && editor.isEmpty) {
@@ -38,7 +39,10 @@ export default function useCreatePostForm() {
       await createPost(data);
     },
     tags: "posts",
-    redirectUrl: "/dashboard/articles",
+    redirectUrl:
+      session?.user?.role === "ADMIN"
+        ? "/dashboard/articles"
+        : "/doctor/dashboard/articles",
   });
 
   const onSubmit = async (values: PostValues) => {

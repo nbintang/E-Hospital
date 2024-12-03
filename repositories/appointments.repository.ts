@@ -1,55 +1,55 @@
-"use server"
+"use server";
 import db from "@/lib/db";
 import { AppointmentProps } from "@/types/appointment";
-import { findDoctorById } from "./articles.repository";
-
-export async function findAppointmentsByDoctorId({ 
-  doctorId 
-}: { 
-  doctorId: string 
+export async function findAppointmentsByDoctorId({
+  doctorId,
+}: {
+  doctorId: string;
 }): Promise<AppointmentProps[]> {
-  const doctorExist = await findDoctorById(doctorId);
-  if(!doctorExist) throw new Error("Unauthorized");
+  console.log("Doctor ID:", doctorId);
+
   return await db.appointment.findMany({
     where: {
-      doctorId,
+   user:{
+    id: doctorId
+   }
     },
-  include:{
-    user:{
-      select:{
-        profile: {
-          select: {
-            fullname: true,
-            profileUrl: true
+    include: {
+      user: {
+        select: {
+          profile: {
+            select: {
+              fullname: true,
+              profileUrl: true,
+            },
           },
         },
       },
-    },
-    doctor: {
-      select: {
-        user: {
-          select: {
-            profile: {
-              select: {
-                fullname: true,
+      doctor: {
+        select: {
+          user: {
+            select: {
+              profile: {
+                select: {
+                  fullname: true,
+                },
               },
             },
           },
-        },
-        hospital: {
-          include:{
-            address: {
-              select:{
-                name: true,
-                latitude: true,
-                longitude: true
-              }
+          hospital: {
+            include: {
+              address: {
+                select: {
+                  name: true,
+                  latitude: true,
+                  longitude: true,
+                },
+              },
             },
-          }
+          },
+          specialization: true,
         },
-        specialization: true,
       },
     },
-  }
   });
 }

@@ -12,9 +12,9 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import getSession from "@/helper/server/get-session";
+import getServerSessionOptions from "@/helper/server/get-server-session";
 export default async function Appointment() {
-const session  =  await getSession()
+const session  =  await getServerSessionOptions()
 if(!session) return null
   const appointments = await findAppointmentsByDoctorId({ doctorId: session?.user?.id });
 

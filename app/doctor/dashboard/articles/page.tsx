@@ -9,7 +9,7 @@ export default async function ArticlesPage() {
   return (
     <>
       <div className="flex justify-end mb-5 ">
-        <Link href={"/dashboard/articles/create"}>
+        <Link href={"/doctor/dashboard/articles/create"}>
           <Button variant={"blue"}>Create +</Button>
         </Link>
       </div>

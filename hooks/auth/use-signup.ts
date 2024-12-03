@@ -10,6 +10,7 @@ import { Gender } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { fileToBase64 } from "@/lib/file-utils";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 export default function useSignUp() {
   const [location, setLocation] = useState({ lat: -6.2088, lng: 106.8456 });
   const [selectedFile, setSelectedFile] = useState<FileWithPreview | null>(
@@ -81,20 +82,25 @@ export default function useSignUp() {
 
   async function onSubmit(values: z.infer<typeof SignUpSchema>) {
     try {
+      const newUser = await CreateRegistrationUser({
+        ...values,
+        name: values.addressName,
+        gender: values.gender.toUpperCase() as Gender,
+        profileUrl: croppedImage,
+      });
+      new Promise((resolve) => setTimeout(resolve, 1000));
       toast.promise(
-        CreateRegistrationUser({
-          ...values,
-          name: values.addressName,
-          gender: values.gender.toUpperCase() as Gender,
-          profileUrl: croppedImage,
-        }),
+        Promise.resolve(signIn("credentials", { ...values, redirect: false })),
         {
           loading: "Signing up...",
           success: "Signup successfully",
           error: "Failed to Signup, please try again later",
         }
       );
-      router.push("/");
+
+      if (newUser) {
+        router.push("/");
+      }
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);

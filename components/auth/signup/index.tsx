@@ -260,6 +260,7 @@ const handleOpenDialogButton = async () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
+          className="bg-clean-pool text-white hover:bg-soft-clean-pool"
               onClick={() => {
                 setOpen(false); // Close the dialog
                 form.handleSubmit(onSubmit)(); // Call the submit function

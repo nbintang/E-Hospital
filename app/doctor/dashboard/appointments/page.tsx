@@ -1,4 +1,3 @@
-
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import AppointmentCalendar from "@/components/admin/sections/appointment/calendar";
@@ -12,20 +11,27 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import getSession from "@/helper/server/get-session";
+import getServerSessionOptions from "@/helper/server/get-server-session";
+import { findDoctorByUserId } from "@/repositories/articles.repository";
 export default async function Appointment() {
-const session  =  await getSession()
-if(!session) return null
-  const appointments = await findAppointmentsByDoctorId({ doctorId: session?.user?.id });
+  const session = await getServerSessionOptions();
+  const doctorExist = await findDoctorByUserId(session.user.id);
+  if (!doctorExist) {
+    throw new Error("Unauthorized");
+  }
 
-  if (!appointments) return null;
+  const appointments = await findAppointmentsByDoctorId({
+    doctorId: doctorExist.id,
+  });
+  if (!appointments)
+    return <p className="text-muted-foreground"> NO APPOINTMENTS </p>;
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Appointment Calendar</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="col-span-2">
-            <AppointmentCalendar appointments={appointments} />
-        
+          <AppointmentCalendar appointments={appointments} />
         </div>
         <div className="col-span-1">
           <Card>

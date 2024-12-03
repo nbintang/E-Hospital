@@ -1,4 +1,4 @@
-
+"use server";
 import db from "@/lib/db";
 import { formatSlugToTitle } from "@/helper/common";
 import { ArticleStatus } from "@prisma/client";
@@ -9,25 +9,25 @@ export async function findArticles(): Promise<ArticleProps[]> {
     include: {
       categories: true,
       doctor: {
-        include:{
+        include: {
           user: {
             select: {
               profile: {
                 select: {
-                  fullname: true
-                }
-              }
-            }
-          }
-        }
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
       },
     },
   });
   return article;
 }
 
-export async function findDoctorById(id: string) {
-  return await db.doctor.findFirst({ where: { id } });
+export async function findDoctorByUserId(id: string) {
+  return await db.doctor.findFirst({ where: { userId: id } });
 }
 
 export async function createArticles({
@@ -47,8 +47,6 @@ export async function createArticles({
   doctorId: string;
   categorySlugs: string[];
 }) {
-  const doctor = await findDoctorById(doctorId);
-  if (!doctor) throw new Error("Doctor Unauthorized");
   const article = await db.article.create({
     data: {
       title,
@@ -109,13 +107,17 @@ export async function updateArticles({
             name: formatSlugToTitle(slug),
             slug,
           },
-        }))
+        })),
       },
     },
   });
 }
 
-export async function findArticlesBySlug({ slug }: { slug: string }): Promise<ArticleBySlugProps | null> {
+export async function findArticlesBySlug({
+  slug,
+}: {
+  slug: string;
+}): Promise<ArticleBySlugProps | null> {
   return await db.article.findUnique({
     where: { slug },
     include: {
@@ -124,11 +126,16 @@ export async function findArticlesBySlug({ slug }: { slug: string }): Promise<Ar
   });
 }
 
-
 export async function deleteArticles({ id }: { id: string }) {
   return await db.article.delete({ where: { id } });
 }
 
-export async function updateArticleStatus({ id, status }: { id: string; status: ArticleStatus }) {
+export async function updateArticleStatus({
+  id,
+  status,
+}: {
+  id: string;
+  status: ArticleStatus;
+}) {
   return await db.article.update({ where: { id }, data: { status } });
 }

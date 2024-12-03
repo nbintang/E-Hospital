@@ -70,7 +70,7 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
   return (
     <>
       <LinkEditPopover editor={editor} size={size} variant={variant} />
-      {pathname.startsWith("/dashboard/articles") && (
+      {pathname.startsWith("/dashboard/articles") || pathname.startsWith("/doctor/dashboard/articles") && (
         <ImageEditDialog editor={editor} size={size} variant={variant} />
       )}
       <ToolbarSection

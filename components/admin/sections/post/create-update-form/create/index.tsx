@@ -34,14 +34,16 @@ import {
 import Image from "next/image";
 import { MinimalTiptapEditor } from "@/components/extensions/minimal-tiptap";
 import { CategoryProps } from "@/types/categories";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const CreatePostForm = ({ categories }: { categories: CategoryProps[] }) => {
   const [open, setOpen] = useState<boolean>(false);
   const { form, handleCreate, onSubmit, isSubmitting } = useCreatePostForm();
-
+ 
   return (
     <>
-      <Form {...form}>
+     <TooltipProvider>
+     <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-6"
@@ -227,6 +229,7 @@ const CreatePostForm = ({ categories }: { categories: CategoryProps[] }) => {
           </Button>
         </form>
       </Form>
+     </TooltipProvider>
       {/* {form.formState.isSubmitting ||
         (isSubmitting && (
           <>

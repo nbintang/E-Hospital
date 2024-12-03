@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
 
-export function SigninDialaog() {
+export function SigninDialog() {
   const pathname = usePathname();
   const { showSignIn: open, setShowSignIn: setIsOpen } = useOpenDialog();
   const handleLoadingClick = useHandleLoadingNavigate({ pathname });
@@ -44,7 +44,7 @@ export function SigninDialaog() {
             </div>
           </div>
         </DialogHeader>
-        <SigninForm />
+        <SigninForm setIsOpen={setIsOpen}/>
         <div className="flex items-center gap-2 w-full">
           <Separator className="flex-1" />
           <span className="text-xs text-muted-foreground">atau</span>
