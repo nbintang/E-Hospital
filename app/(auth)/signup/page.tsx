@@ -12,6 +12,7 @@ export default function SignUpPage() {
         <Button variant={"ghost"} asChild>
           <Link href="/">
             <ChevronLeft className="h-6 w-6" />
+          <p>Kembali</p>
           </Link>
         </Button>
         <div className="flex items-start my-4 space-x-3">
