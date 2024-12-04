@@ -1,12 +1,12 @@
 "use client";
 import * as React from "react";
-import useTablesSorting from "@/hooks/use-tables-sorting";
+import useTablesSorting from "@/hooks/table/use-tables-sorting";
 import { orderedProductColumns} from "./column";
 import {
   ColumnVisibilityDropdown,
   PaginationComponent,
   TableComponent,
-} from "../../admin-panel/tables";
+} from "../../panel/tables";
 import { OrderProps } from "@/types/order";
 
 export default function OrderedProducts({ data }: { data: OrderProps[] }) {

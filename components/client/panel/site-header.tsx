@@ -92,7 +92,7 @@ export function SiteHeader() {
                 <Tooltip delayDuration={100}>
                   <TooltipTrigger>
                     <NavigationMenuLink
-                      href="/article"
+                      href="/articles"
                       className={navigationMenuTriggerStyle()}
                     >
                       Artikel
@@ -217,7 +217,9 @@ export function SiteHeader() {
                   <Button
                     className="w-full mt-4 "
                     variant={"outline"}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => (
+                      setIsOpenDialogSignin(true), setIsOpen(false)
+                    )}
                   >
                     Masuk
                   </Button>

@@ -3,13 +3,18 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { findUserByEmail } from "@/repositories/users.repository";
 import { verifyPassword } from "@/helper/server/verify-password";
 import { findProfileByUserId } from "@/repositories/profile.repository";
-
+import GoogleProvider from "next-auth/providers/google";
+import db from "./db";
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -64,8 +69,30 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, account }) {
+      if (account?.provider === "google") {
+        if (!profile?.email) return false;
+
+        const user = await db.users.upsert({
+          where: { email: profile.email },
+          update: {},
+          create: {
+            email: profile.email,
+            password: "",
+            termAccepted: true,
+            profile: {
+              create: {
+                fullname: profile.name || "Anonymous User",
+                profileUrl: profile.picture || null,
+              },
+            },
+          },
+        });
+        if (!user) return false;
+        return true;
+      }
+
       if (account?.provider === "credentials") return true;
-      return false; // Reject if not handled
+      return false;
     },
     async session({ session, token }) {
       const customSession = {
@@ -78,10 +105,10 @@ const authOptions: NextAuthOptions = {
       };
       return customSession;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, profile }) {
       if (user) {
         const u = await findUserByEmail(user.email as string);
-        if(!u) return token
+        if (!u) return token;
         const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 1 day
 
         return {

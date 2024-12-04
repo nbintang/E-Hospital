@@ -1,7 +1,7 @@
 "use client";
 
-import { Footer } from "@/components/admin/admin-panel/footer";
-import { Sidebar } from "@/components/admin/admin-panel/navigations/sidebar";
+import { Footer } from "@/components/admin/panel/footer";
+import { Sidebar } from "@/components/admin/panel/navigations/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";

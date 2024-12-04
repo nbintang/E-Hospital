@@ -2,8 +2,6 @@
 import { formatDate } from "@/helper/client";
 import useAppointmentCalendar from "@/hooks/use-appointment-calendar";
 import { AppointmentProps } from "@/types/appointment";
-import moment from "moment";
-
 export default function AppoinmentActivity({
   appointments,
 }: {

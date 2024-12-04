@@ -6,8 +6,8 @@ import {
   PaginationComponent,
   Search,
   ColumnVisibilityDropdown,
-} from "@/components/admin/admin-panel/tables";
-import useTablesSorting from "@/hooks/use-tables-sorting";
+} from "@/components/admin/panel/tables";
+import useTablesSorting from "@/hooks/table/use-tables-sorting";
 import { Medicine } from "@prisma/client";
 
 export function DataTableMedicine({ data }: { data: Medicine[] }) {

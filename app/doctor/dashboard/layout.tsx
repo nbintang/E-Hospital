@@ -1,7 +1,7 @@
 import {
     ContentRouteLayout,
     AdminPanelLayout,
-  } from "@/components/admin/admin-panel/layout";
+  } from "@/components/admin/panel/layout";
   export default function DashboardLayout({
     children,
   }: {

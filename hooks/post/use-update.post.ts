@@ -9,7 +9,8 @@ import { ArticleBySlugProps, ArticleProps } from "@/types/article";
 import { updatePost } from "@/actions/post/update-post";
 import { replaceImageUrlToBase64 } from "@/helper/client";
 import { CategoryProps } from "@/types/categories";
-import { useMutateData } from "../react-query-fn/use-mutate-data";
+import { useMutateData } from "@/hooks/react-query-fn/use-mutate-data";
+import { useSession } from "next-auth/react";
 
 export default function useUpdatePostForm({
   article,
@@ -60,6 +61,7 @@ export default function useUpdatePostForm({
     initializeContent();
   }, [article.content, form]);
 
+  const { data: session } = useSession();
   const handleUpdate = useCallback(
     ({ editor }: { editor: Editor }) => {
       if (isContentReady && form.getValues("content") && editor.isEmpty) {
@@ -74,11 +76,14 @@ export default function useUpdatePostForm({
     toastSuccess: "Post updated",
     toastLoading: "Updating post...",
     fetcher: async (data?: FormData) => {
-      if(!data) return
+      if (!data) return;
       await updatePost(data);
     },
     tags: "posts",
-    redirectUrl: "/dashboard/articles",
+    redirectUrl:
+      session?.user?.role === "ADMIN"
+        ? "/dashboard/articles"
+        : "/doctor/dashboard/articles",
   });
 
   const onSubmit = async (values: PostValues) => {

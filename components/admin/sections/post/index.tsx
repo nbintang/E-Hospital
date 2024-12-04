@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { ArticleProps } from "@/types/article";
-
+import { useSession } from "next-auth/react";
 
 function isValidUrl(url: string) {
   try {
@@ -21,12 +21,15 @@ function isValidUrl(url: string) {
     return false;
   }
 }
+type Role = "DOCTOR" | "ADMIN";
 export default function ArticleCard({
   article,
   className,
+  role
 }: {
   article: ArticleProps;
   className?: string;
+  role ?: string
 }) {
   const imageUrl = isValidUrl(article.imageUrl)
     ? article.imageUrl
@@ -51,14 +54,14 @@ export default function ArticleCard({
           className="object-cover"
           priority
         />
-        
+
         <Badge
           className="absolute top-2 left-2 z-20"
           variant={article.status === "PUBLISHED" ? "default" : "secondary"}
         >
           {article.status === "PUBLISHED" ? "Published" : "Draft"}
         </Badge>
-        <Link href={`/dashboard/articles/${article.slug}`}>
+        <Link href={role === "ADMIN" ? `/dashboard/articles/${article.slug}` : `/doctor/dashboard/articles/${article.slug}`}>
           <ExternalLink className="absolute top-2 z-20 right-2 text-white" />
         </Link>
       </div>

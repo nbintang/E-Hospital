@@ -15,6 +15,8 @@ import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
 import Link from "next/link";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 export function SigninDialog() {
   const pathname = usePathname();
@@ -44,14 +46,24 @@ export function SigninDialog() {
             </div>
           </div>
         </DialogHeader>
-        <SigninForm setIsOpen={setIsOpen}/>
+        <SigninForm setIsOpen={setIsOpen} />
         <div className="flex items-center gap-2 w-full">
           <Separator className="flex-1" />
           <span className="text-xs text-muted-foreground">atau</span>
           <Separator className="flex-1" />
         </div>
         <div>
-          <Button variant="outline" className="w-full" size="lg">
+          <Button
+            onClick={async () =>
+              toast.promise(signIn("google"), {
+                loading: "Memproses...",
+                error: "Terjadi kesalahan, silahkan coba lagi",
+              })
+            }
+            variant="outline"
+            className="w-full"
+            size="lg"
+          >
             <Google className="w-5 h-5 mr-2" />
             Masuk Menggunakan Google
           </Button>

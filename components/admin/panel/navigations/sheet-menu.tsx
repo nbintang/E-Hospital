@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MenuIcon, PanelsTopLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Menu } from "@/components/admin/admin-panel/navigations/menu";
+import { Menu } from "@/components/admin/panel/navigations/menu";
 import {
   Sheet,
   SheetHeader,

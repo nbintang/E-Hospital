@@ -1,6 +1,6 @@
 "use client";
-import { Menu } from "@/components/admin/admin-panel/navigations/menu";
-import { SidebarToggle } from "@/components/admin/admin-panel/navigations/sidebar-toggle";
+import { Menu } from "@/components/admin/panel/navigations/menu";
+import { SidebarToggle } from "@/components/admin/panel/navigations/sidebar-toggle";
 import Company from "@/components/icons/company";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";

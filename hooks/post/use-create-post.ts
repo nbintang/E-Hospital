@@ -5,7 +5,7 @@ import { useCallback, useRef } from "react";
 import { Editor } from "@tiptap/core";
 import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { createPost } from "@/actions/post/create-post";
-import { useMutateData } from "../react-query-fn/use-mutate-data";
+import { useMutateData } from "@/hooks/react-query-fn/use-mutate-data";
 import { useSession } from "next-auth/react";
 
 export default function useCreatePostForm() {

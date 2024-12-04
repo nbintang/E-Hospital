@@ -1,6 +1,6 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { UserNav } from "@/components/client/panel/user-nav";
-import { SheetMenu } from "@/components/admin/admin-panel/navigations/sheet-menu";
+import { SheetMenu } from "@/components/admin/panel/navigations/sheet-menu";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useSession } from "next-auth/react";
 

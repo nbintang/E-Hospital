@@ -11,7 +11,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Table } from "@tanstack/react-table";
-import useTablePaginations from "@/hooks/use-table-paginations";
+import useTablePaginations from "@/hooks/table/use-table-paginations";
 
 interface PaginationProps {
   table: Table<any>;

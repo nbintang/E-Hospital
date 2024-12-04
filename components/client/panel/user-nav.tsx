@@ -21,40 +21,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import { toast } from "sonner";
 interface UserProfilProp {
   name: string;
   image?: string;
   email: string;
+  picture?: string;
 }
 
-export function UserNav({ name, image, email }: UserProfilProp) {
+export function UserNav({ name, image, email, picture }: UserProfilProp) {
   return (
     <DropdownMenu>
-        <Tooltip delayDuration={100}>
-          <TooltipTrigger asChild>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="relative h-8 w-8 rounded-full"
-              >
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src={
-                      image ||
-                      `https://api.dicebear.com/7.x/initials/svg?seed=${name}`
-                    }
-                    alt={name}
-                  />
-                  <AvatarFallback className="bg-transparent">
-                    <LoaderCircleIcon className="w-4 h-4 animate-spin" />
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">Profile</TooltipContent>
-        </Tooltip>
-
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={image ? image : picture} alt={name} />
+                <AvatarFallback className="bg-transparent">
+                  <LoaderCircleIcon className="w-4 h-4 animate-spin" />
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">Profile</TooltipContent>
+      </Tooltip>
 
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
@@ -83,7 +75,13 @@ export function UserNav({ name, image, email }: UserProfilProp) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="hover:cursor-pointer"
-          onClick={async () => await signOut()}
+          onClick={async () => {
+            toast.promise(signOut(), {
+              loading: "Signing out...",
+              success: "Signed out successfully",
+              error: "Failed to sign out, please try again later",
+            });
+          }}
         >
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out

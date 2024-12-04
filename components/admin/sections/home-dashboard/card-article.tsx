@@ -1,10 +1,6 @@
 import {
   Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import { ArticleProps } from "@/types/article";
 import Image from "next/image";
@@ -15,9 +11,8 @@ export function CardArticle({
 }: {
   article: ArticleProps;
 }) {
-  let sanitizedContent = sanitizeContent(recentPost.content); // Use let for sanitized content
-  // Remove image tags from the sanitized content
-  sanitizedContent = sanitizedContent.replace(/<img[^>]*>/g, ''); // Remove all <img> tags
+  let sanitizedContent = sanitizeContent(recentPost.content); 
+  sanitizedContent = sanitizedContent.replace(/<img[^>]*>/g, ''); 
   return (
     <Card className="col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden relative ">
       <CardContent>

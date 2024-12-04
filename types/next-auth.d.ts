@@ -1,21 +1,25 @@
-import NextAuth from "next-auth";
+import NextAuth, { Profile as NextAuthProfile } from "next-auth";
 
 declare module "next-auth" {
+  interface Profile extends NextAuthProfile {
+    picture?: string | null; // Add the picture property
+  }
+
   interface Session {
     user: {
-      id: string; // Add the id property
+      id: string;
       name?: string | null;
       email?: string | null;
       image?: string | null;
-      role?: string; // Add role if needed
+      role?: string;
     };
   }
 
   interface User {
-    id: string; // Ensure User also has the id property
+    id: string;
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role?: string; // Add role if needed
+    role?: string;
   }
 }
