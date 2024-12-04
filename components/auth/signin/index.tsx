@@ -14,12 +14,13 @@ import { Input } from "@/components/ui/input";
 import { SigninFormValues, signinSchema } from "@/schemas/signin-schema";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 interface SigninDialogProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
 export default function SigninForm({ setIsOpen }: SigninDialogProps) {
+  
   const form = useForm<SigninFormValues>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -44,16 +45,6 @@ export default function SigninForm({ setIsOpen }: SigninDialogProps) {
         error: "Terjadi kesalahan, silahkan coba lagi",
       }
     );
-
-    const session = await getSession();
-    const userRole = session?.user.role;
-    if (userRole === "DOCTOR") {
-      router.push("/doctor/dashboard");
-    } else if (userRole === "ADMIN") {
-      router.push("/dashboard");
-    } else {
-      router.push("/"); // Redirect to home for patients
-    }
     setIsOpen(false);
   }
 

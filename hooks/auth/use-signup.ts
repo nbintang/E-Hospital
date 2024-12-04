@@ -88,7 +88,7 @@ export default function useSignUp() {
         gender: values.gender.toUpperCase() as Gender,
         profileUrl: croppedImage,
       });
-      new Promise((resolve) => setTimeout(resolve, 1000));
+      new Promise((resolve) => setTimeout(resolve, 500));
       toast.promise(
         Promise.resolve(signIn("credentials", { ...values, redirect: false })),
         {

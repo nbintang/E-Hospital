@@ -25,15 +25,22 @@ export default function QuestionsCard({
 }: {
   question?: QuestionBySlug | QuestionProps;
 }) {
-  const pathname =usePathname();
+  const pathname = usePathname();
   const handleNavigate = useHandleLoadingNavigate({ pathname });
-  if(!question) return null
+  if (!question) return null;
   return (
     <div
-    onClick={() => handleNavigate(`/dashboard/questions/${question.slug}`)}
-      className={`${pathname !== `/dashboard/questions/${question.slug}` && "hover:scale-105"} cursor-pointer transition-all duration-200 hover:opacity-90`}
+      onClick={() =>
+        pathname === "/doctor/dashboard/questions" ||
+        pathname === "/dashboard/questions"
+          ? handleNavigate(`/doctor/dashboard/questions/${question.slug}`)
+          : null
+      }
+      className={`${
+        pathname !== `/dashboard/questions/${question.slug}` && "hover:scale-95"
+      } cursor-pointer transition-all duration-200 hover:opacity-90`}
     >
-      <Card  key={question.id} className="flex flex-col">
+      <Card key={question.id} className="flex flex-col">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center space-x-2">

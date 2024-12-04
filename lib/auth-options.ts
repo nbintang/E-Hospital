@@ -69,15 +69,19 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, account }) {
+ 
       if (account?.provider === "google") {
-        if (!profile?.email) return false;
-
+        // Google-specific sign-in
+        if (!profile?.email) {
+          return false;
+        }
+    
         const user = await db.users.upsert({
           where: { email: profile.email },
           update: {},
           create: {
             email: profile.email,
-            password: "",
+            password: "", // Placeholder for OAuth users
             termAccepted: true,
             profile: {
               create: {
@@ -87,37 +91,38 @@ const authOptions: NextAuthOptions = {
             },
           },
         });
-        if (!user) return false;
+    
+        if (!user) {
+          return false;
+        }
         return true;
       }
-
-      if (account?.provider === "credentials") return true;
+    
+      if (account?.provider === "credentials") {
+        // Credentials-specific sign-in
+        return true;
+      }
+    
       return false;
     },
     async session({ session, token }) {
-      const customSession = {
+      return {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
-          role: token.role,
+          id: token.id,  // Pass user ID from token
+          role: token.role, 
         },
       };
-      return customSession;
     },
     async jwt({ token, user, account, profile }) {
+  
+      // Add `id` and `role` to the token during the first sign-in or Google logic
       if (user) {
-        const u = await findUserByEmail(user.email as string);
-        if (!u) return token;
-        const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 1 day
-
-        return {
-          ...token,
-          id: user.id,
-          role: u.role,
-          exp: expirationTime,
-        };
+        token.id = user.id;
+        token.role = user.role;
       }
+  
       return token;
     },
   },

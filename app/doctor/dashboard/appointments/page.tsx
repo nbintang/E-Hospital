@@ -15,6 +15,8 @@ import getServerSessionOptions from "@/helper/server/get-server-session";
 import { findDoctorByUserId } from "@/repositories/articles.repository";
 export default async function Appointment() {
   const session = await getServerSessionOptions();
+  console.log(session);
+  
   const doctorExist = await findDoctorByUserId(session.user.id);
   if (!doctorExist) {
     throw new Error("Unauthorized");

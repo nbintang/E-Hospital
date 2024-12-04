@@ -39,7 +39,10 @@ export function UserNav({ name, image, email, picture }: UserProfilProp) {
               <Avatar className="h-8 w-8">
                 <AvatarImage src={image ? image : picture} alt={name} />
                 <AvatarFallback className="bg-transparent">
-                  <LoaderCircleIcon className="w-4 h-4 animate-spin" />
+                  {name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
             </Button>

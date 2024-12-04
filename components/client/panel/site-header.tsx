@@ -214,15 +214,17 @@ export function SiteHeader() {
                       className="pl-8 w-full"
                     />
                   </div>
-                  <Button
-                    className="w-full mt-4 "
-                    variant={"outline"}
-                    onClick={() => (
-                      setIsOpenDialogSignin(true), setIsOpen(false)
-                    )}
-                  >
-                    Masuk
-                  </Button>
+                  {status === "unauthenticated" ? (
+                    <Button
+                      className="w-full mt-4 "
+                      variant={"outline"}
+                      onClick={() => (
+                        setIsOpenDialogSignin(true), setIsOpen(false)
+                      )}
+                    >
+                      Masuk
+                    </Button>
+                  ) : null}
                 </nav>
               </SheetContent>
             </Sheet>
