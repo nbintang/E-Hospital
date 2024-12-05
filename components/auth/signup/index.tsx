@@ -232,7 +232,7 @@ const handleOpenDialogButton = async () => {
         </div>
         <div className="flex justify-end">
           <Button
-            className="mt-4 px-9 flex items-center gap-x-3"
+            className="mt-6 px-9 w-full md:w-auto  flex items-center gap-x-3"
             type="button"
             variant={"blue"}
             onClick={handleOpenDialogButton}
@@ -240,7 +240,7 @@ const handleOpenDialogButton = async () => {
           >
             {form.formState.isSubmitting ? (
               <>
-                <LoaderCircleIcon className="size-4" />
+                <LoaderCircleIcon className="size-4 animate-spin" />
                 <p>Submitting</p>
               </>
             ) : (

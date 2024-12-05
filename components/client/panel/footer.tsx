@@ -9,16 +9,16 @@ export default function ClientFooter() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo and Hospital Name */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center  gap-3">
             <Company className="h-8 w-8" />
-            <div className="text-white">
+            <div className="text-white ">
               <h2 className="text-xl font-bold">Inovasi</h2>
               <p className="text-sm">Medika</p>
             </div>
           </div>
 
           {/* Social Media Section */}
-          <div className="flex flex-col items-end gap-4">
+          <div className="flex flex-col items-center md:items-end gap-4">
             <h3 className="text-white text-lg font-medium">Media Sosial</h3>
             <div className="flex flex-wrap justify-center gap-4">
               <SocialLink

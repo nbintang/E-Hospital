@@ -14,6 +14,23 @@ const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      async profile(profile) {
+        const adminUser = await findUserByEmail(profile.email);
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role: adminUser?.role,
+        };
+      },
     }),
     CredentialsProvider({
       id: "credentials",
@@ -69,13 +86,12 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, account }) {
- 
       if (account?.provider === "google") {
         // Google-specific sign-in
         if (!profile?.email) {
           return false;
         }
-    
+
         const user = await db.users.upsert({
           where: { email: profile.email },
           update: {},
@@ -91,18 +107,17 @@ const authOptions: NextAuthOptions = {
             },
           },
         });
-    
+
         if (!user) {
           return false;
         }
         return true;
       }
-    
+
       if (account?.provider === "credentials") {
-        // Credentials-specific sign-in
         return true;
       }
-    
+
       return false;
     },
     async session({ session, token }) {
@@ -110,19 +125,17 @@ const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          id: token.id,  // Pass user ID from token
-          role: token.role, 
+          id: token.id,
+          role: token.role,
         },
       };
     },
     async jwt({ token, user, account, profile }) {
-  
-      // Add `id` and `role` to the token during the first sign-in or Google logic
       if (user) {
         token.id = user.id;
         token.role = user.role;
       }
-  
+
       return token;
     },
   },

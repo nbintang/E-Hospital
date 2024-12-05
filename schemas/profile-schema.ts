@@ -1,3 +1,4 @@
+
 import { z } from "zod"
 
 export const ProfileSchema = z.object({
@@ -11,7 +12,8 @@ export const ProfileSchema = z.object({
       .min(10, {
       message: "Phone number must be at least 10 characters.",
     }),
-    weight: z.number()
+    weight: z.number(),
+    profileUrl : z.string().nullable(),
   })
   
  export type ProfileFormValues = z.infer<typeof ProfileSchema>

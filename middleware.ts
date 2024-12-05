@@ -4,7 +4,7 @@ export { default } from "next-auth/middleware";
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const token = await getToken({ req });
-
+  console.log({ token });
   const adminPathname = pathname.startsWith("/dashboard");
   const doctorPathname = pathname.startsWith("/doctor/dashboard");
   const publicRoutes = [
@@ -35,9 +35,7 @@ export async function middleware(req: NextRequest) {
     publicRoutes.includes(pathname)
   ) {
     const redirectURL =
-      userRole === "ADMIN"
-        ? "/dashboard"
-        : "/doctor/dashboard";
+      userRole === "ADMIN" ? "/dashboard" : "/doctor/dashboard";
     return NextResponse.redirect(new URL(redirectURL, req.nextUrl));
   }
 

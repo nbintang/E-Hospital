@@ -33,7 +33,9 @@ export default function ProfileForm({ profile }: { profile: ProfileProps }) {
   const { form, isEditing, onSubmit, setIsEditing } = useUpdateUserForm({
     profile,
   });
-
+  console.log(profile);
+  console.log(form.getValues("profileUrl"));
+  
   return (
     <Card className="w-full mx-auto">
       <CardHeader>
@@ -47,8 +49,11 @@ export default function ProfileForm({ profile }: { profile: ProfileProps }) {
             </p>
           </div>
           <Avatar className="w-24 h-24">
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback className="text-4xl">
-              {form.watch("fullname").charAt(0)}
+              {form.watch("fullname").split(" ")
+                    .map((n) => n[0])
+                    .join("")}
             </AvatarFallback>
           </Avatar>
         </div>
@@ -117,7 +122,7 @@ export default function ProfileForm({ profile }: { profile: ProfileProps }) {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={!isEditing} />
+                      <Input {...field} disabled={!isEditing} placeholder="None" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -130,7 +135,7 @@ export default function ProfileForm({ profile }: { profile: ProfileProps }) {
                   <FormItem>
                     <FormLabel>Height (cm)</FormLabel>
                     <FormControl>
-                      <Input {...field} type="number" disabled={!isEditing} />
+                      <Input {...field} type="number" disabled={!isEditing} placeholder="None" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -143,7 +148,7 @@ export default function ProfileForm({ profile }: { profile: ProfileProps }) {
                   <FormItem>
                     <FormLabel>Weight (kg)</FormLabel>
                     <FormControl>
-                      <Input {...field} type="number" disabled={!isEditing} />
+                      <Input {...field} type="number" disabled={!isEditing} placeholder="None" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

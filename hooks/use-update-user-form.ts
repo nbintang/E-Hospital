@@ -15,11 +15,12 @@ export default function useUpdateUserForm({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
       fullname: profile.fullname,
-      height: profile.height ? parseInt(profile.height) : undefined, 
+      height: profile.height ? parseInt(profile.height) : undefined,
       gender: profile.gender,
-      phoneNumber: profile.phoneNumber || "", 
-      weight: profile.weight ? parseInt(profile.weight) : undefined, // Handle null correctly
-      email: profile.user.email || "",
+      phoneNumber: profile.phoneNumber || "",
+      weight: profile.weight ? parseInt(profile.weight) : undefined,
+      email: profile.user.email,
+      profileUrl: profile.profileUrl || null,
     },
   });
 

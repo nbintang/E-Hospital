@@ -37,7 +37,7 @@ export function UserNav({ name, image, email, picture }: UserProfilProp) {
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={image ? image : picture} alt={name} />
+                <AvatarImage src={image as string} alt={name} />
                 <AvatarFallback className="bg-transparent">
                   {name
                     .split(" ")

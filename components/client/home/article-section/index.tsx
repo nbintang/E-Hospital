@@ -12,7 +12,7 @@ import ArticleCarousel from "./article-carousel";
 export function ArticleSection() {
   return (
     <section className="container py-12 px-2 ">
-      <h2 className="text-2xl font-bold tracking-tight mb-8">
+      <h2 className="text-2xl font-bold tracking-tight text-center md:text-left mb-8">
         Artikel Kesehatan
       </h2>
       <div className="grid  gap-6 justify-items-center">
@@ -65,9 +65,12 @@ export function ArticleSection() {
             </div>
           </div>
         </Card>
-        <div className="max-w-xs sm:max-w-[600px] lg:max-w-none">
+       <div >
+        <h1 className="text-2xl font-bold tracking-tight text-center md:text-left mb-8">Artikel Lainnya</h1>
+       <div className="max-w-xs sm:max-w-[600px] lg:max-w-none">
           <ArticleCarousel />
         </div>
+       </div>
       </div>
     </section>
   );
