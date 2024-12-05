@@ -4,7 +4,7 @@ import useTablesSorting from "@/hooks/table/use-tables-sorting";
 import { orderedProductColumns} from "./column";
 import {
   ColumnVisibilityDropdown,
-  PaginationComponent,
+  TablePagination,
   TableComponent,
 } from "../../panel/tables";
 import { OrderProps } from "@/types/order";
@@ -20,7 +20,7 @@ export default function OrderedProducts({ data }: { data: OrderProps[] }) {
       </div>
       <TableComponent table={table} />
       <div className="flex items-center justify-end space-x-2 py-4">
-        <PaginationComponent table={table} />
+        <TablePagination table={table} />
       </div>
     </div>
   );

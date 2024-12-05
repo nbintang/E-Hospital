@@ -4,7 +4,6 @@ export { default } from "next-auth/middleware";
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const token = await getToken({ req });
-  console.log({ token });
   const adminPathname = pathname.startsWith("/dashboard");
   const doctorPathname = pathname.startsWith("/doctor/dashboard");
   const publicRoutes = [

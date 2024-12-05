@@ -1,7 +1,7 @@
 "use client";
 import { columnsUsers } from "./columns";
 import { TableComponent } from "@/components/admin/panel/tables/table";
-import { PaginationComponent } from "@/components/admin/panel/tables/table-pagination";
+import { TablePagination } from "@/components/admin/panel/tables/table-pagination";
 import { Search } from "@/components/admin/panel/tables/table-search";
 import { ColumnVisibilityDropdown } from "@/components/admin/panel/tables/column-dropdown";
 import useTablesSorting from "@/hooks/table/use-tables-sorting";
@@ -17,7 +17,7 @@ export function DataTableUsers({ data }: { data: UserProps[] }) {
       </div>
       <TableComponent table={table} />
       <div className="flex items-center justify-end space-x-2 py-4">
-        <PaginationComponent table={table} />
+        <TablePagination table={table} />
     
       </div>
     </div>

@@ -139,3 +139,28 @@ export async function updateArticleStatus({
 }) {
   return await db.article.update({ where: { id }, data: { status } });
 }
+
+
+export async function findArticlesByPage({ currentPage, itemsPerPage }: { currentPage: number, itemsPerPage: number }): Promise<ArticleProps[]> {
+  const article = await db.article.findMany({
+    include: {
+      categories: true,
+      doctor: {
+        include: {
+          user: {
+            select: {
+              profile: {
+                select: {
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    skip: (currentPage - 1) * itemsPerPage,
+    take: itemsPerPage
+  })
+  return article;
+}

@@ -3,7 +3,7 @@
 import { productsColumn} from "./column";
 import {
   TableComponent,
-  PaginationComponent,
+  TablePagination,
   Search,
   ColumnVisibilityDropdown,
 } from "@/components/admin/panel/tables";
@@ -21,7 +21,7 @@ export function DataTableMedicine({ data }: { data: Medicine[] }) {
       </div>
       <TableComponent table={table} />
       <div className="flex items-center justify-end space-x-2 py-4">
-        <PaginationComponent table={table} />
+        <TablePagination table={table} />
       </div>
     </div>
   );

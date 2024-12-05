@@ -11,15 +11,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Table } from "@tanstack/react-table";
-import useTablePaginations from "@/hooks/table/use-table-paginations";
+import useTablePaginations from "@/hooks/use-paginations";
 
 interface PaginationProps {
   table: Table<any>;
 }
 
-export function PaginationComponent({ table }: PaginationProps) {
+export function TablePagination({ table }: PaginationProps) {
   const { totalPages, currentPage, getPageNumbers } = useTablePaginations({
-    table,
+    totalPages: table.getPageCount(),
+    currentData: table.getState().pagination.pageIndex,
   });
 
   return totalPages > 1 ? (

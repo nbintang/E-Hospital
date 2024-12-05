@@ -1,1 +1,1 @@
-export type Params = Promise<{ slug?: string; id?: string }>;
+export type Params = Promise<{ slug?: string; id?: string; page?: string }>;
