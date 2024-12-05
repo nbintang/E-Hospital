@@ -17,6 +17,7 @@ export async function createPost(formData: FormData) {
     const mainImage = formData.get("image") as File;
     const category = formData.getAll("category") as string[];
     const session = await getServerSessionOptions();
+  
     const doctorExist = await findDoctorByUserId(session.user.id);
     if (!doctorExist) throw new Error("Doctor not authenticated");
     if (!title || !content || !mainImage || category.length === 0) {
