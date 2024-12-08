@@ -27,11 +27,11 @@ export async function createAnswerByQuestionId({
   return answer;
 }
 
-export async function findAnswerByQuestionId({
+export async function     findAnswerByQuestionId({
   questionId,
 }: {
   questionId: string;
-}): Promise<AnswerWithDoctorProfileProps> {
+}): Promise<AnswerWithDoctorProfileProps | null> {
   const answer = await db.answer.findFirst({
     where: { questionId },
     include: {
@@ -39,7 +39,7 @@ export async function findAnswerByQuestionId({
         include: {
           user: {
             select: {
-              email: true,
+              email:true,
               profile: {
                 select: {
                   fullname: true,
@@ -58,7 +58,7 @@ export async function findAnswerByQuestionId({
     },
   });
   if (!answer) {
-    throw new Error("No answer found");
+    return null;
   }
   return answer;
 }

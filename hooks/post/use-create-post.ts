@@ -35,8 +35,19 @@ export default function useCreatePostForm() {
     toastId: "create-post",
     toastLoading: "Creating post...",
     fetcher: async (data?: FormData) => {
-      if (!data) return;
-      await createPost(data);
+      try {
+        if (!data) {
+          return { success: false, error: "No data provided" };
+        }
+        const response = await createPost(data);
+        if (!response.success){
+          return { success: false, error: "Failed to create post" };
+        }
+    
+        return { success: true };
+      } catch (error) {
+        return { success: false, error: "Failed to create post" };
+      }
     },
     tags: "posts",
     redirectUrl:

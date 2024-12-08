@@ -11,10 +11,10 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import getServerSessionOptions from "@/helper/server/get-server-session";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
 import { findDoctorByUserId } from "@/repositories/articles.repository";
 export default async function Appointment() {
-  const session = await getServerSessionOptions();
+  const session = await getAuthenticatedUserSession();
   console.log(session);
   
   const doctorExist = await findDoctorByUserId(session.user.id);

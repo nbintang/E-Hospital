@@ -8,7 +8,7 @@ import { useMutateData } from "./react-query-fn/use-mutate-data";
 import { useSession } from "next-auth/react";
 import { SchemaValues, AnswerSchema } from "@/schemas/answer-schema";
 
-export default function useAnswerQuest({ id }: { id: string }) {
+export default function useAnswerQuest({ id: questionId }: { id: string }) {
   const editorRef = useRef<Editor | null>(null);
   const form = useForm<SchemaValues>({
     resolver: zodResolver(AnswerSchema),
@@ -32,8 +32,13 @@ export default function useAnswerQuest({ id }: { id: string }) {
     toastId: "create-answer",
     toastLoading: "Creating answer...",
     fetcher: async (data?: FormData) => {
-      if (!data) return;
-      await createAnswer(data, id);
+      try {
+        if (!data) return { success: false, error: "No data provided" };
+        await createAnswer(data, questionId);
+        return { success: true };
+      } catch (error) {
+        return { success: false, error: "Failed to create answer" };
+      }
     },
     redirectUrl:
       session?.user?.role === "ADMIN"

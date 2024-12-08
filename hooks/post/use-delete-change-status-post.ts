@@ -4,7 +4,7 @@ import { useMutateData } from "@/hooks/react-query-fn/use-mutate-data";
 import { deletePost } from "@/actions/post/delete-post";
 import { useSession } from "next-auth/react";
 
-export default function useDeleteAndChangeStatusPost({ id }: { id: string }) {
+export default function useDeleteAndChangeStatusPost({ id: articleId }: { id: string }) {
   const [isPublishAlertOpen, setIsPublishAlertOpen] = useState(false);
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const { data: session } = useSession();
@@ -13,7 +13,13 @@ export default function useDeleteAndChangeStatusPost({ id }: { id: string }) {
     toastLoading: "Changing status...",
     toastSuccess: "Status changed",
     fetcher: async (data?: FormData) => {
-      await changeStatusArticles({ id, status: "PUBLISHED" });
+      try {
+        await changeStatusArticles({ id: articleId, status: "PUBLISHED" });
+        return { success: true };
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
     },
     redirectUrl: "/dashboard/articles",
     tags: "posts",
@@ -28,7 +34,14 @@ export default function useDeleteAndChangeStatusPost({ id }: { id: string }) {
     toastLoading: "Deleting post...",
     toastSuccess: "Post deleted",
     fetcher: async (data?: FormData) => {
-      await deletePost(id);
+      try {
+        await deletePost(articleId);
+        return { success: true };
+      } catch (error) {
+        console.log(error);
+        throw error;
+        
+      }
     },
     redirectUrl:
       session?.user?.role === "ADMIN"

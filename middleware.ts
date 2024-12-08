@@ -16,8 +16,20 @@ export async function middleware(req: NextRequest) {
     "/buat-janji",
   ];
 
+  const dynamicPublicRoutes = [
+    /^\/articles\/[^\/]+$/, // Matches /articles/[slug]
+    /^\/products\/[^\/]+$/, // Matches /products/[slug]
+    /^\/tanya-dokter\/[^\/]+$/, // Matches /tanya-dokter/[slug]
+    /^\/toko-obat\/[^\/]+$/, // Matches /toko-obat/[slug]
+    /^\/buat-janji\/[^\/]+$/, // Matches /buat-janji/[slug]
+  ];
+
   // Allow access to public routes without authentication
-  if (!token && publicRoutes.includes(pathname)) {
+  if (
+    !token &&
+    (publicRoutes.includes(pathname) ||
+      dynamicPublicRoutes.some((rgx) => new RegExp(rgx).test(pathname)))
+  ) {
     return NextResponse.next();
   }
 
@@ -31,13 +43,14 @@ export async function middleware(req: NextRequest) {
   // Prevent DOCTOR or ADMIN from accessing patient-specific routes
   if (
     (userRole === "DOCTOR" || userRole === "ADMIN") &&
-    publicRoutes.includes(pathname)
+    (publicRoutes.includes(pathname) ||
+      dynamicPublicRoutes.some((rgx) => new RegExp(rgx).test(pathname)))
   ) {
     const redirectURL =
       userRole === "ADMIN" ? "/dashboard" : "/doctor/dashboard";
     return NextResponse.redirect(new URL(redirectURL, req.nextUrl));
   }
-
+  
   // Prevent PATIENT from accessing ADMIN or DOCTOR routes
   if (userRole === "PATIENT" && (adminPathname || doctorPathname)) {
     return NextResponse.redirect(new URL("/", req.nextUrl));

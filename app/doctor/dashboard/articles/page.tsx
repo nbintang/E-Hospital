@@ -1,12 +1,16 @@
 import PostCard from "@/components/admin/sections/post";
 import { SkeletonCard } from "@/components/admin/sections/post/skeleton";
 import { Button } from "@/components/ui/button";
-import getServerSessionOptions from "@/helper/server/get-server-session";
-import { findArticles } from "@/repositories/articles.repository";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
+import {
+  findArticlesByDoctorId,
+  findDoctorByUserId,
+} from "@/repositories/articles.repository";
 import Link from "next/link";
 export default async function ArticlesPage() {
-  const articles = await findArticles();
-const session = await getServerSessionOptions();
+  const session = await getAuthenticatedUserSession();
+  const doctor = await findDoctorByUserId(session?.user.id);
+  const articles = await findArticlesByDoctorId({ createdBy: doctor?.id });
   return (
     <>
       <div className="flex justify-end mb-5 ">
@@ -18,7 +22,11 @@ const session = await getServerSessionOptions();
         <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-4">
           {articles.map((article, i) =>
             articles && articles.length > 0 ? (
-              <PostCard key={i} article={article} role={session?.user.role as string} />
+              <PostCard
+                key={i}
+                article={article}
+                role={session?.user.role as string}
+              />
             ) : (
               <SkeletonCard key={i} />
             )

@@ -30,11 +30,12 @@ export async function findQuestions(): Promise<QuestionProps[]> {
   return questions;
 }
 
-export async function findQuestionBySlug(
-  slug: string
+export async function findQuestionBySlugOrId(
+  slug?: string,
+  id?: string
 ){
   return await db.question.findUnique({
-    where: { slug },
+    where: { slug, id },
     include: {
       user: true,
       categories: true, // Make sure to include the categories

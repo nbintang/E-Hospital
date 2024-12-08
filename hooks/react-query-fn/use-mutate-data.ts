@@ -13,12 +13,13 @@ export function useMutateData({
   toastSuccess?: string;
   toastLoading?: string;
   toastId?: string;
-  fetcher: (data?: FormData) => Promise<void>;
+  fetcher: (data?: FormData) => Promise<{ success: boolean; error?: string }>;
   redirectUrl?: string;
   tags?: string;
 }) {
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const result = useMutation({
     mutationKey: [tags],
     mutationFn: fetcher,
@@ -29,12 +30,21 @@ export function useMutateData({
         description: "Waiting for response",
       });
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if (!response.success) {
+        toast.error(response.error || "Failed", {
+          id: toastId,
+          position: "bottom-right",
+          description: "You are not authorized to perform this action.",
+        });
+        return;
+      }
+
       queryClient.invalidateQueries({ queryKey: [tags] });
       toast.success(toastSuccess, {
         id: toastId,
         position: "bottom-right",
-        description: "Successfully!",
+        description: "Successfully updated!",
       });
       router.push(`${redirectUrl}`);
     },

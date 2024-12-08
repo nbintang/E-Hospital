@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import { TwitterIcon } from "lucide-react";
 import Company from "@/components/icons/company";
+import { formatDate } from "@/helper/client";
 
 export default function ClientFooter() {
   return (
@@ -10,7 +12,7 @@ export default function ClientFooter() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo and Hospital Name */}
           <div className="flex items-center  gap-3">
-            <Company className="h-8 w-8" />
+            {/* <Company className="h-8 w-8" /> */}
             <div className="text-white ">
               <h2 className="text-xl font-bold">Inovasi</h2>
               <p className="text-sm">Medika</p>
@@ -21,7 +23,7 @@ export default function ClientFooter() {
           <div className="flex flex-col items-center md:items-end gap-4">
             <h3 className="text-white text-lg font-medium">Media Sosial</h3>
             <div className="flex flex-wrap justify-center gap-4">
-              <SocialLink
+              {/* <SocialLink
                 href="https://twitter.com"
                 icon={<TwitterIcon />}
                 label="Twitter"
@@ -45,7 +47,7 @@ export default function ClientFooter() {
                 href="https://facebook.com"
                 icon={<Facebook />}
                 label="Facebook"
-              />
+              /> */}
             </div>
           </div>
         </div>
@@ -53,7 +55,7 @@ export default function ClientFooter() {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-white/20">
           <p className="text-white text-center text-sm">
-            Copyright @ {new Date().getFullYear()} Inovasi Medika Hospital.
+            Copyright @  Inovasi Medika Hospital.
           </p>
         </div>
       </div>

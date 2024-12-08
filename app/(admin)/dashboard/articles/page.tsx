@@ -1,10 +1,13 @@
 import PostCard from "@/components/admin/sections/post";
 import { SkeletonCard } from "@/components/admin/sections/post/skeleton";
 import { Button } from "@/components/ui/button";
-import { findArticles } from "@/repositories/articles.repository";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
+import { findArticlesByDoctorId, findDoctorByUserId } from "@/repositories/articles.repository";
 import Link from "next/link";
 export default async function ArticlesPage() {
-  const articles = await findArticles();
+  const session = await getAuthenticatedUserSession()
+  const doctor = await findDoctorByUserId(session?.user.id);
+  const articles = await findArticlesByDoctorId({createdBy: doctor?.id});
 
   return (
     <>

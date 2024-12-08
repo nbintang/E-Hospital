@@ -24,7 +24,7 @@ const authOptions: NextAuthOptions = {
       async profile(profile) {
         const adminUser = await findUserByEmail(profile.email);
         return {
-          id: profile.sub,
+          id: adminUser?.id as string,
           name: profile.name,
           email: profile.email,
           image: profile.picture,

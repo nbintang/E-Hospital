@@ -2,7 +2,7 @@
 
 import { formatCategoriesToSlugs, formatTitleToSlug } from "@/helper/common";
 import { replaceBase64ToImgUrl, uploadToCloudinary } from "@/helper/server";
-import getServerSessionOptions from "@/helper/server/get-server-session";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
 
 import {
   createArticles,
@@ -16,9 +16,11 @@ export async function createPost(formData: FormData) {
     const content = formData.get("content") as string;
     const mainImage = formData.get("image") as File;
     const category = formData.getAll("category") as string[];
-    const session = await getServerSessionOptions();
-  
+    const session = await getAuthenticatedUserSession();
+  console.log(session.user.id);
     const doctorExist = await findDoctorByUserId(session.user.id);
+    console.log(doctorExist);
+    
     if (!doctorExist) throw new Error("Doctor not authenticated");
     if (!title || !content || !mainImage || category.length === 0) {
       throw new Error("Missing required fields");

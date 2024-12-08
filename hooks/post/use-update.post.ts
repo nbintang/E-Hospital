@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Editor } from "@tiptap/core";
 import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { toast } from "sonner";
-import { ArticleBySlugProps, ArticleProps } from "@/types/article";
+import { ArticleByIdProps, ArticleProps } from "@/types/article";
 import { updatePost } from "@/actions/post/update-post";
 import { replaceImageUrlToBase64 } from "@/helper/client";
 import { CategoryProps } from "@/types/categories";
@@ -16,7 +16,7 @@ export default function useUpdatePostForm({
   article,
   categories,
 }: {
-  article: ArticleBySlugProps;
+  article: ArticleByIdProps;
   categories: CategoryProps[];
 }) {
   const editorRef = useRef<Editor | null>(null);
@@ -76,8 +76,18 @@ export default function useUpdatePostForm({
     toastSuccess: "Post updated",
     toastLoading: "Updating post...",
     fetcher: async (data?: FormData) => {
-      if (!data) return;
-      await updatePost(data);
+      try {
+        if (!data) throw new Error("No data provided"); // Add this line
+        const response = await updatePost(data);
+        if (!response.success) {
+          return { success: false, error: response.error };
+        }
+
+        return { success: true };
+      } catch (error) {
+        console.log(error);
+        return { success: false, error: "Failed to update post" };
+      }
     },
     tags: "posts",
     redirectUrl:
@@ -95,6 +105,7 @@ export default function useUpdatePostForm({
     formData.append("title", values.title);
     formData.append("content", values.content);
     formData.append("image", values.image);
+    formData.append("articleId", article.id);
     values.category.forEach((category) => {
       formData.append("category", category);
     });

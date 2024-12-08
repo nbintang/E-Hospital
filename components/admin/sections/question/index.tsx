@@ -15,6 +15,7 @@ import { QuestionBySlug, QuestionProps } from "@/types/question";
 import { formatDate } from "@/helper/client";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 const statusColors: Record<QuestionStatus, string> = {
   PENDING: "bg-yellow-500",
   ANSWERED: "bg-green-500",
@@ -26,15 +27,15 @@ export default function QuestionsCard({
   question?: QuestionBySlug | QuestionProps;
 }) {
   const pathname = usePathname();
+  const {data: session} = useSession()
   const handleNavigate = useHandleLoadingNavigate({ pathname });
   if (!question) return null;
   return (
     <div
       onClick={() =>
-        pathname === "/doctor/dashboard/questions" ||
-        pathname === "/dashboard/questions"
+        session?.user?.role === "DOCTOR"
           ? handleNavigate(`/doctor/dashboard/questions/${question.slug}`)
-          : null
+          : handleNavigate(`/dashboard/questions/${question.slug}`)
       }
       className={`${
         pathname !== `/dashboard/questions/${question.slug}` && "hover:scale-95"

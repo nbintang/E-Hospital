@@ -19,7 +19,7 @@ export type AnswerWithDoctorProfileProps = Prisma.AnswerGetPayload<{
       include: {
         user: {
           select: {
-            email:true
+            email:true,
             profile: {
               select: {
                 fullname: true,

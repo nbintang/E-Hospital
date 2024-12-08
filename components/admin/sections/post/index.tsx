@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -34,7 +35,7 @@ export default function ArticleCard({
   const imageUrl = isValidUrl(article.imageUrl)
     ? article.imageUrl
     : "/img/akjgmw.jpeg";
-
+const {data: session} = useSession();
   const content = truncateText(filterTextContent(article.content), 100);
 
   // Limit to first 2 categories and calculate remaining
@@ -61,7 +62,7 @@ export default function ArticleCard({
         >
           {article.status === "PUBLISHED" ? "Published" : "Draft"}
         </Badge>
-        <Link href={role === "ADMIN" ? `/dashboard/articles/${article.slug}` : `/doctor/dashboard/articles/${article.slug}`}>
+        <Link href={session?.user.role === "DOCTOR" ? `/doctor/dashboard/articles/${article.id}` : `/dashboard/articles/${article.id}`}>
           <ExternalLink className="absolute top-2 z-20 right-2 text-white" />
         </Link>
       </div>

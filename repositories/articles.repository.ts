@@ -2,10 +2,17 @@
 import db from "@/lib/db";
 import { formatSlugToTitle } from "@/helper/common";
 import { ArticleStatus } from "@prisma/client";
-import { ArticleBySlugProps, ArticleProps } from "@/types/article";
+import { ArticleByIdProps, ArticleProps } from "@/types/article";
 
-export async function findArticles(): Promise<ArticleProps[]> {
+export async function findArticlesByDoctorId({
+  createdBy,
+}: {
+  createdBy?: string;
+}): Promise<ArticleProps[]> {
   const article = await db.article.findMany({
+    where: {
+      doctorId: createdBy,
+    },
     include: {
       categories: true,
       doctor: {
@@ -26,7 +33,30 @@ export async function findArticles(): Promise<ArticleProps[]> {
   return article;
 }
 
+export async function findAllArticles(): Promise<ArticleProps[]> {
+  return await db.article.findMany({
+    include: {
+      categories: true,
+      doctor: {
+        include: {
+          user: {
+            select: {
+              profile: {
+                select: {
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 export async function findDoctorByUserId(id: string) {
+  console.log(id);
+
   return await db.doctor.findFirst({ where: { userId: id } });
 }
 
@@ -113,20 +143,44 @@ export async function updateArticles({
   });
 }
 
-export async function findArticlesBySlug({
+export async function findArticlesBySlugOrId({
   slug,
+  id,
+  status,
 }: {
-  slug: string;
-}): Promise<ArticleBySlugProps | null> {
+  slug?: string;
+  id?: string;
+  status?: ArticleStatus;
+}): Promise<ArticleByIdProps | null> {
   return await db.article.findUnique({
-    where: { slug },
+    where: { id, slug, status },
     include: {
       categories: true,
+      doctor: {
+        select: {
+          specialization: {
+            select: {
+              name: true,
+            },
+          },
+          user: {
+            select: {
+              email: true,
+              profile: {
+                select: {
+                  fullname: true,
+                  profileUrl: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 }
 
-export async function deleteArticles({ id }: { id: string }) {
+export async function deleteArticles({ id }: { id?: string }) {
   return await db.article.delete({ where: { id } });
 }
 
@@ -134,15 +188,23 @@ export async function updateArticleStatus({
   id,
   status,
 }: {
-  id: string;
+  id?: string;
   status: ArticleStatus;
 }) {
   return await db.article.update({ where: { id }, data: { status } });
 }
 
-
-export async function findArticlesByPage({ currentPage, itemsPerPage }: { currentPage: number, itemsPerPage: number }): Promise<ArticleProps[]> {
+export async function findArticlesByPage({
+  currentPage,
+  itemsPerPage,
+  status,
+}: {
+  currentPage: number;
+  itemsPerPage: number;
+  status?: ArticleStatus;
+}): Promise<ArticleProps[]> {
   const article = await db.article.findMany({
+    where: { status },
     include: {
       categories: true,
       doctor: {
@@ -160,7 +222,11 @@ export async function findArticlesByPage({ currentPage, itemsPerPage }: { curren
       },
     },
     skip: (currentPage - 1) * itemsPerPage,
-    take: itemsPerPage
-  })
+    take: itemsPerPage,
+  });
   return article;
 }
+
+export const findTotalArticles = async () => {
+  return await db.article.count();
+};

@@ -10,20 +10,38 @@ export type ArticleProps = Prisma.ArticleGetPayload<{
             profile: {
               select: {
                 fullname: true;
-              }
-            }
-          }
-        }
-      }
+              };
+            };
+          };
+        };
+      };
     };
     categories: true;
-  }
+  };
 }>;
 
-
-
-export type ArticleBySlugProps = Prisma.ArticleGetPayload<{
-  include:{
-    categories: true
-  }
-}>
+export type ArticleByIdProps = Prisma.ArticleGetPayload<{
+  include: {
+    categories: true;
+    doctor: {
+      select: {
+        specialization: {
+          select: {
+            name: true;
+          };
+        };
+        user: {
+          select: {
+            email: true;
+            profile: {
+              select: {
+                fullname: true;
+                profileUrl: true;
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+}>;

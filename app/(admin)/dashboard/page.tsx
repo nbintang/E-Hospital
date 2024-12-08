@@ -1,13 +1,13 @@
 
 import { findQuestions } from "@/repositories/questions.repository";
 import { Charts } from "@/components/admin/panel/charts";
-import { findArticles } from "@/repositories/articles.repository";
+import { findAllArticles, findArticlesByDoctorId } from "@/repositories/articles.repository";
 import {CardArticlesSection, CardOrderTable, CardQuestionLists, CardUserTable } from "@/components/admin/sections/home-dashboard";
 export default async function Dashboard() {
   const questions = await findQuestions();
 
 
-  const articles = await findArticles();
+  const articles = await findAllArticles();
   const clientQuestions = [
     { id: 1, question: "How do I reset my password?", status: "New" },
     {

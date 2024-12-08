@@ -21,6 +21,9 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.externals =[ ...config.externals, "jsdom",]
+  }
 };
 
 export default nextConfig;
