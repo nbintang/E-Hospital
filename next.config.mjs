@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '8mb',
+      bodySizeLimit: "8mb",
     },
   },
   images: {
@@ -17,13 +17,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
         port: "",
-        pathname: "/**",  // Allow all paths under Cloudinary domain
+        pathname: "/**", // Allow all paths under Cloudinary domain
       },
     ],
   },
   webpack: (config) => {
-    config.externals =[ ...config.externals, "jsdom",]
-  }
+    config.externals = [...config.externals, "jsdom", "canvas"];
+    return config;
+  },
 };
 
 export default nextConfig;

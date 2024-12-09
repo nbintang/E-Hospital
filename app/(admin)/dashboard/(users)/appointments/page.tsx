@@ -12,7 +12,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 export default async function Appointment() {
 const session  =  await getAuthenticatedUserSession()
 if(!session) return null

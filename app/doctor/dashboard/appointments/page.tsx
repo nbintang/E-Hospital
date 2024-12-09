@@ -11,13 +11,12 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import { findDoctorByUserId } from "@/repositories/articles.repository";
 export default async function Appointment() {
   const session = await getAuthenticatedUserSession();
-  console.log(session);
   
-  const doctorExist = await findDoctorByUserId(session.user.id);
+  const doctorExist = await findDoctorByUserId(session?.user.id!);
   if (!doctorExist) {
     throw new Error("Unauthorized");
   }

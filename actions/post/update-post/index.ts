@@ -2,7 +2,7 @@
 
 import { formatCategoriesToSlugs, formatTitleToSlug } from "@/helper/common";
 import { replaceBase64ToImgUrl, uploadToCloudinary } from "@/helper/server";
-import getAuthenticatedUserSession from "@/helper/server/get-authenticated-use-seesion";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import {
   findArticlesBySlugOrId,
   findDoctorByUserId,
@@ -18,7 +18,7 @@ export async function updatePost(formData: FormData) {
     const category = formData.getAll("category") as string[];
     const articleId = formData.get("articleId") as string;
     const session = await getAuthenticatedUserSession();
-    const doctorExist = await findDoctorByUserId(session.user.id);
+    const doctorExist = await findDoctorByUserId(session?.user.id || "");
     if (!doctorExist){
       throw new Error("Doctor not authenticated");
     }

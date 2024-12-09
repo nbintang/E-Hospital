@@ -20,7 +20,6 @@ import { Category } from "@prisma/client";
 import { TagsInput } from "@/components/extensions/input-tags";
 import { createQuestions } from "@/repositories/questions.repository";
 import { formatSlugToTitle, formatTitleToSlug } from "@/helper/common";
-import { useSession } from "next-auth/react";
 import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
