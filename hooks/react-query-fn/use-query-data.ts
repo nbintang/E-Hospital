@@ -17,3 +17,4 @@ export function useQueryData({
 
   return { data, isError, isPending, isSuccess, partials };
 }
+  

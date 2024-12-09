@@ -62,3 +62,28 @@ export type QuestionsPublic = Prisma.QuestionGetPayload<{
     };
   };
 }>;
+
+export type SpecificQuestionPublic = Prisma.QuestionGetPayload<{
+  include: {
+    user: {
+      include: {
+        profile: true;
+      };
+    };
+    categories: true;
+    answers: {
+      include: {
+        doctor: {
+          include: {
+            specialization: true;
+            user: {
+              include: {
+                profile: true;
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+}> | null;

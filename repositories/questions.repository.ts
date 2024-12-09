@@ -1,8 +1,10 @@
+"use server";
 import db from "@/lib/db";
 import {
   QuestionBySlug,
   QuestionProps,
   QuestionsPublic,
+  SpecificQuestionPublic,
 } from "@/types/question";
 import { Prisma } from "@prisma/client";
 
@@ -74,6 +76,40 @@ export async function findQuestionsPublic(): Promise<QuestionsPublic[]> {
                       fullname: true,
                     },
                   },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+export async function findSpecificQuestionsPublic({
+  slug,
+}: {
+  slug: string;
+}): Promise<SpecificQuestionPublic | null> {
+  return await db.question.findFirst({
+    where: {
+      slug,
+    },
+    include: {
+      user: {
+        include: {
+          profile: true,
+        },
+      },
+      categories: true,
+      answers: {
+        include: {
+          doctor: {
+            include: {
+              specialization: true,
+              user: {
+                include: {
+                  profile: true,
                 },
               },
             },

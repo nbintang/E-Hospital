@@ -1,9 +1,9 @@
 import db from "@/lib/db";
 import { CategoryProps } from "@/types/categories";
 
-export const findCategories = async () : Promise<CategoryProps[]> => (
-    await db.category.findMany()
-)
+  export const findCategories = async () : Promise<CategoryProps[]> => (
+      await db.category.findMany()
+  )
 
 export async function createCategoryIfNotExists(categoryName: string) {
     // Check if the category already exists
