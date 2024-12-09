@@ -14,8 +14,9 @@ import { formatDate } from "@/helper/client";
 export default function Answer({
   answer,
 }: {
-  answer: AnswerWithDoctorProfileProps;
+  answer: AnswerWithDoctorProfileProps | null;
 }) {
+  if (!answer) return null;
   const sanitizedContent = DOMPurify.sanitize(answer.textContent);
   return (
     <Card key={answer.id} className="flex flex-col w-full mt-3">

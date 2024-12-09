@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
     "/signup",
     "/articles",
     "/about",
-    "/tanya-dokter",
+    "/questions",
     "/toko-obat",
     "/buat-janji",
   ];
@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
   const dynamicPublicRoutes = [
     /^\/articles\/[^\/]+$/, // Matches /articles/[slug]
     /^\/products\/[^\/]+$/, // Matches /products/[slug]
-    /^\/tanya-dokter\/[^\/]+$/, // Matches /tanya-dokter/[slug]
+    /^\/questions\/[^\/]+$/, // Matches /tanya-dokter/[slug]
     /^\/toko-obat\/[^\/]+$/, // Matches /toko-obat/[slug]
     /^\/buat-janji\/[^\/]+$/, // Matches /buat-janji/[slug]
   ];

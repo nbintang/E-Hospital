@@ -1,5 +1,9 @@
 import db from "@/lib/db";
-import { QuestionBySlug, QuestionProps } from "@/types/question";
+import {
+  QuestionBySlug,
+  QuestionProps,
+  QuestionsPublic,
+} from "@/types/question";
 import { Prisma } from "@prisma/client";
 
 export async function findQuestions(): Promise<QuestionProps[]> {
@@ -30,16 +34,52 @@ export async function findQuestions(): Promise<QuestionProps[]> {
   return questions;
 }
 
-export async function findQuestionBySlugOrId(
-  slug?: string,
-  id?: string
-){
+export async function findQuestionBySlugOrId(slug?: string, id?: string) {
   return await db.question.findUnique({
     where: { slug, id },
     include: {
       user: true,
       categories: true, // Make sure to include the categories
       answers: true,
+    },
+  });
+}
+
+export async function createQuestions(input: Prisma.QuestionCreateInput) {
+  return await db.question.create({ data: input });
+}
+
+export async function findQuestionsPublic(): Promise<QuestionsPublic[]> {
+  return await db.question.findMany({
+    include: {
+      user: {
+        include: {
+          profile: {
+            select: {
+              fullname: true,
+            },
+          },
+        },
+      },
+      categories: true,
+      answers: {
+        include: {
+          doctor: {
+            include: {
+              specialization: true,
+              user: {
+                select: {
+                  profile: {
+                    select: {
+                      fullname: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 }

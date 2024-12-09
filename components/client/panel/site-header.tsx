@@ -76,7 +76,7 @@ export function SiteHeader() {
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/tanya-dokter" title="Tanya Dokter">
+                    <ListItem href="/questions" title="Tanya Dokter">
                       Ajukan pertanyaan dan dapatkan jawaban dari dokter ahli.
                     </ListItem>
                     <ListItem href="/toko-obat" title="Toko Obat">

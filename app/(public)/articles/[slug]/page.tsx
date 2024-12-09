@@ -125,12 +125,11 @@ export default async function ArticleDetailsPage({
             <div className="flex flex-wrap  my-3 gap-3">
               {article.categories.map((category) => (
                 <Link href={`/categories/${category.slug}`} key={category.id}>
-                  {" "}
                   <Badge
-                    key={category.id}
                     className={"text-base"}
                     variant={"outline"}
                   >
+
                     {category.name}
                   </Badge>
                 </Link>
