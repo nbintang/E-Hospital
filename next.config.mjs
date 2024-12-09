@@ -22,7 +22,7 @@ const nextConfig = {
     ],
   },
   webpack: (config) => {
-    config.externals = [...config.externals, "jsdom", "canvas"];
+    config.externals = [...config.externals, "jsdom"];
     return config;
   },
 };
