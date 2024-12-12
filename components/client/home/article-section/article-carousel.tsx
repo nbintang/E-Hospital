@@ -1,46 +1,39 @@
-'use client'
+"use client";
 
-import * as React from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
-import useCarousel from "@/hooks/use-carousel"
-
-const articles = [
-  {
-    title: "Tips Menjaga Kesehatan di Musim Pancaroba",
-    content: "Pelajari cara menjaga kesehatan tubuh saat pergantian musim untuk mencegah berbagai penyakit.",
-    image: "/img/coughing.jpg",
-  },
-  {
-    title: "Manfaat Olahraga Rutin bagi Kesehatan Mental",
-    content: "Temukan bagaimana olahraga teratur dapat meningkatkan kesehatan mental dan kesejahteraan Anda.",
-    image: "/img/coughing.jpg",
-  },
-  {
-    title: "Pentingnya Pola Makan Seimbang",
-    content: "Pahami mengapa pola makan seimbang penting untuk kesehatan jangka panjang dan bagaimana menerapkannya.",
-    image: "/img/coughing.jpg",
-  },
-  {
-    title: "Teknik Relaksasi untuk Mengurangi Stres",
-    content: "Pelajari berbagai teknik relaksasi efektif untuk mengelola stres dan meningkatkan kualitas hidup Anda.",
-    image: "/img/surgery.jpg",
-  },
-]
+import * as React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import useCarousel from "@/hooks/use-carousel";
+import { ArticleProps } from "@/types/article";
+import { sanitizeContent } from "@/helper/common/sanitize-content";
+import { useRouter } from "next/navigation";
 
 const options = {
   slidesToScroll: 1,
   breakpoints: {
-    '(min-width: 640px)': { slidesToScroll: 2 },
-    '(min-width: 1024px)': { slidesToScroll: 3 },
+    "(min-width: 640px)": { slidesToScroll: 2 },
+    "(min-width: 1024px)": { slidesToScroll: 3 },
   },
-}
+};
 
-export default function ArticleCarousel() {
-  const { plugin, api, setApi } = useCarousel()
-
+export default function ArticleCarousel({
+  articles,
+}: {
+  articles: ArticleProps[];
+}) {
+  const { plugin, api, setApi } = useCarousel();
+  const [isClientArticle, setIsClientArticle] = React.useState<ArticleProps[]>(
+    []
+  );
+  React.useEffect(() => {
+    setIsClientArticle(articles);
+  });
   return (
     <Carousel
       plugins={[plugin.current]}
@@ -51,12 +44,12 @@ export default function ArticleCarousel() {
       opts={options}
     >
       <CarouselContent className="-ml-4">
-        {articles.map((article, index) => (
+        {isClientArticle.map((article, index) => (
           <CarouselItem key={index} className="pl-4 sm:basis-1/2 lg:basis-1/3">
             <Card>
               <div className="relative aspect-video overflow-hidden rounded-t-lg">
                 <Image
-                  src={article.image}
+                  src={article.imageUrl}
                   alt={`${article.title} thumbnail`}
                   fill
                   className="object-cover"
@@ -66,11 +59,17 @@ export default function ArticleCarousel() {
                 <CardTitle className="line-clamp-2">{article.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-500 line-clamp-3">
-                  {article.content}
-                </p>
+                <div
+                  className="text-gray-500 prose line-clamp-3"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeContent(article.content)
+                      .replace(/<img[^>]*>/g, "")
+                      .slice(0, 300),
+                  }}
+                />
+
                 <Link
-                  href="#"
+                  href={`/articles/${article.slug}`}
                   className="inline-flex items-center mt-4 text-blue-600 hover:text-blue-700"
                 >
                   Baca Selengkapnya
@@ -95,6 +94,5 @@ export default function ArticleCarousel() {
         ))}
       </CarouselContent>
     </Carousel>
-  )
+  );
 }
-

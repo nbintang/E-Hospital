@@ -25,6 +25,7 @@ const nextConfig = {
     config.externals = [...config.externals, "jsdom"];
     return config;
   },
+  
 };
 
 export default nextConfig;

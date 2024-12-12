@@ -35,7 +35,6 @@ export default function RootLayout({
         <RQProvider>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            suppressHydrationWarning
           >
             <SigninDialog />
             <ClientLayout>{children}</ClientLayout>
