@@ -1,4 +1,4 @@
-"use client";
+
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import { TwitterIcon } from "lucide-react";

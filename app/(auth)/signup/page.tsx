@@ -1,11 +1,11 @@
 "use client";
 import SignUpForm from "@/components/auth/signup";
-import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
+import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
 import { ChevronLeft, LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 export default function SignUpPage() {
-  const { setShowSignIn: setIsOpenDialogSignin } = useOpenDialog();
+  const { setShowSignIn: setIsOpenDialogSignin } = useOpenAuthDialog();
   return (
     <div className=" grid place-items-center min-h-screen mx-auto p-6 w-full lg:w-3/4">
       <div className="">

@@ -20,7 +20,7 @@ import { Category } from "@prisma/client";
 import { TagsInput } from "@/components/extensions/input-tags";
 import { createQuestions } from "@/repositories/questions.repository";
 import { formatSlugToTitle, formatTitleToSlug } from "@/helper/common";
-import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
+import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -42,7 +42,7 @@ export default function CreateQuestionForm({
   session: Session | null;
 }) {
   const router = useRouter();
-  const { setShowSignIn } = useOpenDialog();
+  const { setShowSignIn } = useOpenAuthDialog();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import Company from "@/components/icons/company";
 import { cn } from "@/lib/utils";
-import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
+import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
 import { useSession } from "next-auth/react";
 import { UserNav } from "./user-nav";
 import {
@@ -34,7 +34,7 @@ import {
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { setShowSignIn: setIsOpenDialogSignin } = useOpenDialog();
+  const { setShowSignIn: setIsOpenDialogSignin } = useOpenAuthDialog();
   const { data: session, status } = useSession();
 
   return (
@@ -82,7 +82,7 @@ export function SiteHeader() {
                     <ListItem href="/toko-obat" title="Toko Obat">
                       Beli obat dengan resep atau tanpa resep dengan mudah.
                     </ListItem>
-                    <ListItem href="/buat-janji" title="Buat Janji">
+                    <ListItem href="/appointments" title="Buat Janji">
                       Jadwalkan kunjungan ke dokter atau rumah sakit.
                     </ListItem>
                   </ul>

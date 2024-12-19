@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import { findDoctorByUserId } from "@/repositories/articles.repository";
+import db from "@/lib/db";
 export default async function Appointment() {
   const session = await getAuthenticatedUserSession();
   
@@ -24,6 +25,9 @@ export default async function Appointment() {
   const appointments = await findAppointmentsByDoctorId({
     doctorId: doctorExist.id,
   });
+
+
+  
   if (!appointments)
     return <p className="text-muted-foreground"> NO APPOINTMENTS </p>;
 

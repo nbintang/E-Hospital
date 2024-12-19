@@ -9,7 +9,7 @@ interface OpenDialogState {
   toggleRegister: () => void;
 }
 
-export const useOpenDialog = create<OpenDialogState>((set) => ({
+export const useOpenAuthDialog = create<OpenDialogState>((set) => ({
   showSignIn: false,
   showRegister: false,
   setShowSignIn: (show) => set({ showSignIn: show }),

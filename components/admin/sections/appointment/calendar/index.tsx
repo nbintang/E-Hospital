@@ -74,7 +74,7 @@ export default function AppointmentCalendar({
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setIsDialogOpen(false)}>
+            <Button variant="blue" onClick={() => setIsDialogOpen(false)}>
               Confirm Appointment
             </Button>
           </DialogFooter>

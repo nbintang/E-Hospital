@@ -1,18 +1,16 @@
 "use server";
 import db from "@/lib/db";
 import { AppointmentProps } from "@/types/appointment";
+import { Prisma } from "@prisma/client";
 export async function findAppointmentsByDoctorId({
   doctorId,
 }: {
   doctorId: string;
 }): Promise<AppointmentProps[]> {
-  console.log("Doctor ID:", doctorId);
 
   return await db.appointment.findMany({
     where: {
-   user:{
-    id: doctorId
-   }
+   doctorId
     },
     include: {
       user: {
@@ -52,4 +50,9 @@ export async function findAppointmentsByDoctorId({
       },
     },
   });
+}
+
+
+export async function createAppointments(input: Prisma.AppointmentCreateInput) {
+  return await db.appointment.create({ data: input });
 }

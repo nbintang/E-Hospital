@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -30,104 +30,102 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 
-import { Appointment, Doctor, Hospital, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import moment from "moment";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
+import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import { createAppointments } from "@/repositories/appointments.repository";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  hospitalId: z.string().min(1, "Please select a hospital"),
   doctorId: z.string().min(1, "Please select a doctor"),
   date: z.date({
     required_error: "Please select a date",
   }),
   time: z.string().min(1, "Please select a time"),
 });
+export type DoctorsProps = Prisma.DoctorGetPayload<{
+  include: {
+    specialization: true;
+    hospital: {
+      include: {
+        address: true;
+      };
+    };
+    user: { include: { profile: true } };
+  };
+}>[];
 
 interface AppointmentFormProps {
-  doctors: Prisma.DoctorGetPayload<{
-    include: {specialization: true; user: { include: { profile: true } } };
-  }>[];
-  hospitals: Hospital[];
-  onSubmit: (
-    appointment: Omit<Appointment, "id" | "createdAt" | "updatedAt">
-  ) => void;
-  userId: string;
+  doctors: DoctorsProps;
+  session: Session | null;
 }
 
 export default function AppointmentForm({
   doctors,
-  hospitals,
-  onSubmit,
-  userId,
+  session,
 }: AppointmentFormProps) {
-  const [availableDoctors, setAvailableDoctors] = useState(doctors);
-
+  const router = useRouter();
+  const { setShowSignIn } = useOpenAuthDialog();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      hospitalId: "",
       doctorId: "",
       time: "",
     },
   });
-
   useEffect(() => {
-    const hospitalId = form.watch("hospitalId");
-    if (hospitalId) {
-      setAvailableDoctors(
-        doctors.filter((doctor) => doctor.hospitalId === hospitalId)
-      );
-    } else {
-      setAvailableDoctors(doctors);
+    if (!session) {
+      setShowSignIn(true);
     }
-  }, [form.watch("hospitalId"), doctors]);
+  }, [session, setShowSignIn]);
 
-  function onFormSubmit(values: z.infer<typeof formSchema>) {
+  async function onFormSubmit(values: z.infer<typeof formSchema>) {
+    if (!session) return setShowSignIn(true);
     const dateTime = new Date(values.date);
     const [hours, minutes] = values.time.split(":");
     dateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    const result = await createAppointments({
+      doctor: {
+        connect: {
+          id: values.doctorId,
+        },
+      },
+      hospital: {
+        connect: {
+          id: doctors.find((doctor) => doctor.id === values.doctorId)?.hospital
+            .id,
+        },
+      },
+      dateTime: values.date,
+      user: {
+        connect: {
+          id: session.user.id,
+        },
+      },
+    });
 
-    onSubmit({
-      userId,
-      doctorId: values.doctorId,
-      hospitalId: values.hospitalId,
-      dateTime,
-      status: "PENDING",
-    } as Omit<Appointment, "id" | "createdAt" | "updatedAt">);
+    toast.promise(Promise.resolve(result), {
+      loading: "Memproses...",
+      success: "Berhasil Membuat Jadwal Konsultasi",
+      error: "Terjadi kesalahan, silahkan coba lagi",
+    });
 
-    console.log(values);
-    
+    if (result) {
+      router.push("/dashboard");
+      form.reset();
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFormSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="hospitalId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hospital</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a hospital" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {hospitals.map((hospital) => (
-                    <SelectItem key={hospital.id} value={hospital.id}>
-                      {hospital.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                Choose the hospital for your appointment
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="doctorId"
@@ -137,16 +135,63 @@ export default function AppointmentForm({
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a doctor" />
+                    <SelectValue placeholder="Select a doctor">
+                      {field.value &&
+                        doctors.find((doctor) => doctor.id === field.value)
+                          ?.user.profile?.fullname}
+                    </SelectValue>
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
-                  {availableDoctors.map((doctor) => (
-                    <SelectItem key={doctor.id} value={doctor.id}>
-                      {doctor.user.profile?.fullname} -{" "}
-                      {doctor.specialization.name}
-                    </SelectItem>
-                  ))}
+                <SelectContent className="w-full">
+                  <ScrollArea className="h-44">
+                    {doctors.map((doctor) => (
+                      <SelectItem
+                        className="cursor-pointer w-full"
+                        key={doctor.id}
+                        value={doctor.id}
+                      >
+                        <div className="my-3 flex items-center gap-4">
+                          <Avatar>
+                            <AvatarImage
+                              src={
+                                doctor.user.profile?.profileUrl ??
+                                `https://api.dicebear.com/7.x/initials/svg?seed=${doctor.user.profile?.fullname}`
+                              }
+                            />
+                            <AvatarFallback>
+                              {doctor.user.profile?.fullname
+                                .split(" ")
+                                .map((n: string) => n[0])
+                                .join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex items-end w-full gap-4">
+                            <div className="">
+                              <h3 className="text-base font-semibold">
+                                {doctor.user.profile?.fullname}
+                              </h3>
+                              <div className="flex w-full justify-between">
+                                <h5 className="text-xs text-muted-foreground">
+                                  {doctor.specialization.name}
+                                </h5>
+                                <Separator
+                                  orientation="vertical"
+                                  className="mx-3  h-5"
+                                />
+                                <h5 className="text-xs text-muted-foreground">
+                                  {doctor.hospital.name}
+                                </h5>
+                              </div>
+                              <span className="text-xs text-muted-foreground">
+                                {doctor.hospital.address.name}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </SelectItem>
+                    ))}
+                    <ScrollBar orientation="vertical" />
+                  </ScrollArea>
                 </SelectContent>
               </Select>
               <FormDescription>
@@ -229,7 +274,15 @@ export default function AppointmentForm({
             </FormItem>
           )}
         />
-        <Button type="submit">Book Appointment</Button>
+        <div className="flex justify-end">
+          <Button
+            variant={"blue"}
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

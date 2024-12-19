@@ -11,7 +11,7 @@ import Company from "@/components/icons/company";
 
 import SigninForm from "@/components/auth/signin";
 import Google from "@/components/icons/google";
-import { useOpenDialog } from "@/hooks/use-open-auth-dialog";
+import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
 import Link from "next/link";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 export function SigninDialog() {
   const pathname = usePathname();
-  const { showSignIn: open, setShowSignIn: setIsOpen } = useOpenDialog();
+  const { showSignIn: open, setShowSignIn: setIsOpen } = useOpenAuthDialog();
   const handleLoadingClick = useHandleLoadingNavigate({ pathname });
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>
