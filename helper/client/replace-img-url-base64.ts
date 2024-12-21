@@ -1,5 +1,4 @@
 
-//client-side
 export async function replaceImageUrlToBase64(imgUrl: string) : Promise<string> {
   try {
     const response = await fetch(imgUrl);

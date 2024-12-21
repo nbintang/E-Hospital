@@ -1,6 +1,6 @@
 "use client";
 import SignUpForm from "@/components/auth/signup";
-import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import { ChevronLeft, LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

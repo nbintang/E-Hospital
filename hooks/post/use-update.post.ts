@@ -7,10 +7,10 @@ import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { toast } from "sonner";
 import { ArticleByIdProps, ArticleProps } from "@/types/article";
 import { updatePost } from "@/actions/post/update-post";
-import { replaceImageUrlToBase64 } from "@/helper/client";
 import { CategoryProps } from "@/types/categories";
 import { useMutateData } from "@/hooks/react-query-fn/use-mutate-data";
 import { useSession } from "next-auth/react";
+import { blobUrlToBase64 } from "@/lib/file-utils";
 
 export default function useUpdatePostForm({
   article,
@@ -39,25 +39,24 @@ export default function useUpdatePostForm({
       const img = images[i];
       const src = img.getAttribute("src");
       if (src && !src.startsWith("data:")) {
-        const base64 = await replaceImageUrlToBase64(src);
+        const base64 = await blobUrlToBase64(src);
         img.setAttribute("src", base64);
       }
     }
 
     return doc.body.innerHTML;
   };
+  const initializeContent = async () => {
+    try {
+      const processedHtml = await processContent(article.content);
+      form.setValue("content", processedHtml);
+      setIsContentReady(true);
+    } catch (error) {
+      form.setValue("content", article.content);
+      setIsContentReady(true);
+    }
+  };
   useEffect(() => {
-    const initializeContent = async () => {
-      try {
-        const processedHtml = await processContent(article.content);
-        form.setValue("content", processedHtml);
-        setIsContentReady(true);
-      } catch (error) {
-        form.setValue("content", article.content);
-        setIsContentReady(true);
-      }
-    };
-
     initializeContent();
   }, [article.content, form]);
 

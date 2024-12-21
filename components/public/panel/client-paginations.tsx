@@ -48,7 +48,6 @@ export default function ClientPaginations({
   return totalPages > 1 ? (
     <Pagination>
       <PaginationContent>
-        {/* Previous Button */}
         <PaginationItem>
           <Button
             size={"icon"}
@@ -64,7 +63,6 @@ export default function ClientPaginations({
           </Button>
         </PaginationItem>
 
-        {/* Page Numbers with Ellipsis */}
         {getPageNumbers().map((page, index) => (
           <PaginationItem key={index}>
             {page === -1 ? (
@@ -84,7 +82,6 @@ export default function ClientPaginations({
           </PaginationItem>
         ))}
 
-        {/* Next Button */}
         <PaginationItem>
           <Button
             size={"icon"}

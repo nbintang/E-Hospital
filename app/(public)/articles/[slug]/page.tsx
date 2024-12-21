@@ -1,10 +1,14 @@
 import ContentHTML from "@/components/extensions/content-html";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/helper/client";
-import { sanitizeContent } from "@/helper/common/sanitize-content";
 import db from "@/lib/db";
 import { findArticlesBySlugOrId } from "@/repositories/articles.repository";
 import { Params } from "@/types/params";
@@ -25,7 +29,9 @@ export default async function ArticleDetailsPage({
       status: "PUBLISHED",
       categories: {
         some: {
-          id: { in: article?.categories.map(({ id }) => id) },
+          id: {
+            in: article?.categories.map(({ id }) => id),
+          },
         },
       },
     },
@@ -53,7 +59,7 @@ export default async function ArticleDetailsPage({
           </div>
           <div className="max-w-4xl  ml-4">
             <ContentHTML
-              className="prose-lg min-w-full "
+              className="sm:prose-lg min-w-full "
               content={article.content}
             />
           </div>
@@ -91,33 +97,38 @@ export default async function ArticleDetailsPage({
           <div>
             <h1 className="text-3xl font-bold ">Artikel Lainnya</h1>
             <div>
-              {articles.map((article) => (
-                <Card className="w-full " key={article.id}>
-                  <CardContent className="mt-5">
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.title}
-                      width={200}
-                      height={200}
-                      className="object-cover rounded-md  w-full h-full"
-                    />
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-2">
-                    <div>
-                      <h3 className="text-lg font-semibold">{article.title}</h3>
-                      <div
-                        className="prose-sm text-muted-foreground"
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            sanitizeContent(article.content)
-                              .replace(/<img[^>]*>/g, "")
-                              .slice(0, 100) + "...",
-                        }}
+              {articles &&
+              articles.filter(
+                (filteredArticle) => filteredArticle.id !== article.id
+              ).length > 0 ? (
+                articles.slice(0, 5).map((filteredArticle) => (
+                  <Card
+                    className="w-full border-none shadow-none"
+                    key={filteredArticle.id}
+                  >
+                    <CardHeader>
+                      <Image
+                        src={filteredArticle.imageUrl}
+                        alt={filteredArticle.title}
+                        width={200}
+                        height={200}
+                        className="object-cover rounded-md w-full h-full"
                       />
-                    </div>
-                  </CardFooter>
-                </Card>
-              ))}
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-2">
+                      <div>
+                        <h3 className="text-lg font-semibold">
+                          {filteredArticle.title}
+                        </h3>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <p className="text-muted-foreground text-xl">
+                  Tidak ada artikel lainnya
+                </p>
+              )}
             </div>
           </div>
           <div>
@@ -125,11 +136,7 @@ export default async function ArticleDetailsPage({
             <div className="flex flex-wrap  my-3 gap-3">
               {article.categories.map((category) => (
                 <Link href={`/categories/${category.slug}`} key={category.id}>
-                  <Badge
-                    className={"text-base"}
-                    variant={"outline"}
-                  >
-
+                  <Badge className={"text-base"} variant={"outline"}>
                     {category.name}
                   </Badge>
                 </Link>

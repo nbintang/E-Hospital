@@ -1,4 +1,5 @@
-import ClientPaginations from "@/components/client/panel/client-paginations";
+import ClientPaginations from "@/components/public/panel/client-paginations";
+import ContentHTML from "@/components/extensions/content-html";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { sanitizeContent } from "@/helper/common/sanitize-content";
 import {
   findArticlesByPage,
   findTotalArticles,
@@ -30,6 +30,8 @@ export default async function Articles({
     itemsPerPage,
     status: "PUBLISHED",
   });
+
+  
   const totalArticles = await findTotalArticles();
   const totalPages = Math.ceil(totalArticles / itemsPerPage);
   const visibleArticles = articles.slice(
@@ -46,7 +48,7 @@ export default async function Articles({
         {articles.length > 0 ? (
           visibleArticles.map((article) => (
             <Link key={article.id} href={`/articles/${article.slug}`}>
-              <Card  className="overflow-hidden">
+              <Card className="overflow-hidden">
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="relative aspect-[4/3] md:aspect-auto">
                     <Image
@@ -72,14 +74,13 @@ export default async function Articles({
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="p-0 mt-4">
-                      <div
-                        className=" line-clamp-3 prose-sm md:prose font-medium leading-snug text-muted-foreground"
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            sanitizeContent(article.content)
-                              .replace(/<img[^>]*>/g, "")
-                              .slice(0, 200) + "...",
-                        }}
+                      <ContentHTML
+                        className=" line-clamp-3  font-thin leading-snug text-muted-foreground"
+                        content={article.content}
+                        transformContent={(content) =>
+                          content.replace(/<img[^>]*>/g, "").slice(0, 200) +
+                          "..."
+                        }
                       />
                     </CardContent>
                   </div>

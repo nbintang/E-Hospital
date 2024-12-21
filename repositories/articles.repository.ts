@@ -35,6 +35,9 @@ export async function findArticlesByDoctorId({
 
 export async function findAllArticles(): Promise<ArticleProps[]> {
   return await db.article.findMany({
+    where:{
+      status: "PUBLISHED"
+    },
     include: {
       categories: true,
       doctor: {

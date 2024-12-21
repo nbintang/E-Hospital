@@ -20,7 +20,7 @@ import { Category } from "@prisma/client";
 import { TagsInput } from "@/components/extensions/input-tags";
 import { createQuestions } from "@/repositories/questions.repository";
 import { formatSlugToTitle, formatTitleToSlug } from "@/helper/common";
-import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -77,7 +77,7 @@ export default function CreateQuestionForm({
           create: {
             name: formatSlugToTitle(slug),
             slug: formatTitleToSlug(slug),
-          }, // Add the slug property here
+          }, 
         })),
       },
     });

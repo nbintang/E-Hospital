@@ -102,10 +102,9 @@ export default function Questions({
                   <MessageCircle className="w-4 h-4" />
                   <span className="text-sm">
                     {question.answers.length > 0
-                      ? `replied by Dr.${question.answers[0].doctor.user.profile?.fullname.replace(
-                          "doctor",
-                          ""
-                        )}`
+                      ? `replied by Dr.${question.answers[0].doctor.user.profile?.fullname
+                      .replace(/Doctor|Dr\./gi, "")
+                          }`
                       : "Not yet answered"}
                   </span>
                 </div>

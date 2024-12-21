@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import Company from "@/components/icons/company";
 import { cn } from "@/lib/utils";
-import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import { useSession } from "next-auth/react";
 import { UserNav } from "./user-nav";
 import {

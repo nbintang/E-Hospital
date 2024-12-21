@@ -4,13 +4,17 @@ import { cn } from "@/lib/utils";
 const ContentHTML = ({
   content,
   className,
+ transformContent,
 }: {
   content: string;
   className?: string;
+  transformContent?: (content: string) => string;
 }) => (
   <div
     className={cn("prose", className)}
-    dangerouslySetInnerHTML={{ __html: sanitizeContent(content) }}
+    dangerouslySetInnerHTML={{
+      __html: sanitizeContent(transformContent ?  transformContent(content) : content),
+    }}
   />
 );
 

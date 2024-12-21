@@ -23,7 +23,7 @@ export default function ClientFooter() {
           <div className="flex flex-col items-center md:items-end gap-4">
             <h3 className="text-white text-lg font-medium">Media Sosial</h3>
             <div className="flex flex-wrap justify-center gap-4">
-              {/* <SocialLink
+              <SocialLink
                 href="https://twitter.com"
                 icon={<TwitterIcon />}
                 label="Twitter"
@@ -47,7 +47,7 @@ export default function ClientFooter() {
                 href="https://facebook.com"
                 icon={<Facebook />}
                 label="Facebook"
-              /> */}
+              />
             </div>
           </div>
         </div>

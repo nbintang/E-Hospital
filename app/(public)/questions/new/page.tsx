@@ -1,4 +1,4 @@
-import CreateQuestionForm from "@/components/client/questions/new";
+import CreateQuestionForm from "@/components/public/questions/new";
 import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import { findCategories } from "@/repositories/categories.repository";
 import React from "react";

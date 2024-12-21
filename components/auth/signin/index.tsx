@@ -20,7 +20,6 @@ interface SigninDialogProps {
 }
 
 export default function SigninForm({ setIsOpen }: SigninDialogProps) {
-  
   const form = useForm<SigninFormValues>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -31,14 +30,11 @@ export default function SigninForm({ setIsOpen }: SigninDialogProps) {
   const isLoading = form.formState.isSubmitting;
   const router = useRouter();
   async function onSubmit(values: SigninFormValues) {
-    
     toast.promise(
-      Promise.resolve(
-        signIn("credentials", {
-          email: values.email,
-          password: values.password,
-        })
-      ),
+      signIn("credentials", {
+        email: values.email,
+        password: values.password,
+      }),
       {
         loading: "Memproses...",
         success: "Berhasil Masuk",
@@ -72,7 +68,11 @@ export default function SigninForm({ setIsOpen }: SigninDialogProps) {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Enter your password" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Enter your password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

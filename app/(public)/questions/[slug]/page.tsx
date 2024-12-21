@@ -1,3 +1,4 @@
+import ContentHTML from "@/components/extensions/content-html";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +32,7 @@ export default async function QuestionDetail({ params }: { params: Params }) {
   if (!question) return <div>Something went wrong</div>;
 
   return (
-    <div className="container max-w-4xl mx-auto py-8 px-4">
+    <div className="container max-w-4xl mx-auto py-8 ">
       <div className="flex justify-between items-center mb-8">
         <Link
           href="/questions"
@@ -65,7 +66,11 @@ export default async function QuestionDetail({ params }: { params: Params }) {
             </div>
             <div className="flex items-center">
               <MessageCircle className="w-4 h-4 mr-2" />
-              {question.answers.length} answers
+              Answered by{" "}
+              {
+                question.answers.find((a) => a.doctor)?.doctor.user.profile
+                  ?.fullname
+              }
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -89,11 +94,6 @@ export default async function QuestionDetail({ params }: { params: Params }) {
               <div className="flex items-center space-x-2 mb-2">
                 <span className="font-semibold">
                   {question.user.profile?.fullname || "Anonymous"}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  {capitalizeStr(
-                    question.user.profile?.gender || "Not specified"
-                  )}
                 </span>
               </div>
               <p className="text-muted-foreground whitespace-pre-wrap">
@@ -121,21 +121,29 @@ export default async function QuestionDetail({ params }: { params: Params }) {
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
+                 <div className="mb-2">
+                 <div className="flex items-center space-x-2 ">
                     <span className="font-semibold">
-                      Dr. {answer.doctor.user.profile?.fullname.replace("Dr. ", "").replace("dr.", "") || "Anonymous"}
+                      Dr.{" "}
+                      {answer.doctor.user.profile?.fullname
+                        .replace("Dr. ", "")
+                        .replace("dr.", "") || "Anonymous"}
                     </span>
                     <Badge variant="outline">
                       {answer.doctor.specialization.name}
                     </Badge>
                   </div>
-                  <div
+                  <div>
+                    <p className="text-muted-foreground text-sm whitespace-pre-wrap">
+                      {answer.doctor.hospital.name}
+                    </p>
+                  </div>
+                 </div>
+                  <ContentHTML
                     className="prose-sm md:prose min-w-full"
-                    dangerouslySetInnerHTML={{
-                      __html: sanitizeContent(answer.textContent),
-                    }}
+                    content={answer.textContent}
                   />
-                  <div className="flex items-center text-sm text-muted-foreground">
+                  <div className="flex mt-4 items-center text-sm text-muted-foreground">
                     <Calendar className="w-4 h-4 mr-2" />
                     {formatDate(answer.createdAt)}
                   </div>

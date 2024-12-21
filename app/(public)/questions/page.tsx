@@ -1,4 +1,4 @@
-import Questions from "@/components/client/questions";
+import Questions from "@/components/public/questions";
 import { findCategories } from "@/repositories/categories.repository";
 import { findQuestionsPublic } from "@/repositories/questions.repository";
 

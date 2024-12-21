@@ -11,7 +11,7 @@ import Company from "@/components/icons/company";
 
 import SigninForm from "@/components/auth/signin";
 import Google from "@/components/icons/google";
-import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import Link from "next/link";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";

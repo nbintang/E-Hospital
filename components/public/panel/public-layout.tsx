@@ -3,7 +3,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { SiteHeader } from "./site-header";
 import ClientFooter from "./footer";
-export default function ClientLayout({
+export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;

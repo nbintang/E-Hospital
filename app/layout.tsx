@@ -5,9 +5,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import RQProvider from "@/components/providers/rq-provider";
 import { NextAuthProviders } from "@/components/providers/auth-provider";
-import { SiteHeader } from "@/components/client/panel/site-header";
-import ClientLayout from "@/components/client/panel/client-layout";
+import { SiteHeader } from "@/components/public/panel/site-header";
+import PublicLayout from "@/components/public/panel/public-layout";
 import { SigninDialog } from "@/components/auth/signin/signin-dialog";
+import DoctorDetailsDialog from "@/components/public/doctor-details-dialog";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -36,8 +37,9 @@ export default function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
+            <DoctorDetailsDialog/>
             <SigninDialog />
-            <ClientLayout>{children}</ClientLayout>
+            <PublicLayout>{children}</PublicLayout>
             <Toaster />
           </body>
         </RQProvider>

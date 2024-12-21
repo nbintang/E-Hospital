@@ -75,6 +75,7 @@ export type SpecificQuestionPublic = Prisma.QuestionGetPayload<{
       include: {
         doctor: {
           include: {
+            hospital: true;
             specialization: true;
             user: {
               include: {

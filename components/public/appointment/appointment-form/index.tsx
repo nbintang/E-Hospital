@@ -1,6 +1,6 @@
 "use client";
 
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, UserSearch } from "lucide-react";
 
 import { Prisma } from "@prisma/client";
 import moment from "moment";
@@ -38,10 +38,12 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
-import { useOpenAuthDialog } from "@/hooks/use-open-auth-dialog";
+import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import { createAppointments } from "@/repositories/appointments.repository";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import useOpenDoctorDetailsDialog from "@/hooks/dialog/use-open-doctor-details-dialog";
 
 const formSchema = z.object({
   doctorId: z.string().min(1, "Please select a doctor"),
@@ -71,8 +73,9 @@ export default function AppointmentForm({
   doctors,
   session,
 }: AppointmentFormProps) {
+  const {  setShowDetails } = useOpenDoctorDetailsDialog()
   const router = useRouter();
-  const { setShowSignIn } = useOpenAuthDialog();
+  const { setShowSignIn: setShowSignInDialog } = useOpenAuthDialog();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,12 +85,17 @@ export default function AppointmentForm({
   });
   useEffect(() => {
     if (!session) {
-      setShowSignIn(true);
+      setShowSignInDialog(true);
+      form.reset();
     }
-  }, [session, setShowSignIn]);
+  }, [session, setShowSignInDialog]);
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    if (!session) return setShowSignIn(true);
+    if (!session) {
+      setShowSignInDialog(true);
+      form.reset();
+      return;
+    }
     const dateTime = new Date(values.date);
     const [hours, minutes] = values.time.split(":");
     dateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10));
@@ -132,7 +140,17 @@ export default function AppointmentForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Doctor</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  if (!session) {
+                    setShowSignInDialog(true);
+                    form.reset();
+                    return;
+                  }
+                  field.onChange(value);
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a doctor">
@@ -194,9 +212,17 @@ export default function AppointmentForm({
                   </ScrollArea>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Choose the doctor for your appointment
-              </FormDescription>
+              <div>
+                {form.getValues("doctorId") && (
+                  <Button type="button" variant={"link"} className="space-x-2 " onClick={() => setShowDetails(true)} >
+                    <p>Find out about {doctors.find((doctor) => doctor.id === form.getValues("doctorId"))?.user.profile?.fullname}</p>
+                    <UserSearch className="size-4"/>
+                  </Button>
+                )}
+                <FormDescription>
+                  Choose the doctor for your appointment
+                </FormDescription>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -230,7 +256,14 @@ export default function AppointmentForm({
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(value) => {
+                      if (!session) {
+                        setShowSignInDialog(true);
+                        form.reset();
+                        return;
+                      }
+                      field.onChange(value);
+                    }}
                     disabled={(date) =>
                       date < new Date() ||
                       date >
@@ -253,13 +286,23 @@ export default function AppointmentForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Time</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  if (!session) {
+                    setShowSignInDialog(true);
+                    form.reset();
+                    return;
+                  }
+                  field.onChange(value);
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a time" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent >
                   {Array.from({ length: 8 }, (_, i) => i + 9).map((hour) => (
                     <SelectItem key={hour} value={`${hour}:00`}>
                       {`${hour}:00`}

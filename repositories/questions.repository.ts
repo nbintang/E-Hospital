@@ -106,6 +106,7 @@ export async function findSpecificQuestionsPublic({
         include: {
           doctor: {
             include: {
+              hospital: true,
               specialization: true,
               user: {
                 include: {

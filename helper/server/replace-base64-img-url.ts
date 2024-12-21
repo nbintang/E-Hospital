@@ -3,14 +3,12 @@ import { uploadToCloudinary } from "./upload-to-cloudinary";
 const strToRoundedNum = (num: string) => Math.round(Number(num));
 
 export async function replaceBase64ToImgUrl(content: string) {
-  // Regex to match <img> tags and extract src, width, and height
   const imgRegex =
     /<img\s+[^>]*src="([^"]+)"[^>]*width="([^"]+)"[^>]*height="([^"]+)"[^>]*>/g;
   let match;
   let updatedContent = content;
 
   while ((match = imgRegex.exec(content)) !== null) {
-    // Extract src, width, and height
     const [_, base64Src, width, height] = match;
     const roundedWidth = strToRoundedNum(width);
     const roundedHeight = strToRoundedNum(height);

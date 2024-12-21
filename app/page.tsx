@@ -1,6 +1,6 @@
-import { SiteHeader } from "@/components/client/panel/site-header";
-import { HeroSection } from "@/components/client/home/hero-section";
-import { ArticleSection } from "@/components/client/home/article-section";
+import { SiteHeader } from "@/components/public/panel/site-header";
+import { HeroSection } from "@/components/public/home/hero-section";
+import { ArticleSection } from "@/components/public/home/article-section";
 import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import { getSession } from "next-auth/react";
 import { findAllArticles } from "@/repositories/articles.repository";

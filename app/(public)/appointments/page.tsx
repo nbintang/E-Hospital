@@ -1,4 +1,4 @@
-import AppointmentForm, { DoctorsProps } from "@/components/client/appointment/appointment-form";
+import AppointmentForm, { DoctorsProps } from "@/components/public/appointment/appointment-form";
 import {
   Card,
   CardContent,
