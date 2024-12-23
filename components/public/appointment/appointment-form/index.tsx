@@ -44,14 +44,17 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import useOpenDoctorDetailsDialog from "@/hooks/dialog/use-open-doctor-details-dialog";
+import { Textarea } from "@/components/ui/textarea";
 
-const formSchema = z.object({
+const AppointmentSchema = z.object({
   doctorId: z.string().min(1, "Please select a doctor"),
   date: z.date({
     required_error: "Please select a date",
   }),
+  complaint: z.string().min(10, "Please enter your complaint"),
   time: z.string().min(1, "Please select a time"),
 });
+
 export type DoctorsProps = Prisma.DoctorGetPayload<{
   include: {
     specialization: true;
@@ -76,10 +79,12 @@ export default function AppointmentForm({
   const {  setShowDetails } = useOpenDoctorDetailsDialog()
   const router = useRouter();
   const { setShowSignIn: setShowSignInDialog } = useOpenAuthDialog();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof AppointmentSchema>>({
+    resolver: zodResolver(AppointmentSchema),
     defaultValues: {
       doctorId: "",
+      complaint: "",
+      date: new Date(),
       time: "",
     },
   });
@@ -90,7 +95,7 @@ export default function AppointmentForm({
     }
   }, [session, setShowSignInDialog]);
 
-  async function onFormSubmit(values: z.infer<typeof formSchema>) {
+  async function onFormSubmit(values: z.infer<typeof AppointmentSchema>) {
     if (!session) {
       setShowSignInDialog(true);
       form.reset();
@@ -112,6 +117,7 @@ export default function AppointmentForm({
         },
       },
       dateTime: values.date,
+      complaint: values.complaint,
       user: {
         connect: {
           id: session.user.id,
@@ -227,6 +233,21 @@ export default function AppointmentForm({
             </FormItem>
           )}
         />
+        <FormField
+        control={form.control}
+        name= "complaint"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Complaint</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Enter your complaint"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}/>
         <FormField
           control={form.control}
           name="date"

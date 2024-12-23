@@ -153,6 +153,7 @@ model Appointment {
   userId     String
   doctorId   String
   hospitalId String
+  complaint  String?
   dateTime   DateTime
   status     AppointmentStatus @default(PENDING)
   createdAt  DateTime          @default(now())

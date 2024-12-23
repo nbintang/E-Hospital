@@ -26,13 +26,13 @@ import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { toast } from "sonner";
 
-const formSchema = z.object({
+const QuestionSchema = z.object({
   title: z.string().min(1, "Title is required"),
   textContent: z.string().min(1, "Question content is required"),
   categories: z.array(z.string()).min(1, "At least one category is required"),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof QuestionSchema>;
 
 export default function CreateQuestionForm({
   categories,
@@ -44,7 +44,7 @@ export default function CreateQuestionForm({
   const router = useRouter();
   const { setShowSignIn } = useOpenAuthDialog();
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(QuestionSchema),
     defaultValues: {
       title: "",
       textContent: "",
@@ -77,7 +77,7 @@ export default function CreateQuestionForm({
           create: {
             name: formatSlugToTitle(slug),
             slug: formatTitleToSlug(slug),
-          }, 
+          },
         })),
       },
     });
