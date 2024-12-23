@@ -31,11 +31,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Role } from "@prisma/client";
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = React.useState(false);
   const { setShowSignIn: setIsOpenDialogSignin } = useOpenAuthDialog();
   const { data: session, status } = useSession();
+
 
   return (
     <TooltipProvider disableHoverableContent>
@@ -143,6 +145,7 @@ export function SiteHeader() {
                 email={session.user.email as string}
                 image={session.user.image || ""}
                 name={session.user.name as string}
+                role={session.user.role as Role}
               />
             )}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>

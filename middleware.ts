@@ -14,6 +14,7 @@ export async function middleware(req: NextRequest) {
     "/questions",
     "/toko-obat",
     "/appointments",
+    "/account",
   ];
 
   const dynamicPublicRoutes = [
@@ -22,6 +23,7 @@ export async function middleware(req: NextRequest) {
     /^\/questions\/[^\/]+$/, // Matches /tanya-dokter/[slug]
     /^\/toko-obat\/[^\/]+$/, // Matches /toko-obat/[slug]
     /^\/appointments\/[^\/]+$/, // Matches /buat-janji/[slug]
+    /^\/account\/[^\/]+$/, // Matches /account/[slug]
   ];
 
   // Allow access to public routes without authentication

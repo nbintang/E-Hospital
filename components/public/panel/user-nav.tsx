@@ -22,14 +22,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
+import { Role } from "@prisma/client";
+import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
+import { redirect, usePathname } from "next/navigation";
+import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 interface UserProfilProp {
   name: string;
   image?: string;
   email: string;
   picture?: string;
+  role?: Role;
 }
 
-export function UserNav({ name, image, email, picture }: UserProfilProp) {
+export function UserNav({ name, image, email }: UserProfilProp) {
+  const pathname = usePathname();
+  const handleNavigate = useHandleLoadingNavigate({ pathname: pathname });
   return (
     <DropdownMenu>
       <Tooltip delayDuration={100}>
@@ -63,16 +70,30 @@ export function UserNav({ name, image, email, picture }: UserProfilProp) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/dashboard" className="flex items-center">
-              <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/dashboard/account" className="flex items-center">
-              <User className="w-4 h-4 mr-3 text-muted-foreground" />
-              Account
-            </Link>
+            <form
+              action={async () => {
+                const session = await getAuthenticatedUserSession();
+                console.log(session);
+                if (session?.user.role === "DOCTOR") {
+                  handleNavigate("/doctor/dashboard/account");
+                }
+                if (session?.user.role === "PATIENT") {
+                  handleNavigate("/account");
+                }
+                if (session?.user.role === "ADMIN") {
+                  handleNavigate("/dashboard/account");
+                }
+              }}
+            >
+              <Button
+                type="submit"
+                variant={"ghost"}
+                className="flex items-center"
+              >
+                <User className="w-4 h-4 mr-3 text-muted-foreground" />
+                Account
+              </Button>
+            </form>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

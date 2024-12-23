@@ -8,7 +8,7 @@ import { NextAuthProviders } from "@/components/providers/auth-provider";
 import { SiteHeader } from "@/components/public/panel/site-header";
 import PublicLayout from "@/components/public/panel/public-layout";
 import { SigninDialog } from "@/components/auth/signin/signin-dialog";
-import DoctorDetailsDialog from "@/components/public/doctor-details-dialog";
+import DoctorDetailsDialog from "@/components/public/doctor-details/doctor-details-dialog";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,7 +37,7 @@ export default function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <DoctorDetailsDialog/>
+         
             <SigninDialog />
             <PublicLayout>{children}</PublicLayout>
             <Toaster />

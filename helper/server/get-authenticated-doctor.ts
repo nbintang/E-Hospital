@@ -1,3 +1,4 @@
+"use server";
 import authOptions from "@/lib/auth-options";
 import { findDoctorByUserId } from "@/repositories/articles.repository";
 import { getServerSession } from "next-auth";

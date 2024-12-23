@@ -38,27 +38,24 @@ export function Sidebar() {
           <Link href="/dashboard" className="flex items-center gap-2">
             <Company className="h-8 w-8" />
             <div
-  className={cn(
-    "flex flex-col justify-start transition-[transform,opacity] ease-in-out duration-300",
-    !getOpenState()
-      ? "-translate-x-96 opacity-0 hidden"
-      : "translate-x-0 opacity-100"
-  )}
->
-  <h1
-    className={cn(
-      "font-bold text-base text-fusion-red whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300"
-    )}
-  >
-    Rumah Sakit
-  </h1>
-  <p className="text-sm text-soft-clean-pool p-0 whitespace-nowrap">
-    Inovasi
-  </p>
-</div>
-
-
-
+              className={cn(
+                "flex flex-col justify-start transition-[transform,opacity] ease-in-out duration-300",
+                !getOpenState()
+                  ? "-translate-x-96 opacity-0 hidden"
+                  : "translate-x-0 opacity-100"
+              )}
+            >
+              <h1
+                className={cn(
+                  "font-bold text-base text-fusion-red whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300"
+                )}
+              >
+                Rumah Sakit
+              </h1>
+              <p className="text-sm text-soft-clean-pool p-0 whitespace-nowrap">
+                Inovasi
+              </p>
+            </div>
           </Link>
         </Button>
         <Menu isOpen={getOpenState()} />
