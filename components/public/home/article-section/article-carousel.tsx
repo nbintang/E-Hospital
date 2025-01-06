@@ -60,7 +60,7 @@ export default function ArticleCarousel({
               </CardHeader>
               <CardContent>
                 <div
-                  className="text-gray-500 prose line-clamp-3"
+                  className=" prose-p:text-muted-foreground prose-p:text-thin prose line-clamp-3"
                   dangerouslySetInnerHTML={{
                     __html: sanitizeContent(article.content)
                       .replace(/<img[^>]*>/g, "")
