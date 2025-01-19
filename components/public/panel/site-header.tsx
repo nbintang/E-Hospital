@@ -32,16 +32,42 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Role } from "@prisma/client";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = React.useState(false);
   const { setShowSignIn: setIsOpenDialogSignin } = useOpenAuthDialog();
   const { data: session, status } = useSession();
+  const [isVisible, setIsVisible] = React.useState(false);
+  const pathname = usePathname();
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const canDisappear =
+        pathname === "/" || pathname === "/about" || pathname === "/appointments";
 
+      if (canDisappear) {
+        setIsVisible(window.scrollY > 50); // Show header when scrolled down 50px
+      } else {
+        setIsVisible(true); // Always visible on other pages
+      }
+    };
+
+    // Set visibility on mount and attach scroll listener
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <TooltipProvider disableHoverableContent>
-      <header className="sticky flex justify-center top-0 px-2 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-clean-pool">
+      <header
+        className={cn(
+          "fixed top-0 left-0 z-50 w-full px-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-clean-pool border-b transition-transform duration-300",
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        )}
+      >
         <div className="container flex h-16 items-center">
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative ">
@@ -63,15 +89,26 @@ export function SiteHeader() {
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
-                      <NavigationMenuLink asChild>
+                      <NavigationMenuLink
+                        className="relative overflow-hidden"
+                        asChild
+                      >
                         <Link
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                          className="flex h-full w-full  select-none  flex-col justify-end rounded-md  p-6 no-underline outline-none focus:shadow-md"
                           href="/"
                         >
-                          <div className="mb-2 mt-4 text-lg font-medium">
+                          <div className="absolute inset-0  bg-gradient-to-b from-[#B1E0DF]/60 to-gray-600  z-10 " />
+                          <Image
+                            src={"/img/doctornav.jpg"}
+                            alt="Doctor Nav"
+                            className="object-cover w-full h-full absolute inset-0 z-0"
+                            width={1920}
+                            height={1080}
+                          />
+                          <div className="mb-2 mt-4 z-20 text-lg font-medium text-white">
                             Konsultasi Online
                           </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
+                          <p className="text-sm leading-tight z-20 text-gray-100">
                             Dapatkan saran medis dari dokter terpercaya kapan
                             saja dan di mana saja.
                           </p>
@@ -81,7 +118,7 @@ export function SiteHeader() {
                     <ListItem href="/questions" title="Tanya Dokter">
                       Ajukan pertanyaan dan dapatkan jawaban dari dokter ahli.
                     </ListItem>
-                    <ListItem href="/toko-obat" title="Toko Obat">
+                    <ListItem href="/drugstore" title="Toko Obat">
                       Beli obat dengan resep atau tanpa resep dengan mudah.
                     </ListItem>
                     <ListItem href="/appointments" title="Buat Janji">
@@ -180,7 +217,7 @@ export function SiteHeader() {
                       </li>
                       <li>
                         <Link
-                          href="/toko-obat"
+                          href="/drugstore"
                           onClick={() => setIsOpen(false)}
                         >
                           Toko Obat

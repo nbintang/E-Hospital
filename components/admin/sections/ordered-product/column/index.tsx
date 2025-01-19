@@ -42,6 +42,11 @@ export const orderedProductColumns: ColumnDef<OrderProps>[] = [
     cell: ({ row }) => <div className="font-medium">{row.getValue("id")}</div>,
   },
   {
+    accessorKey: "quantity",
+    header: "Quantity",
+    cell: ({ row }) => <div className="font-medium">{row.getValue("quantity")}</div>,
+  },
+  {
     accessorKey: "medicine",
     header: ({ column }) => (
       <Button

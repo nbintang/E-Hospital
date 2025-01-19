@@ -15,27 +15,18 @@ export async function updatePost(formData: FormData) {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const mainImage = formData.get("image") as File;
-    const category = formData.getAll("category") as string[];
+    const category = formData.getAll("categories") as string[];
     const articleId = formData.get("articleId") as string;
     const session = await getAuthenticatedUserSession();
     const doctorExist = await findDoctorByUserId(session?.user.id || "");
-    if (!doctorExist){
-      throw new Error("Doctor not authenticated");
-    }
+    if (!session) throw new Error("Unauthorized");
     if (!title || !content || !mainImage || category.length === 0) {
       throw new Error("Missing required fields");
     }
-    const existingArticle = await findArticlesBySlugOrId({id: articleId}); // Replace with your repository logic
+    const existingArticle = await findArticlesBySlugOrId({ id: articleId }); // Replace with your repository logic
     if (!existingArticle) {
       throw new Error("Article not found");
     }
-    // Verify the article ownership
-    if (existingArticle.doctorId !== doctorExist.id) {
-      throw new Error(
-        "You are not authorized to update this post. It belongs to another doctor."
-      );
-    }
-
 
     const categorySlugs = formatCategoriesToSlugs(category);
     const slug = formatTitleToSlug(title);
@@ -51,14 +42,12 @@ export async function updatePost(formData: FormData) {
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: doctorExist.id,
+      doctorId: doctorExist ? doctorExist.id : null,
     });
 
     revalidatePath("/dashboard/articles");
     return { success: true, data: article };
   } catch (error) {
-
-    
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to create post",

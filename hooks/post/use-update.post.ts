@@ -25,7 +25,7 @@ export default function useUpdatePostForm({
     resolver: zodResolver(PostSchema),
     defaultValues: {
       title: article.title,
-      category: article.categories.map((category) => category.name),
+      categories: article.categories.map((category) => category.name),
       image: article.imageUrl || undefined,
     },
   });
@@ -105,15 +105,24 @@ export default function useUpdatePostForm({
     formData.append("content", values.content);
     formData.append("image", values.image);
     formData.append("articleId", article.id);
-    values.category.forEach((category) => {
-      formData.append("category", category);
+    values.categories.forEach((categories) => {
+      formData.append("categories", categories);
     });
     result.mutate(formData);
+  };
+  const toggleCategory = (categorySlug: string) => {
+    const currentCategories = form.getValues("categories");
+    const updatedCategories = currentCategories.includes(categorySlug)
+      ? currentCategories.filter((slug) => slug !== categorySlug)
+      : [...currentCategories, categorySlug];
+
+    form.setValue("categories", updatedCategories);
   };
 
   return {
     form,
     handleUpdate,
+    toggleCategory,
     onSubmit,
     editorRef,
     isSubmitting: result.isPending,

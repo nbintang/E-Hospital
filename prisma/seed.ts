@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import hash from 'bcryptjs';
+import hash from "bcryptjs";
 
 const db = new PrismaClient();
 
@@ -43,6 +43,8 @@ async function main() {
   // Create sample medicine
   const medicine = await db.medicine.create({
     data: {
+      image:
+        "https://res.cloudinary.com/da6hciwjn/image/upload/v1720263591/samples/breakfast.jpg",
       name: "Aspirin",
       price: 10.0,
       description: "Used to treat pain, fever, or inflammation",
@@ -57,7 +59,8 @@ async function main() {
       role: "DOCTOR",
       profile: {
         create: {
-          profileUrl:"https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/articles/file_skl1xh.jpg",
+          profileUrl:
+            "https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/articles/file_skl1xh.jpg",
           fullname: "Dr. John Doe",
           gender: "MALE",
           height: "180cm",
@@ -68,7 +71,6 @@ async function main() {
       },
       doctor: {
         create: {
-          
           hospitalId: hospital.id,
           specializationId: specialization.id,
         },
@@ -84,7 +86,8 @@ async function main() {
       role: "PATIENT",
       profile: {
         create: {
-          profileUrl:"https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/bookstore/file_pb5vga.jpg",
+          profileUrl:
+            "https://res.cloudinary.com/da6hciwjn/image/upload/c_fill,g_auto,h_400,w_400/v1731601886/bookstore/file_pb5vga.jpg",
           fullname: "Jane Smith",
           gender: "FEMALE",
           height: "165cm",
@@ -127,7 +130,6 @@ async function main() {
         "<p>Because it is one of the most important organs in the body.</p>",
       questionId: question.id,
       doctorId: doctor.id,
-      
     },
   });
 
@@ -147,7 +149,8 @@ async function main() {
     data: {
       title: "How important health is",
       content: randomText,
-      imageUrl: "https://res.cloudinary.com/da6hciwjn/image/upload/v1731601886/file_cqy2fo.jpg",
+      imageUrl:
+        "https://res.cloudinary.com/da6hciwjn/image/upload/v1731601886/file_cqy2fo.jpg",
       slug: "how-important-health-is",
       doctorId: doctor.id,
       categories: {

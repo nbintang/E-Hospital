@@ -8,7 +8,8 @@ import { NextAuthProviders } from "@/components/providers/auth-provider";
 import { SiteHeader } from "@/components/public/panel/site-header";
 import PublicLayout from "@/components/public/panel/public-layout";
 import { SigninDialog } from "@/components/auth/signin/signin-dialog";
-import DoctorDetailsDialog from "@/components/public/doctor-details/doctor-details-dialog";
+import NextNProgress from 'nextjs-progressbar';
+import Providers from "@/components/providers";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -32,18 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <NextAuthProviders>
-        <RQProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-         
-            <SigninDialog />
-            <PublicLayout>{children}</PublicLayout>
-            <Toaster />
-          </body>
-        </RQProvider>
-      </NextAuthProviders>
+
+    <body
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    >
+      <Providers>
+        {children}
+      </Providers>
+    </body>
     </html>
   );
 }

@@ -77,7 +77,7 @@ export async function createArticles({
   slug: string;
   imageUrl: string;
   status?: ArticleStatus;
-  doctorId: string;
+  doctorId: string | null;
   categorySlugs: string[];
 }) {
   const article = await db.article.create({
@@ -99,8 +99,6 @@ export async function createArticles({
       },
     },
   });
-
-  if (article.doctorId !== doctorId) throw new Error("Doctor Unauthorized");
   return article;
 }
 export async function updateArticles({
@@ -117,7 +115,7 @@ export async function updateArticles({
   slug: string;
   imageUrl: string;
   status?: ArticleStatus;
-  doctorId: string;
+  doctorId: string | null;
   categorySlugs: string[];
 }) {
   return await db.article.update({

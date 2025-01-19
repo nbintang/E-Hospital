@@ -13,7 +13,8 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[400px] w-full">
+      <section className="relative min-h-screen
+       w-full">
         <Image
           src="/img/hospital.jpg"
           alt="Hospital Building"
@@ -22,7 +23,7 @@ export default function AboutPage() {
           className=" absolute inset-0 w-full h-full object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-clean-pool/80 to-fusion-red/50">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-don-juan/50">
           <div className="container mx-auto h-full px-4">
             <div className="flex h-full flex-col items-start justify-center text-white">
               <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">

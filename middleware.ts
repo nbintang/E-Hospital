@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
     "/articles",
     "/about",
     "/questions",
-    "/toko-obat",
+    "/drugstore",
     "/appointments",
     "/account",
   ];
@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest) {
     /^\/articles\/[^\/]+$/, // Matches /articles/[slug]
     /^\/products\/[^\/]+$/, // Matches /products/[slug]
     /^\/questions\/[^\/]+$/, // Matches /tanya-dokter/[slug]
-    /^\/toko-obat\/[^\/]+$/, // Matches /toko-obat/[slug]
+    /^\/drugstore\/[^\/]+$/, // Matches /drugstore/[slug]
     /^\/appointments\/[^\/]+$/, // Matches /buat-janji/[slug]
     /^\/account\/[^\/]+$/, // Matches /account/[slug]
   ];

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { SigninFormValues, signinSchema } from "@/schemas/signin-schema";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 interface SigninDialogProps {
   setIsOpen: (isOpen: boolean) => void;
 }
@@ -27,13 +27,19 @@ export default function SigninForm({ setIsOpen }: SigninDialogProps) {
       password: "",
     },
   });
+  const {data: session} = useSession()
   const isLoading = form.formState.isSubmitting;
-  const router = useRouter();
   async function onSubmit(values: SigninFormValues) {
     toast.promise(
       signIn("credentials", {
         email: values.email,
         password: values.password,
+        callbackUrl:
+        session?.user?.role === "admin"
+          ? "/dashboard"
+          : session?.user?.role === "doctor"
+          ? "/doctor/dashboard"
+          : "/",
       }),
       {
         loading: "Memproses...",

@@ -12,8 +12,8 @@ import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[80dvh]  grid place-items-center overflow-hidden">
-      <div className="absolute inset-0  bg-gradient-to-r from-gray-400/80 to-[#B1E0DF]/90 z-10" />
+    <section className="relative min-h-screen  grid place-items-center overflow-hidden">
+      <div className="absolute inset-0  bg-gradient-to-r from-gray-950/80 to-[#B1E0DF]/60 z-10" />
       <Image
         src={"/img/doctor-hero.jpg"}
         alt="Doctor Hero"

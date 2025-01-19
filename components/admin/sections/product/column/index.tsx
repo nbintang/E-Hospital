@@ -11,9 +11,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { formatDate } from "@/helper/client/format-date";
 import { Medicine } from "@prisma/client";
+import Image from 'next/image';
 
 
 export const productsColumn: ColumnDef<Medicine>[] = [
+  {
+    accessorKey: "image",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+       
+        >
+          Image
+        </Button>
+      );
+    },
+    cell: ({ row }) => <Image className="rounded" src={row.getValue("image")} alt={row.getValue("name")} width={50} height={50} />,
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -29,6 +44,7 @@ export const productsColumn: ColumnDef<Medicine>[] = [
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
   },
+
   {
     accessorKey: "price",
     header: ({ column }) => {

@@ -6,7 +6,7 @@ export const PostSchema = z.object({
   title: z.string().min(10, {
     message: "Minimum 10 characters",
   }),
-  category: z.array(z.string()).nonempty("Please select at least one Category"),
+   categories: z.array(z.string()).min(1, "At least one category is required"),
 
   image: z
   .union([

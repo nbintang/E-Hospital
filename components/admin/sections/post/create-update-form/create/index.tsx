@@ -35,10 +35,13 @@ import Image from "next/image";
 import { MinimalTiptapEditor } from "@/components/extensions/minimal-tiptap";
 import { CategoryProps } from "@/types/categories";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
+import { Category } from "@prisma/client";
 
 const CreatePostForm = ({ categories }: { categories: CategoryProps[] }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const { form, handleCreate, onSubmit, isSubmitting } = useCreatePostForm();
+  const { form, handleCreate, onSubmit, isSubmitting, toggleCategory } = useCreatePostForm(
+    { categories }
+  );
  
   return (
     <>
@@ -125,63 +128,32 @@ const CreatePostForm = ({ categories }: { categories: CategoryProps[] }) => {
               </FormItem>
             )}
           />
-          <FormField
+         <FormField
             control={form.control}
-            name="category"
+            name="categories"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Select Categories</FormLabel>
-
-                {open ? (
-                  <div>
-                    <TagsInput
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <MultiSelector
-                      onValuesChange={field.onChange}
-                      values={field.value}
+              <FormItem>
+                <FormLabel>Categories</FormLabel>
+                <TagsInput
+                  className="mt-2"
+                  value={field.value}
+                  placeholder="Select or create at least one category for your question."
+                  onValueChange={(newValue) => field.onChange(newValue)}
+                />
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category: Category) => (
+                    <Badge
+                      key={category.slug}
+                      variant={
+                        field.value.includes(category.slug) ? "blue" : "outline"
+                      }
+                      className="cursor-pointer"
+                      onClick={() => toggleCategory(category.slug)}
                     >
-                      <MultiSelectorTrigger>
-                        <MultiSelectorInput placeholder="Select Categories" />
-                      </MultiSelectorTrigger>
-                      <MultiSelectorContent>
-                        <MultiSelectorList>
-                          {categories.map((category) => (
-                            <MultiSelectorItem
-                              key={category.id}
-                              value={category.name}
-                            >
-                              <span>{category.name}</span>
-                            </MultiSelectorItem>
-                          ))}
-                        </MultiSelectorList>
-                      </MultiSelectorContent>
-                    </MultiSelector>
-                  </>
-                )}
-                {open ? (
-                  <Button
-                    className=""
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    variant={"secondary"}
-                  >
-                    Back To Select
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => setOpen(true)}
-                    className="space-x-3"
-                    type="button"
-                    variant={"secondary"}
-                  >
-                    <p>Add New Category </p> <PlusIcon className="w-5 h-5" />
-                  </Button>
-                )}
+                      {category.name}
+                    </Badge>
+                  ))}
+                </div>
                 <FormMessage />
               </FormItem>
             )}

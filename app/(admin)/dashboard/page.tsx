@@ -49,7 +49,9 @@ export default async function Dashboard() {
     <div className="container mx-auto p-4 space-y-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
         <div className="col-span-2 row-span-3">
-          <CardArticlesSection articles={articles} />
+          {
+          articles &&  <CardArticlesSection articles={articles} />
+          }
         </div>
           <CardQuestionLists questions={questions} />
       </div>

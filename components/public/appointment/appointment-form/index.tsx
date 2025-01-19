@@ -128,11 +128,13 @@ export default function AppointmentForm({
                     >
                       <p>
                         Find out about{" "}
+                        <span className="text-[#3b82f6]">
                         {
                           doctors.find(
                             (doctor) => doctor.id === form.getValues("doctorId")
                           )?.user.profile?.fullname
                         }
+                        </span>
                       </p>
                       <UserSearch className="size-4" />
                     </Button>

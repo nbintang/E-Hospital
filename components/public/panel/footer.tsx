@@ -12,6 +12,7 @@ export default function ClientFooter() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo and Hospital Name */}
           <div className="flex items-center  gap-3">
+          <Company className="h-8 w-8" />
             {/* <Company className="h-8 w-8" /> */}
             <div className="text-white ">
               <h2 className="text-xl font-bold">Inovasi</h2>

@@ -95,10 +95,10 @@ model Article {
   imageUrl   String
   content    String
   status     ArticleStatus
-  doctorId   String
+  doctorId   String?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
-  doctor     Doctor        @relation(fields: [doctorId], references: [id])
+  doctor     Doctor?       @relation(fields: [doctorId], references: [id], onDelete: Restrict) // Nullable relationship
   categories Category[]    @relation("ArticleCategories")
 }
 
@@ -118,6 +118,7 @@ model Medicine {
   name        String
   price       Float
   description String
+  image       String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   orders      Order[]
@@ -158,7 +159,7 @@ model Appointment {
   status     AppointmentStatus @default(PENDING)
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
-  doctor     Doctor            @relation(fields: [doctorId], references: [id])
+  doctor     Doctor?            @relation(fields: [doctorId], references: [id])
   hospital   Hospital          @relation(fields: [hospitalId], references: [id])
   user       Users             @relation(fields: [userId], references: [id])
 }

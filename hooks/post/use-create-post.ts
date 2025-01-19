@@ -7,14 +7,17 @@ import { PostSchema, PostValues } from "@/schemas/post-schema";
 import { createPost } from "@/actions/post/create-post";
 import { useMutateData } from "@/hooks/react-query-fn/use-mutate-data";
 import { useSession } from "next-auth/react";
+import { CategoryProps } from "@/types/categories";
 
-export default function useCreatePostForm() {
+export default function useCreatePostForm(
+  { categories }: { categories: CategoryProps[] }
+) {
   const editorRef = useRef<Editor | null>(null);
   const form = useForm<PostValues>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
       title: "",
-      category: [],
+      categories: [],
       image: undefined,
       content: "",
     },
@@ -65,16 +68,27 @@ export default function useCreatePostForm() {
     formData.append("title", values.title);
     formData.append("content", values.content);
     formData.append("image", values.image);
-    values.category.forEach((category) => {
-      formData.append("category", category);
+    values.categories.forEach((categories) => {
+      formData.append("categories", categories);
     });
 
     result.mutate(formData);
   };
+  
+  const toggleCategory = (categorySlug: string) => {
+    const currentCategories = form.getValues("categories");
+    const updatedCategories = currentCategories.includes(categorySlug)
+      ? currentCategories.filter((slug) => slug !== categorySlug)
+      : [...currentCategories, categorySlug];
+
+    form.setValue("categories", updatedCategories);
+  };
+
 
   return {
     form,
     handleCreate,
+    toggleCategory,
     onSubmit,
     editorRef,
     isSubmitting: result.isPending,

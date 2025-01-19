@@ -15,35 +15,30 @@ export async function createPost(formData: FormData) {
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
     const mainImage = formData.get("image") as File;
-    const category = formData.getAll("category") as string[];
+    const categories = formData.getAll("categories") as string[];
     const session = await getAuthenticatedUserSession();
     const doctorExist = await findDoctorByUserId(session?.user.id || "");
-    console.log(doctorExist);
     
-    if (!doctorExist) throw new Error("Doctor not authenticated");
-    if (!title || !content || !mainImage || category.length === 0) {
+    if (!session) throw new Error("Unauthorized");
+    if (!title || !content || !mainImage || categories.length === 0) {
       throw new Error("Missing required fields");
     }
-    const categorySlugs = formatCategoriesToSlugs(category);
+    const categorySlugs = formatCategoriesToSlugs(categories);
     const slug = formatTitleToSlug(title);
     const mainImg = await uploadToCloudinary({
       file: mainImage,
       folder: "articles",
     });
     const updatedContent = await replaceBase64ToImgUrl(content);
-
+    console.log(categorySlugs);
     const article = await createArticles({
       title,
       content: updatedContent,
       slug,
       imageUrl: mainImg.url,
       categorySlugs,
-      doctorId: doctorExist.id,
+      doctorId: doctorExist ? doctorExist.id : null,
     });
-    if (!article.doctorId) {
-      throw new Error("Doctor not authenticated");
-    }
-
     revalidatePath("/dashboard/articles");
     return { success: true, data: article };
   } catch (error) {

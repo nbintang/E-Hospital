@@ -8,5 +8,10 @@ export async function findMedicineById(id: string) {
 
 export async function findMedicines() {
   const medicines = await db.medicine.findMany();
-return medicines;
+  return medicines;
+}
+export async function findMedicineWithCategoriesAndOrder() {
+  return await db.medicine.findMany({
+    include: { categories: true, orders: true },
+  });
 }

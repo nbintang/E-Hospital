@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, LoaderCircleIcon, LogOut, User } from "lucide-react";
+import {
+  LayoutGrid,
+  LoaderCircleIcon,
+  LogOut,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,24 +32,26 @@ import { Role } from "@prisma/client";
 import getAuthenticatedUserSession from "@/helper/server/get-authenticated-user-seesion";
 import { redirect, usePathname } from "next/navigation";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
+import { useCartStore } from "@/hooks/drugstore/use-cart-store";
 interface UserProfilProp {
   name: string;
   image?: string;
   email: string;
   picture?: string;
-  role?: Role;
+  role?: "DOCTOR" | "PATIENT" | "ADMIN";
 }
 
-export function UserNav({ name, image, email }: UserProfilProp) {
+export function UserNav({ name, image, email, role }: UserProfilProp) {
   const pathname = usePathname();
+  const totalItem = useCartStore((state) => state.items.length);
   const handleNavigate = useHandleLoadingNavigate({ pathname: pathname });
   return (
     <DropdownMenu>
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger className="relative">
             <Button variant="outline" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
+              <Avatar className="relative h-8 w-8">
                 <AvatarImage src={image as string} alt={name} />
                 <AvatarFallback className="bg-transparent">
                   {name
@@ -53,6 +61,10 @@ export function UserNav({ name, image, email }: UserProfilProp) {
                 </AvatarFallback>
               </Avatar>
             </Button>
+            {/* Shopping cart number */}
+            <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+              {totalItem} {/* Replace 'number' with the actual value */}
+            </div>
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent side="bottom">Profile</TooltipContent>
@@ -69,6 +81,23 @@ export function UserNav({ name, image, email }: UserProfilProp) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          {role === "PATIENT" && (
+            <DropdownMenuItem className="hover:cursor-pointer" asChild>
+              <Link href={"/cart"}>
+                <div className=" flex justify-between items-center">
+                  <div className="flex items-center justify-start">
+                    <ShoppingCart className="w-4 h-4 mr-3 text-muted-foreground" />
+                    Order Cart
+                  </div>
+                  {totalItem > 0 && (
+                    <div className="rounded-full grid place-items-center bg-primary/50 w-4 h-4">
+                      <span className="text-xs text-white">{totalItem}</span>
+                    </div>
+                  )}
+                </div>
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <form
               action={async () => {
@@ -85,14 +114,10 @@ export function UserNav({ name, image, email }: UserProfilProp) {
                 }
               }}
             >
-              <Button
-                type="submit"
-                variant={"ghost"}
-                className="flex items-center"
-              >
+              <div className="flex items-center justify-start ">
                 <User className="w-4 h-4 mr-3 text-muted-foreground" />
                 Account
-              </Button>
+              </div>
             </form>
           </DropdownMenuItem>
         </DropdownMenuGroup>

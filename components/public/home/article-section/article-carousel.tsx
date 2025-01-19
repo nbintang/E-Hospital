@@ -49,7 +49,7 @@ export default function ArticleCarousel({
             <Card>
               <div className="relative aspect-video overflow-hidden rounded-t-lg">
                 <Image
-                  src={article.imageUrl}
+                  src={article.imageUrl || "/img/akjgmw.jpeg"}
                   alt={`${article.title} thumbnail`}
                   fill
                   className="object-cover"

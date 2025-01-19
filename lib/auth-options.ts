@@ -22,13 +22,13 @@ const authOptions: NextAuthOptions = {
         },
       },
       async profile(profile) {
-        const adminUser = await findUserByEmail(profile.email);
+        const user = await findUserByEmail(profile.email);
         return {
-          id: adminUser?.id as string,
+          id: profile?.sub,
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: adminUser?.role,
+          role: user?.role,
         };
       },
     }),
@@ -86,6 +86,7 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, account }) {
+      console.log(profile, account);
       if (account?.provider === "google") {
         // Google-specific sign-in
         if (!profile?.email) {

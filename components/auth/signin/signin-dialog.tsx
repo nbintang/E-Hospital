@@ -15,13 +15,14 @@ import useOpenAuthDialog from "@/hooks/dialog/use-open-auth-dialog";
 import Link from "next/link";
 import { useHandleLoadingNavigate } from "@/hooks/use-handle-loading-navigate";
 import { usePathname } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 
 export function SigninDialog() {
   const pathname = usePathname();
   const { showSignIn: open, setShowSignIn: setIsOpen } = useOpenAuthDialog();
   const handleLoadingClick = useHandleLoadingNavigate({ pathname });
+  const { data: session } = useSession();
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -55,10 +56,20 @@ export function SigninDialog() {
         <div>
           <Button
             onClick={async () =>
-              toast.promise(signIn("google"), {
-                loading: "Memproses...",
-                error: "Terjadi kesalahan, silahkan coba lagi",
-              })
+              toast.promise(
+                signIn("google", {
+                  callbackUrl:
+                    session?.user?.role === "admin"
+                      ? "/dashboard"
+                      : session?.user?.role === "doctor"
+                      ? "/doctor/dashboard"
+                      : "/",
+                }),
+                {
+                  loading: "Memproses...",
+                  error: "Terjadi kesalahan, silahkan coba lagi",
+                }
+              )
             }
             variant="outline"
             className="w-full"
