@@ -56,7 +56,7 @@ export function HeroSection() {
                 </CardContent>
               </Card>
             </Link>
-            <Link href={"/doctor/dashboard/products"}>
+            <Link href={"/doctor/dashboard/drugstore"}>
               <Card className="opacity-70 hover:opacity-100 transition-opacity">
                 <CardHeader>
                   <Pill className="h-8 w-8 text-primary" />
