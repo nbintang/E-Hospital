@@ -170,18 +170,22 @@ export function SiteHeader() {
               />
            
             </div>
-               <Link href={"/cart"} className="relative h-7 w-7 bg-primary grid place-items-center rounded-full p-1" >
+              {
+                status === "authenticated" && (
+                  <Link href={"/cart"} className="relative h-7 w-7 bg-primary grid place-items-center rounded-full p-1" >
 
-                <ShoppingCart className=" text-white  absolute  h-4 w-4" />
-                {totalItem > 0 && (
-                  <>
-                    {/* Shopping cart number */}
-                    <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
-                      {totalItem} {/* Replace 'number' with the actual value */}
-                    </div>
-                  </>
-                )}
-              </Link>
+                  <ShoppingCart className=" text-white  absolute  h-4 w-4" />
+                  {totalItem > 0 && (
+                    <>
+                      {/* Shopping cart number */}
+                      <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+                        {totalItem} {/* Replace 'number' with the actual value */}
+                      </div>
+                    </>
+                  )}
+                </Link>
+                )
+              }
             {status === "unauthenticated" && (
               <Button
                 className={cn("hidden md:inline-flex border hover:opacity-80")}
