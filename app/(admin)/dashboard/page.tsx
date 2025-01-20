@@ -2,7 +2,7 @@
 import { findQuestions } from "@/repositories/questions.repository";
 import { Charts } from "@/components/admin/panel/charts";
 import { findAllArticles, findArticlesByDoctorId } from "@/repositories/articles.repository";
-import {CardArticlesSection, CardOrderTable, CardQuestionLists, CardUserTable } from "@/components/admin/sections/home-dashboard";
+import { CardArticlesSection, CardOrderTable, CardQuestionLists, CardUserTable } from "@/components/admin/sections/home-dashboard";
 export default async function Dashboard() {
   const questions = await findQuestions();
 
@@ -49,11 +49,9 @@ export default async function Dashboard() {
     <div className="container mx-auto p-4 space-y-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5">
         <div className="col-span-2 row-span-3">
-          {
-          articles &&  <CardArticlesSection articles={articles} />
-          }
+          <CardArticlesSection articles={articles} />
         </div>
-          <CardQuestionLists questions={questions} />
+        <CardQuestionLists questions={questions} />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-span-3 gap-3">

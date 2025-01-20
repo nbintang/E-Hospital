@@ -14,9 +14,8 @@ export default async function Home() {
       <main className="flex-1 ">
         <HeroSection />
         <div className="flex justify-center">
-          {latestArticle && (
-            <ArticleSection articles={articles} latestArticle={latestArticle} />
-          )}
+          <ArticleSection articles={articles} latestArticle={latestArticle} />
+
         </div>
       </main>
     </div>
