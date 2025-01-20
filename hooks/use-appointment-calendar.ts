@@ -36,11 +36,11 @@ export default function useAppointmentCalendar({
 
   const events = appointments.map((appointment: AppointmentProps) => {
     const patient = appointment.user.profile?.fullname;
-    const hospital = appointment.doctor.hospital.name;
-    const address = appointment.doctor.hospital.address.name;
+    const hospital = appointment?.doctor?.hospital.name;
+    const address = appointment.doctor?.hospital.address.name;
     const coordinate = {
-      latitude: appointment.doctor.hospital.address.latitude,
-      longitude: appointment.doctor.hospital.address.longitude,
+      latitude: appointment.doctor?.hospital.address.latitude,
+      longitude: appointment.doctor?.hospital.address.longitude,
     };
     const patientImg = appointment.user.profile?.profileUrl;
     const startDate = new Date(appointment.dateTime); 

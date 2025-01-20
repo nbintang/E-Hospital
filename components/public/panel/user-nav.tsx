@@ -48,8 +48,8 @@ export function UserNav({ name, image, email, role }: UserProfilProp) {
   return (
     <DropdownMenu>
       <Tooltip delayDuration={100}>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger className="relative">
+        <TooltipTrigger className="relative">
+          <DropdownMenuTrigger className="relative" asChild>
             <Button variant="outline" className="relative h-8 w-8 rounded-full">
               <Avatar className="relative h-8 w-8">
                 <AvatarImage src={image as string} alt={name} />
@@ -61,11 +61,9 @@ export function UserNav({ name, image, email, role }: UserProfilProp) {
                 </AvatarFallback>
               </Avatar>
             </Button>
-            {/* Shopping cart number */}
-            <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
-              {totalItem} {/* Replace 'number' with the actual value */}
-            </div>
+         
           </DropdownMenuTrigger>
+          
         </TooltipTrigger>
         <TooltipContent side="bottom">Profile</TooltipContent>
       </Tooltip>

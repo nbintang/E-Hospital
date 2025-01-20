@@ -23,9 +23,10 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       addItem: (product) => {
+        console.log(product)
         set((state) => {
           const existingItem = state.items.find(item => item.id === product.id)
-          
+          console.log(existingItem)
           if (existingItem) {
             return {
               items: state.items.map(item =>
@@ -65,6 +66,7 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'cart-storage'
+      
     }
   )
 )

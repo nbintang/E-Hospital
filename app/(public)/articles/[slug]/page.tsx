@@ -65,32 +65,34 @@ export default async function ArticleDetailsPage({
           </div>
           <div>
             <h1>Created by:</h1>
-            <div className="flex gap-3 items-center">
+          {article && (
+              <div className="flex gap-3 items-center">
               <Avatar className="w-20 h-20">
                 <AvatarImage
                   src={
-                    article.doctor.user.profile?.profileUrl ||
-                    `https://api.dicebear.com/5.7/initials/svg?seed=${article.doctor.user.email}`
+                    article.doctor?.user.profile?.profileUrl ||
+                    `https://api.dicebear.com/5.7/initials/svg?seed=${article.doctor?.user.email}`
                   }
                   alt={article.title}
                 />
                 <AvatarFallback>
-                  {article.doctor.user.email?.charAt(0)}
+                  {article?.doctor?.user.email?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className="flex items-center">
-                  <p className="">Dr.{article.doctor.user.profile?.fullname}</p>
+                  <p className="">Dr.{article?.doctor?.user.profile?.fullname}</p>
                   <Separator orientation="vertical" className="h-4 mx-2" />
                   <p className="text-muted-foreground">
-                    {article.doctor.user.email}
+                    {article?.doctor?.user.email}
                   </p>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {article.doctor.specialization.name}
+                  {article.doctor?.specialization.name}
                 </p>
               </div>
             </div>
+          )}
           </div>
         </div>
         <div className="col-span-1  space-y-5">

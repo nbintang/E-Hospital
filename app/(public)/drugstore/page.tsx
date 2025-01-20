@@ -5,7 +5,6 @@ import React from "react";
 
 export default async function DrugStore() {
 const medicines = await findMedicineWithCategoriesAndOrder();
-console.log(medicines)
   return (
     <main className="container min-h-screen mx-auto px-4 py-8">
       <section>

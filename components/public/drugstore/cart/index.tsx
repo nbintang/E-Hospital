@@ -33,6 +33,8 @@ export default function Cart() {
       subtotal: state.subtotal,
     }))
   );
+console.log(items)
+  console.log(subtotal)
 
   return (
     <div className="min-h-screen bg-background py-8">
@@ -60,7 +62,7 @@ export default function Cart() {
                     <div key={item.id} className="py-4 flex gap-4">
                       <div className="w-24 h-24 relative">
                         <Image
-                          src="/placeholder.svg"
+                          src={item.image}
                           alt={item.name}
                           fill
                           className="object-cover rounded-md"
